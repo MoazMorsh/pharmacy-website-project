@@ -169,9 +169,21 @@ h1, h2, h3{
         -ms-flex-pack: justify;
             justify-content: space-between;
 }
-.navbar-brand img{
-    width: 168px;
+.logo {
+    font-family: 'Poppins', sans-serif; 
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff; 
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px; 
 }
+.logo i {
+    color: #ffffff; 
+    font-size: 32px; 
+}
+
 .navbar-show-btn, .navbar-hide-btn{
     background-color: transparent;
     width: 30px;
@@ -300,10 +312,14 @@ button[class ^= navbar]:hover{
 .header-inner-right{
     margin-top: 6rem;
 }
-.header-inner-right img{
-    max-width: 520px;
-    margin: 0 auto;
+.header-inner-right img {
+    width: 100%; 
+    height: auto; 
+    object-fit: cover; 
+    border-radius: 8px; 
+    margin-bottom: 0.5px;
 }
+
 
 /* about section */
 .section-head h2{
@@ -378,9 +394,9 @@ button[class ^= navbar]:hover{
 
 /* banner one section */
 .banner-one{
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 80, 213, 0.9)), to(rgba(0, 90, 213, 0.85))), url('../images/banner-1-img.png') top/cover no-repeat;
-    background: -o-linear-gradient(rgba(0, 80, 213, 0.9), rgba(0, 90, 213, 0.85)), url('../images/banner-1-img.png') top/cover no-repeat;
-    background: linear-gradient(rgba(0, 80, 213, 0.9), rgba(0, 90, 213, 0.85)), url('../images/banner-1-img.png') top/cover no-repeat;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 80, 213, 0.9)), to(rgba(0, 90, 213, 0.85))), url('../images/2.png') top/cover no-repeat;
+    background: -o-linear-gradient(rgba(0, 80, 213, 0.9), rgba(0, 90, 213, 0.85)), url('../images/2.png') top/cover no-repeat;
+    background: linear-gradient(rgba(0, 80, 213, 0.9), rgba(0, 90, 213, 0.85)), url('../images/2.png') top/cover no-repeat;
     height: 480px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -442,9 +458,9 @@ button[class ^= navbar]:hover{
 
 /* banner two section */
 .banner-two{
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 80, 213, 0.9)), to(rgba(0, 90, 213, 0.85))), url('../images/banner-two-bg.png') top/cover no-repeat;
-    background: -o-linear-gradient(rgba(0, 80, 213, 0.9), rgba(0, 90, 213, 0.85)), url('../images/banner-two-bg.png') top/cover no-repeat;
-    background: linear-gradient(rgba(0, 80, 213, 0.9), rgba(0, 90, 213, 0.85)), url('../images/banner-two-bg.png') top/cover no-repeat;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 80, 213, 0.9)), to(rgba(0, 90, 213, 0.85))), url('../images/5.png') top/cover no-repeat;
+    background: -o-linear-gradient(rgba(0, 80, 213, 0.9), rgba(0, 90, 213, 0.85)), url('../images/5.png') top/cover no-repeat;
+    background: linear-gradient(rgba(0, 80, 213, 0.9), rgba(0, 90, 213, 0.85)), url('../images/5.png') top/cover no-repeat;
     padding: 13.6rem 0;
 }
 .banner-two-left img{
@@ -462,7 +478,7 @@ button[class ^= navbar]:hover{
             justify-content: center;
 }
 
-/* doctors panel */
+/* products panel */
 .doc-panel-inner{
     margin-top: 8rem;
 }
