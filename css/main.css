@@ -254,6 +254,7 @@ button[class ^= navbar]:hover{
         -ms-transform: translateX(10px);
             transform: translateX(10px);
 }
+
 .search-icon{
     display: block;
     width: 27px;
@@ -361,17 +362,23 @@ button[class ^= navbar]:hover{
 .about .btn-white{
     color: var(--dark-gray);
 }
+.about-right {
+    position: relative; /* Ensure the container is positioned correctly */
+}
 .about-right .img{
     width: 100%;
     background-color: #3983fe;
     max-width: 537px;
     position: relative;
+    top: -10px;
+    
 }
 .about-right .img img{
-    padding-top: 10rem;
+    padding-top: 0;
     -webkit-transform: scaleX(1.03);
         -ms-transform: scaleX(1.03);
             transform: scaleX(1.03);
+    display: block;
 }
 .about-right .img::after, .about-right .img::before{
     content: "";
@@ -380,13 +387,13 @@ button[class ^= navbar]:hover{
     height: 100%;
 }
 .about-right .img::after{
-    top: -56px;
+    top: 0;
     left: 0;
     background-color: #0060ff;
     z-index: -1;
 }
 .about-right .img::before{
-    top: -112px;
+    top: 0;
     left: 0;
     background-color: var(--fros-blue-color);
     z-index: -2;
@@ -490,12 +497,20 @@ button[class ^= navbar]:hover{
 }
 .doc-panel-item .img{
     position: relative;
+    
     height: 440px;
+    object-fit: fill;
     background-color: var(--light-gray);
     overflow: hidden;
     -webkit-box-align: end;
         -ms-flex-align: end;
             align-items: flex-end;
+}
+.doc-panel-item .img img {
+    width: 100%; /* Ensure the image stretches to fill width */
+    height: 100%; /* Ensure the image fills the container height */
+    object-fit: cover; /* Crops the image to fit without distortion */
+    display: block;
 }
 .doc-panel-item .img .info{
     position: absolute;
@@ -513,6 +528,7 @@ button[class ^= navbar]:hover{
 }
 .doc-panel-item .img{
     max-width: 357px;
+    object-fit: fill;
     margin-left: auto;
     margin-right: auto;
 }
@@ -869,7 +885,7 @@ button[class ^= navbar]:hover{
         margin-top: 0;
     }
     .banner-two-left img{
-        width: 100%;
+        width: 60%;
         max-width: 100%;
     }
     .doc-panel-inner{
