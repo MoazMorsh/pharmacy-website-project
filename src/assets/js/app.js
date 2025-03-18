@@ -11,6 +11,6 @@ sign_in_btn.addEventListener("click", () => {
 });
 
 function goToHome() {
-  let baseUrl = window.location.origin + "/index.html";
+  let baseUrl = window.location.origin + "";
   window.location.href = baseUrl;
 }
