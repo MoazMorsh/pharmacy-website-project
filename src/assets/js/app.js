@@ -9,3 +9,8 @@ sign_up_btn.addEventListener("click", () => {
 sign_in_btn.addEventListener("click", () => {
   container.classList.remove("sign-up-mode");
 });
+
+function goToHome() {
+  let baseUrl = window.location.origin + "/index.html";
+  window.location.href = baseUrl;
+}
