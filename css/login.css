@@ -391,6 +391,7 @@ form.sign-in-form {
   .container:before {
     bottom: 72%;
     left: 50%;
+    pointer-events: none;
   }
 
   .container.sign-up-mode:before {
