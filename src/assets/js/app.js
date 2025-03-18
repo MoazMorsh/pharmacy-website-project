@@ -11,6 +11,9 @@ sign_in_btn.addEventListener("click", () => {
 });
 
 function goToHome() {
-  let baseUrl = window.location.origin + "  /pharmacy-website-project/index.html";
-  window.location.href = baseUrl;
+  let path = window.location.hostname === "moazmorsh.github.io" 
+    ? "/pharmacy-website-project/index.html" 
+    : "/index.html"; // Local environment
+
+  window.location.href = path;
 }
