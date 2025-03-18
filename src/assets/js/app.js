@@ -11,6 +11,6 @@ sign_in_btn.addEventListener("click", () => {
 });
 
 function goToHome() {
-  let baseUrl = window.location.origin + "";
+  let baseUrl = window.location.origin + "  /pharmacy-website-project/index.html";
   window.location.href = baseUrl;
 }
