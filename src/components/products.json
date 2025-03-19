@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Product 1",
+        "image": "https://via.placeholder.com/200",
+        "category": "Category A"
+    },
+    {
+        "name": "Product 2",
+        "image": "https://via.placeholder.com/200",
+        "category": "Category B"
+    },
+    {
+        "name": "Product 3",
+        "image": "https://via.placeholder.com/200",
+        "category": "Category C"
+    },
+    {
+        "name": "Product 1",
+        "image": "https://via.placeholder.com/200",
+        "category": "Category A"
+    },
+    {
+        "name": "Product 2",
+        "image": "https://via.placeholder.com/200",
+        "category": "Category B"
+    },
+    {
+        "name": "Product 3",
+        "image": "https://via.placeholder.com/200",
+        "category": "Category C"
+    }
+]
