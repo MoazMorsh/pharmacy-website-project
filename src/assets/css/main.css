@@ -169,6 +169,11 @@ h1, h2, h3{
         -ms-flex-pack: justify;
             justify-content: space-between;
 }
+.nav-link.active {
+    color: #ff6600; /* Change to your preferred active color */
+    font-weight: bold;
+    border-bottom: 2px solid #ff6600; /* Optional: underline effect */
+}
 .logo {
     font-family: 'Poppins', sans-serif; 
     font-size: 28px;
