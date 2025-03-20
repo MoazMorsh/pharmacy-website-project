@@ -132,3 +132,4 @@ function addToCart(productName, buttonElement) {
 
     // alert(`${quantity} x ${productName} added to cart!`);
 }
+
