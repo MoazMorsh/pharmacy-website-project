@@ -770,6 +770,13 @@ button[class ^= navbar]:hover{
   cursor: pointer;
 }
 
+.pay-icons {
+    display: flex;
+    margin-top: 25px;
+    gap: 20px;
+    font-size: 39px;
+    color: #007bff; /* Change color as needed */
+}
 
 .payment-logo{
   position: absolute;
