@@ -59,3 +59,5 @@ window.addEventListener("scroll", () => {
     });
 });
 
+
+// checkout js
