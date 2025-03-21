@@ -330,7 +330,7 @@ th, td {
     margin-left: 1100px;
 }
 
-#checkout-btn, .action-btn {
+#checkout-btn, .remove-btn {
     background-color: #0050d5;
     color: white;
     border: none;
@@ -341,15 +341,6 @@ th, td {
 #checkout-btn:hover {
     background-color: #0050d5;
 }
-
-@media (max-width: 600px) {
-    nav ul li {
-        display: block;
-        margin: 10px 0;
-    }
-}
-
-
 
 /* footer */
 .footer{
@@ -432,7 +423,42 @@ th, td {
     color: var(--fros-blue-color);
 }
 
+@media (max-width: 600px) {
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+}
 
+
+
+/* Make cart table scrollable on small screens */
+@media screen and (max-width: 768px) {
+    #cart {
+        overflow-x: auto; /* Enable horizontal scrolling */
+        width: 100%; /* Ensure it takes full width */
+        min-width: 100px;
+    }
+
+    #cart table {
+        min-width: 100px; /* Prevent table from being too narrow */
+        white-space: nowrap; /* Prevent text from breaking */
+    }
+
+    #cart th, #cart td {
+        padding: 12px; /* Adjust padding for smaller screens */
+        font-size: 14px; /* Reduce font size for better readability */
+    }
+
+    .quantity-input{
+        max-width: 60px;
+    }
+
+    .cart-summary {
+        margin-top: 40px;
+        margin-left: 170px;
+    }
+}
 
 
 /* Media Queries */

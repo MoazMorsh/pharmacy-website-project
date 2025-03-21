@@ -91,7 +91,9 @@ function loadCart() {
     });
 
     cartTotal.textContent = totalPrice.toFixed(2);
-    cartCount.textContent = totalItems;
+    if (cartCount) {
+        cartCount.textContent = totalItems;
+    }
 
     document.querySelectorAll(".quantity-input").forEach(input => {
         input.addEventListener("change", updateQuantity);
@@ -104,7 +106,7 @@ function loadCart() {
 
 function updateQuantity(event) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let index = event.target.getAttribute("data-index");
+    let index = parseInt(event.target.getAttribute("data-index")); // Convert to integer
     cart[index].quantity = parseInt(event.target.value);
     localStorage.setItem("cart", JSON.stringify(cart));
     loadCart();
@@ -112,8 +114,15 @@ function updateQuantity(event) {
 
 function removeItem(event) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let index = event.target.getAttribute("data-index");
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCart();
+    let index = parseInt(event.target.getAttribute("data-index")); // Convert to integer
+
+    console.log("Removing item at index:", index); // Debugging
+
+    if (index >= 0 && index < cart.length) {
+        cart.splice(index, 1); // Remove item
+        localStorage.setItem("cart", JSON.stringify(cart));
+        loadCart(); // Reload cart
+    } else {
+        console.log("Invalid index:", index);
+    }
 }

@@ -63,73 +63,87 @@ window.addEventListener("scroll", () => {
 
 // products page js 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const productList = document.getElementById("product-list");
-    const cartCounter = document.getElementById("cart-counter");
+document.addEventListener("DOMContentLoaded", async function () {
+    const SUPABASE_URL = "https://kzvtniajqclodwlokxww.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6dnRuaWFqcWNsb2R3bG9reHd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzOTQyODUsImV4cCI6MjA1Nzk3MDI4NX0.Q2jWPiZFE371GJaKsPb92yFpLSshiT4laz3wT6gfr4M";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Reset cart counter to 0 on refresh
-    localStorage.setItem("cartCount", 0);
-    cartCounter.textContent = "(0)";
+    let cart = [];
 
-    fetch()
-        .then(response => response.json())
-        .then(products => {
-            products.forEach(product => {
-                const productDiv = document.createElement("div");
-                productDiv.classList.add("product-service-item", "container-item", "bg-white");
+    async function loadProducts() {
+        try {
+            const { data, error } = await supabase
+                .from("medicine")
+                .select("name, price, active_ingredients, img_URL");
 
-                productDiv.innerHTML = `
-                    <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-name">${product.name}</h3>
-                            <p class="product-category"><strong>Category:</strong> ${product.category}</p>
-                            <p class="product-description">${product.description}</p>
-                            <p class="product-price">
-                                <strong>Price:</strong> <span class="product-unit-price">${product.price.replace("£", "").trim()}</span> £
-                            </p>
-                            <p class="total-price"><strong>Total:</strong> <span class="product-total-price">${product.price.replace("£", "").trim()}</span> £</p>
-                            <div class="quantity-container">
-                                <input type="number" class="product-quantity" value="1" min="1" oninput="updateTotalPrice(this)">
-                            </div>
-                            <a href="#" class="btn btn-blue" onclick="addToCart('${product.name}', this)">Add to Cart</a>
-                        </div>
-                    </div>
+            if (error) {
+                console.error("❌ Error fetching products:", error.message);
+                return;
+            }
+
+            if (data.length === 0) {
+                console.warn("⚠️ No products found in the database.");
+                return;
+            }
+
+            const container = document.getElementById("product-container");
+            container.innerHTML = ""; 
+
+            data.forEach(medicine => {
+                let card = document.createElement("div");
+                card.classList.add("product-card");
+
+                card.innerHTML = `
+                    <img src="${medicine.img_URL}" alt="${medicine.name}" class="product-img">
+                    <h3 class="product-name">${medicine.name}</h3>
+                    <p class="product-price">$${medicine.price}</p>
+                    <p class="product-ingredients">${medicine.active_ingredients}</p>
+                    <input type="number" min="1" value="1" class="product-quantity">
+                    <button class="add-to-cart">Add to Cart</button>
                 `;
 
-                productList.appendChild(productDiv);
+                container.appendChild(card); // Append card first
+
+                // Attach event listener AFTER adding the element to DOM
+                const button = card.querySelector(".add-to-cart");
+                button.addEventListener("click", () => {
+                    const quantity = parseInt(card.querySelector(".product-quantity").value);
+                    addToCart(medicine.name, medicine.price, quantity);
+                });
             });
-        })
-        .catch(error => console.error("Error loading products:", error));
+
+        } catch (err) {
+            console.error("❌ Unexpected error:", err);
+        }
+    }
+
+    function addToCart(name, price, quantity) {
+        const existingItem = cart.find(item => item.name === name);
+
+        if (existingItem) {
+            existingItem.quantity += quantity;
+        } else {
+            cart.push({ name, price, quantity });
+        }
+
+        updateCartCounter();
+        localStorage.setItem("cart", JSON.stringify(cart)); // Store cart in local storage
+    }
+
+    function updateCartCounter() {
+        const counter = document.getElementById("cart-counter");
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        counter.textContent = totalItems;
+    }
+
+    // Load cart from localStorage on page load
+    document.addEventListener("DOMContentLoaded", () => {
+        const savedCart = localStorage.getItem("cart");
+        if (savedCart) {
+            cart = JSON.parse(savedCart);
+            updateCartCounter();
+        }
+    });
+
+    loadProducts(); // Load products when page is ready
 });
-
-// Function to update total price based on quantity
-function updateTotalPrice(inputElement) {
-    let quantity = parseInt(inputElement.value) || 1; // Default to 1 if invalid
-    let productCard = inputElement.closest(".product-card");
-    
-    let unitPrice = parseFloat(productCard.querySelector(".product-unit-price").textContent);
-    let totalPriceElement = productCard.querySelector(".product-total-price");
-
-    let totalPrice = (unitPrice * quantity).toFixed(2); // Calculate total price
-    totalPriceElement.textContent = totalPrice; // Update the total price display
-}
-
-// Function to handle adding to cart
-function addToCart(productName, buttonElement) {
-    let cartCounter = document.getElementById("cart-counter");
-
-    // Get the quantity input value
-    let quantityInput = buttonElement.previousElementSibling.querySelector(".product-quantity");
-    let quantity = parseInt(quantityInput.value) || 1; // Default to 1 if invalid
-
-    // Update cart counter
-    let cartCount = localStorage.getItem("cartCount") ? parseInt(localStorage.getItem("cartCount")) : 0;
-    cartCount += quantity;
-    
-    localStorage.setItem("cartCount", cartCount);
-    cartCounter.textContent = `(${cartCount})`;
-
-    // alert(`${quantity} x ${productName} added to cart!`);
-}
-
