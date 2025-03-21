@@ -60,6 +60,18 @@ window.addEventListener("scroll", () => {
 });
 
 
+function goToHome() {
+    let baseUrl = window.location.origin;
+  
+    // If on GitHub Pages (moazmorsh.github.io), ensure correct project path
+    if (baseUrl.includes("moazmorsh.github.io")) {
+      baseUrl += "/pharmacy-website-project";
+    }
+  
+    window.location.href = baseUrl + "/index.html";
+  }
+  
+
 // cart page js
 
 document.addEventListener("DOMContentLoaded", loadCart);
