@@ -53,7 +53,7 @@ window.addEventListener("scroll", () => {
 
     navLinks.forEach((link) => {
         link.classList.remove("active"); // Remove 'active' from all links
-        if (link.getAttribute("href") === `#${currentSection}`) {
+        if (link.getAttribute("href") === `#£{currentSection}`) {
             link.classList.add("active"); // Add 'active' to the current section link
         }
     });
@@ -83,8 +83,8 @@ function loadCart() {
         row.innerHTML = `
             <td>${item.name}</td>
             <td><input type="number" value="${item.quantity}" min="1" data-index="${index}" class="quantity-input"></td>
-            <td>$${item.price.toFixed(2)}</td>
-            <td>$${total.toFixed(2)}</td>
+            <td>£${item.price.toFixed(2)}</td>
+            <td>£${total.toFixed(2)}</td>
             <td><button class="remove-btn" data-index="${index}">Remove</button></td>
         `;
         cartItemsContainer.appendChild(row);

@@ -63,6 +63,8 @@ window.addEventListener("scroll", () => {
 
 // products page js 
 
+
+
 document.addEventListener("DOMContentLoaded", async function () {
     const SUPABASE_URL = "https://kzvtniajqclodwlokxww.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6dnRuaWFqcWNsb2R3bG9reHd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzOTQyODUsImV4cCI6MjA1Nzk3MDI4NX0.Q2jWPiZFE371GJaKsPb92yFpLSshiT4laz3wT6gfr4M";
@@ -96,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 card.innerHTML = `
                     <img src="${medicine.img_URL}" alt="${medicine.name}" class="product-img">
                     <h3 class="product-name">${medicine.name}</h3>
-                    <p class="product-price">$${medicine.price}</p>
+                    <p class="product-price">£${medicine.price}</p>
                     <p class="product-ingredients">${medicine.active_ingredients}</p>
                     <input type="number" min="1" value="1" class="product-quantity">
                     <button class="add-to-cart">Add to Cart</button>
