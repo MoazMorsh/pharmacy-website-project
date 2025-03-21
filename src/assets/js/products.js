@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem("cartCount", 0);
     cartCounter.textContent = "(0)";
 
-    fetch("../components/products.json") // Adjust path if needed
+    fetch()
         .then(response => response.json())
         .then(products => {
             products.forEach(product => {
