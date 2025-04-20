@@ -20,11 +20,11 @@
             <h2 class="title">Sign in</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input type="text" name="username" id="loginusername" placeholder="Username" required/>
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input type="password" name="password" id="loginpassword" placeholder="Password" required/>
             </div>
             <input type="submit" value="Login" class="btn solid" />
             <p class="social-text">Or Sign in with social platforms</p>
@@ -43,20 +43,44 @@
               </a>
             </div>
           </form>
-          <form action="#" class="sign-up-form">
+
+          <div id="signupMessage" class="form-message" style="display: none;"></div>
+
+
+          <form action="#" class="sign-up-form" id="signupForm">
             <h2 class="title">Sign up</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input type="text" name="username" id="signupusername" placeholder="Username" />
             </div>
             <div class="input-field">
               <i class="fas fa-envelope"></i>
-              <input type="email" placeholder="Email" />
+              <input type="email" name="email" id="signupemail" placeholder="Email" />
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input type="password" name="password" id="signuppassword" placeholder="Password" />
+              <span class="toggle-password" onclick="togglePassword('signuppassword', this)">
+                👁️
+              </span>
             </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" name="confirm_password" id="confirmpassword" placeholder="Confirm Password" />
+              <span class="toggle-password" onclick="togglePassword('confirmpassword', this)">
+                👁️
+              </span>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-user-tag"></i>
+              <select class="styled-select" id="role" name="role" >
+                <option value="" disabled selected>Select Role</option>
+                <option value="Patient">Patient</option>
+                <option value="Pharmacist">Pharmacist</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+            
             <input type="submit" class="btn" value="Sign up" />
             
 

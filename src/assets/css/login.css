@@ -38,6 +38,40 @@ input {
   grid-template-columns: 1fr;
   z-index: 5;
 }
+.password-field {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.form-message {
+  margin-bottom: 60px;
+  padding: 20px 25px;
+  border-radius: 25px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
+  display: none;
+  transition: all 0.3s ease;
+}
+
+.form-message.success {
+  background-color: #e0f0ff;
+  color: #2a75f3;
+  border: 1px solid #b3d4fc;
+}
+
+.form-message.error {
+  background-color: #fcebea;
+  color: #e74c3c;
+  border: 1px solid #f5c6cb;
+}
 
 form {
   display: flex;
@@ -100,6 +134,24 @@ form.sign-in-form {
 .input-field input::placeholder {
   color: #aaa;
   font-weight: 500;
+}
+
+.styled-select {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 20px;
+  width: 100%;
+  color: #aaa;
+  font-weight: 500;
+  appearance: none; /* removes default arrow styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Optional: Custom arrow icon using background */
+.styled-select::-ms-expand {
+  display: none;
 }
 
 .social-text {
