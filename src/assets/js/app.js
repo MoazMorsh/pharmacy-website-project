@@ -87,4 +87,34 @@ document.getElementById('signupForm').addEventListener('submit', function (e) {
   }, 1000);
 });
 
+
 // login form validations
+
+document.getElementById('loginForm').addEventListener('submit', function (e) {
+  e.preventDefault(); // prevent actual form submission
+
+  const username = document.getElementById('signupusername').value.trim();
+  const password = document.getElementById('signuppassword').value;
+  const messageBox = document.getElementById('signupMessage');
+
+  function showMessage(text, type = 'error') {
+    messageBox.textContent = text;
+    messageBox.className = 'form-message ' + type;
+    messageBox.style.display = 'block';
+
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+      messageBox.style.display = 'none';
+    }, 5000);
+  }
+
+  // Basic checks
+  if (!username || !password) {
+    showMessage("Please enter both username and password.");
+    return;
+  }
+
+  // ✅ All good
+  showMessage('Loggedin successfully! 🎉', 'success');
+
+});
