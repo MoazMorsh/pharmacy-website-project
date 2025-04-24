@@ -97,12 +97,15 @@
             console.log("All Products Fetched: ", allProducts);  // Debug log for fetched products
 
             // Apply the filter if search term exists
-            const filteredProducts = searchTerm
-                ? data.filter(med =>
+            let filteredProducts = allProducts;
+
+            if (searchTerm) {
+                filteredProducts = allProducts.filter(med =>
                     med.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     med.active_ingredients.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-                : data;
+                );
+                console.log("Filtered Products: ", filteredProducts);  // Debugging filtered list
+            }
 
             // Render filtered products immediately
             renderProducts(filteredProducts);
