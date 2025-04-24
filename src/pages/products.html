@@ -107,7 +107,7 @@
                 console.log("Filtered Products: ", filteredProducts);  // Debugging filtered list
             }
 
-            // Render filtered products immediately
+            // Render filtered products immediately (only once)
             renderProducts(filteredProducts);
 
         } catch (err) {
@@ -118,14 +118,20 @@
     // Function to render the filtered products
     function renderProducts(productList) {
         const container = document.getElementById("product-container");
-        container.innerHTML = ""; // Clear previous products
+        container.innerHTML = ""; // Clear previous products before rendering
+
+        // Check if the products to render are available
+        if (productList.length === 0) {
+            container.innerHTML = "<p>No products found matching your search.</p>";
+            return;
+        }
 
         productList.forEach(medicine => {
             let card = document.createElement("div");
             card.classList.add("product-card");
 
             card.innerHTML = `
-                <img src="${medicine.img_URL}" alt="${medicine.name}" class="product-img">
+                <img src="${medicine.img_URL || 'path_to_default_image.jpg'}" alt="${medicine.name}" class="product-img">
                 <h3 class="product-name">${medicine.name}</h3>
                 <p class="product-price">$${medicine.price}</p>
                 <p class="product-ingredients">${medicine.active_ingredients}</p>
