@@ -6,10 +6,22 @@ document.addEventListener("DOMContentLoaded", function () {
         searchButton.addEventListener("click", function () {
             const searchTerm = searchBar.value.toLowerCase();
             if (searchTerm.trim() !== "") {
-                const basePath = "/pharmacy-website-project/";  // This is the root directory you want
+        // Base path pointing to your project folder
+const basePath = "/pharmacy-website-project/";  
 
-// Now set the full URL by directly appending the rest
-window.location.href = `${basePath}src/pages/products.html?search=${encodeURIComponent(searchTerm)}`;
+// The file path you want to navigate to
+const filePath = "src/pages/products.html";
+
+// Ensure that no "src/pages" is added again if already part of the basePath
+if (!basePath.endsWith('/')) {
+  basePath += '/';  // Make sure basePath ends with a slash
+}
+
+// Check if `filePath` contains `src/pages`, if so, remove it from the filePath to avoid duplication
+const finalPath = filePath.replace(/^src\/pages\//, '');
+
+// Navigate to the correct URL
+window.location.href = `${basePath}${finalPath}?search=${encodeURIComponent(searchTerm)}`;
 
 
             }
@@ -26,10 +38,22 @@ window.location.href = `${basePath}src/pages/products.html?search=${encodeURICom
     document.getElementById("search-button").addEventListener("click", function () {
         const searchTerm = document.getElementById("searchBar").value.trim();
         if (searchTerm !== "") {
-            const basePath = "/pharmacy-website-project/";  // This is the root directory you want
+         // Base path pointing to your project folder
+const basePath = "/pharmacy-website-project/";  
 
-// Now set the full URL by directly appending the rest
-window.location.href = `${basePath}src/pages/products.html?search=${encodeURIComponent(searchTerm)}`;
+// The file path you want to navigate to
+const filePath = "src/pages/products.html";
+
+// Ensure that no "src/pages" is added again if already part of the basePath
+if (!basePath.endsWith('/')) {
+  basePath += '/';  // Make sure basePath ends with a slash
+}
+
+// Check if `filePath` contains `src/pages`, if so, remove it from the filePath to avoid duplication
+const finalPath = filePath.replace(/^src\/pages\//, '');
+
+// Navigate to the correct URL
+window.location.href = `${basePath}${finalPath}?search=${encodeURIComponent(searchTerm)}`;
 
 
         }
