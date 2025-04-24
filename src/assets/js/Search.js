@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
         searchButton.addEventListener("click", function () {
             const searchTerm = searchBar.value.toLowerCase();
             if (searchTerm.trim() !== "") {
-                window.location.href = ` src/pages/products.html?search=${encodeURIComponent(searchTerm)}`;
+                const basePath = window.location.origin + "/pharmacy-website-project/";
+                window.location.href = `${basePath}src/pages/products.html?search=${encodeURIComponent(searchTerm)}`;
+
 
             }
         });
@@ -22,7 +24,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("search-button").addEventListener("click", function () {
         const searchTerm = document.getElementById("searchBar").value.trim();
         if (searchTerm !== "") {
-            window.location.href = ` src/pages/products.html?search=${encodeURIComponent(searchTerm)}`;
+            const basePath = window.location.origin + "/pharmacy-website-project/";
+            window.location.href = `${basePath}src/pages/products.html?search=${encodeURIComponent(searchTerm)}`;
+
 
         }
     });
