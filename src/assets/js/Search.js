@@ -6,8 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
         searchButton.addEventListener("click", function () {
             const searchTerm = searchBar.value.toLowerCase();
             if (searchTerm.trim() !== "") {
-                const basePath = window.location.origin + "/pharmacy-website-project/";
-                window.location.href = `${basePath}src/pages/products.html?search=${encodeURIComponent(searchTerm)}`;
+                const basePath = "/pharmacy-website-project/";  // This is the root directory you want
+
+// Now set the full URL by directly appending the rest
+window.location.href = `${basePath}src/pages/products.html?search=${encodeURIComponent(searchTerm)}`;
 
 
             }
@@ -24,8 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("search-button").addEventListener("click", function () {
         const searchTerm = document.getElementById("searchBar").value.trim();
         if (searchTerm !== "") {
-            const basePath = window.location.origin + "/pharmacy-website-project/";
-            window.location.href = `${basePath}src/pages/products.html?search=${encodeURIComponent(searchTerm)}`;
+            const basePath = "/pharmacy-website-project/";  // This is the root directory you want
+
+// Now set the full URL by directly appending the rest
+window.location.href = `${basePath}src/pages/products.html?search=${encodeURIComponent(searchTerm)}`;
 
 
         }
