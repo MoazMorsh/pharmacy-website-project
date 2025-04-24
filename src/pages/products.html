@@ -74,7 +74,8 @@
     // Fetch search term from URL
     const urlParams = new URLSearchParams(window.location.search);
     const searchTerm = urlParams.get('search') || ''; // Default to empty if not present
-    
+    console.log("Search Term from URL: ", searchTerm);  // Debug log for search term
+
     // Load products
     async function loadProducts() {
         try {
@@ -93,6 +94,7 @@
             }
 
             allProducts = data;
+            console.log("All Products Fetched: ", allProducts);  // Debug log for fetched products
 
             // Apply the filter if search term exists
             const filteredProducts = searchTerm
@@ -167,6 +169,9 @@
             updateCartCounter();
         }
     });
+
+    // Log a message to check if the searchTerm is correctly passed
+    console.log("Search Term on Load: ", searchTerm); // Debugging line
 
     // Load products after page load, filter by search term if present
     loadProducts();
