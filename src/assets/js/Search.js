@@ -18,7 +18,7 @@ if (!basePath.endsWith('/')) {
 }
 
 // Check if `filePath` contains `src/pages`, if so, remove it from the filePath to avoid duplication
-const finalPath = filePath.replace(/^src\/pages\//, '');
+// const finalPath = filePath.replace(/^src\/pages\//, '');
 
 // Navigate to the correct URL
 window.location.href = `${basePath}${finalPath}?search=${encodeURIComponent(searchTerm)}`;
