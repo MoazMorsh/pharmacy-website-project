@@ -70,12 +70,12 @@
     
     let cart = [];
     let allProducts = [];
-
+    
     // Fetch search term from URL
     const urlParams = new URLSearchParams(window.location.search);
     const searchTerm = urlParams.get('search') || ''; // Default to empty if not present
-
-    // Load the products
+    
+    // Load products
     async function loadProducts() {
         try {
             const { data, error } = await supabase
@@ -94,14 +94,15 @@
 
             allProducts = data;
 
-            // Filter products if search term is provided
+            // Apply the filter if search term exists
             const filteredProducts = searchTerm
                 ? data.filter(med =>
                     med.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     med.active_ingredients.toLowerCase().includes(searchTerm.toLowerCase())
                 )
-                : data; // If no search term, show all products
+                : data;
 
+            // Render filtered products immediately
             renderProducts(filteredProducts);
 
         } catch (err) {
@@ -167,7 +168,7 @@
         }
     });
 
-    // Call loadProducts to load data and filter products on page load
+    // Load products after page load, filter by search term if present
     loadProducts();
 });
 
