@@ -27,7 +27,20 @@
             <div class="input-field">
               <i class="fas fa-lock"></i>
               <input type="password" name="password" id="loginpassword" placeholder="Password" />
+              <span class="toggle-password" onclick="togglePassword('loginpassword', this)">
+                👁️
+              </span>
             </div>
+            <div class="input-field">
+              <i class="fas fa-user-tag"></i>
+              <select class="styled-select" id="role" name="role" >
+                <option value="" disabled selected>Select Role</option>
+                <option value="Patient">Patient</option>
+                <option value="Pharmacist">Pharmacist</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+            
             <input type="submit" id="login-button" value="Login" class="btn solid" />
             <p class="social-text">Or Sign in with social platforms</p>
             <div class="social-media">
