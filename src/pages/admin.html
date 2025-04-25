@@ -95,18 +95,22 @@
 			<label for="switch-mode" class="switch-mode"></label>
 			
 			<!-- Profile Icon + Popup -->
-<div class="profile-container" style="position: relative;">
-	<a href="#" class="profile" id="profileIcon">
-	  <i class="fa-solid fa-user"></i>
-	</a>
-  
-	<div id="profilePopup" class="profile-popup">
-	  <p><strong>Username:</strong> <span id="popupUsername">Moaz</span></p>
-	  <p><strong>Role:</strong> <span id="popupRole">Admin</span></p>
-	  <p><strong>Email:</strong> <span id="popupEmail">moaz@example.com</span></p>
-	  <button onclick="logout()">Logout</button>
+			<div class="profile-container" style="position: relative;">
+				<a href="#" class="profile" id="profileIcon">
+				<i class="fa-solid fa-user"></i>
+				</a>
+			
+			<div id="profilePopup" class="profile-popup">
+				<div class="popup-header">
+					<div>
+						<h4 id="popupUsername">Moaz</h4> <!-- Username -->
+						<p id="popupRole">Admin</p> <!-- User Role -->
+					</div>
+				</div>
+				<p><strong>Email:</strong> <span id="popupEmail">moaz@example.com</span></p>
+				<button onclick="logout()">Logout</button>
+			</div>
 
-	</div>
   </div>
   
 		</nav>

@@ -94,6 +94,13 @@ function loadCart() {
     if (cartCount) {
         cartCount.textContent = totalItems;
     }
+    function updateCartCounter() {
+        const counter = document.getElementById("cart-counter");
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        counter.textContent = totalItems;
+    }
+
+    updateCartCounter(); // ✅ Call it right after restoring cart
 
     document.querySelectorAll(".quantity-input").forEach(input => {
         input.addEventListener("change", updateQuantity);

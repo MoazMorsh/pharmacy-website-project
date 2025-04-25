@@ -33,8 +33,6 @@ window.addEventListener('resize', () =>{
     }, 400);
 });
 
-
-
 // Select all sections and navbar links
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-link");
@@ -59,17 +57,27 @@ window.addEventListener("scroll", () => {
     });
 });
 
-
-// products page js 
-
-
-
+// products page js
 document.addEventListener("DOMContentLoaded", async function () {
     const SUPABASE_URL = "https://kzvtniajqclodwlokxww.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6dnRuaWFqcWNsb2R3bG9reHd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIzOTQyODUsImV4cCI6MjA1Nzk3MDI4NX0.Q2jWPiZFE371GJaKsPb92yFpLSshiT4laz3wT6gfr4M";
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let cart = [];
+
+    // ✅ Load cart from localStorage ONCE here
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+    }
+
+    function updateCartCounter() {
+        const counter = document.getElementById("cart-counter");
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        counter.textContent = totalItems;
+    }
+
+    updateCartCounter(); // ✅ Call it right after restoring cart
 
     async function loadProducts() {
         try {
@@ -130,21 +138,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         updateCartCounter();
         localStorage.setItem("cart", JSON.stringify(cart)); // Store cart in local storage
     }
-
-    function updateCartCounter() {
-        const counter = document.getElementById("cart-counter");
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        counter.textContent = totalItems;
-    }
-
-    // Load cart from localStorage on page load
-    document.addEventListener("DOMContentLoaded", () => {
-        const savedCart = localStorage.getItem("cart");
-        if (savedCart) {
-            cart = JSON.parse(savedCart);
-            updateCartCounter();
-        }
-    });
 
     loadProducts(); // Load products when page is ready
 });
