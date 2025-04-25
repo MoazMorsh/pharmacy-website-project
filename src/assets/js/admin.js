@@ -87,3 +87,30 @@ function goToHome() {
   
 	window.location.href = baseUrl + "/index.html";
   }
+
+// profile icon for user information
+
+const profileIcon = document.getElementById('profileIcon');
+const profilePopup = document.getElementById('profilePopup');
+
+profileIcon.addEventListener('click', (e) => {
+  e.preventDefault();
+  profilePopup.style.display = profilePopup.style.display === 'block' ? 'none' : 'block';
+});
+
+window.addEventListener('click', function (e) {
+  if (!profileIcon.contains(e.target) && !profilePopup.contains(e.target)) {
+    profilePopup.style.display = 'none';
+  }
+});
+
+function logout() {
+	// Remove session data (adjust based on your storage method)
+	localStorage.removeItem('token');  // or sessionStorage.removeItem('token')
+	localStorage.removeItem('user');   // if you're storing user data
+  
+	// Redirect to login page
+	window.location.href = "login.html";
+  }
+  
+

@@ -263,12 +263,12 @@ button[class ^= navbar]:hover{
 .search-icon{
     display: block;
     width: 27px;
-    margin-right: 1rem;
+    margin-right: 2rem;
 }
 /* Admin icon positioned absolutely to the right */
 .admin-icon {
     position: absolute;
-    right: 195px;
+    right: 160px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;

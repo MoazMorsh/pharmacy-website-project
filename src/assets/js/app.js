@@ -31,9 +31,9 @@ function togglePassword(id, element) {
 }
 
 
-// signup form validations
+// signup form validations and API call
 
-document.getElementById('signupForm').addEventListener('submit', function (e) {
+document.getElementById('signupForm').addEventListener('submit', async function (e) {
   e.preventDefault(); // prevent actual form submission
 
   const username = document.getElementById('signupusername').value.trim();
@@ -54,7 +54,7 @@ document.getElementById('signupForm').addEventListener('submit', function (e) {
     }, 5000);
   }
 
-  // Basic checks
+  // Validations
   if (!username || !email || !password || !confirmPassword || !role) {
     showMessage('Please fill out all fields.');
     return;
@@ -76,45 +76,67 @@ document.getElementById('signupForm').addEventListener('submit', function (e) {
     return;
   }
 
-  // ✅ All good
-  showMessage('Form submitted successfully! 🎉', 'success');
+  // ✅ All good, send data to backend
+  try {
+    const response = await fetch('http://localhost:8081/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password,
+        role
+      })
+    });
 
-  document.getElementById('signupForm').reset();
+    const result = await response.json();
 
-  // Refresh page after 5 seconds (same timing as message)
-  setTimeout(() => {
-    location.reload();
-  }, 1000);
+    if (response.ok) {
+      showMessage('Registered successfully! 🎉', 'success');
+      document.getElementById('signupForm').reset();
+
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    } else {
+      showMessage(result.message || 'Registration failed.');
+    }
+
+  } catch (err) {
+    showMessage('Error connecting to the server.');
+    console.error(err);
+  }
 });
-
 
 // login form validations
 
-document.getElementById('loginForm').addEventListener('submit', function (e) {
-  e.preventDefault(); // prevent actual form submission
+// document.getElementById('loginForm').addEventListener('submit', function (e) {
+//   e.preventDefault(); // prevent actual form submission
 
-  const username = document.getElementById('signupusername').value.trim();
-  const password = document.getElementById('signuppassword').value;
-  const messageBox = document.getElementById('signupMessage');
+//   const username = document.getElementById('signupusername').value.trim();
+//   const password = document.getElementById('signuppassword').value;
+//   const messageBox = document.getElementById('signupMessage');
 
-  function showMessage(text, type = 'error') {
-    messageBox.textContent = text;
-    messageBox.className = 'form-message ' + type;
-    messageBox.style.display = 'block';
+//   function showMessage(text, type = 'error') {
+//     messageBox.textContent = text;
+//     messageBox.className = 'form-message ' + type;
+//     messageBox.style.display = 'block';
 
-    // Auto hide after 5 seconds
-    setTimeout(() => {
-      messageBox.style.display = 'none';
-    }, 5000);
-  }
+//     // Auto hide after 5 seconds
+//     setTimeout(() => {
+//       messageBox.style.display = 'none';
+//     }, 5000);
+//   }
 
-  // Basic checks
-  if (!username || !password) {
-    showMessage("Please enter both username and password.");
-    return;
-  }
+//   // Basic checks
+//   if (!username || !password) {
+//     showMessage("Please enter both username and password.");
+//     return;
+//   }
 
-  // ✅ All good
-  showMessage('Loggedin successfully! 🎉', 'success');
+//   // ✅ All good
+//   showMessage('Loggedin successfully! 🎉', 'success');
 
-});
+// });
