@@ -12,6 +12,8 @@
     <link rel = "stylesheet" href = "src/assets/css/normalize.css">
     <!-- custom css -->
     <link rel = "stylesheet" href = "src/assets/css/main.css">
+
+    
 </head>
 <body>
     
@@ -188,10 +190,29 @@
                 </div>
                 <div class = "banner-two-right">
                     <p class = "lead text-white">Order with prescription, Upload prescription and we will deliver your medicine.</p>
-                    <div class = "btn-group">
-                        <a href = "#" class = "btn btn-white">Learn More</a>
-                        <a href = "#" class = "btn btn-light-blue">Upload</a>
+                    <div class="btn-group">
+                        <button class="btn btn-white" onclick="openModal()">Learn More</button>
+
+                        <div class="upload-container">
+                            <input type="file" id="fileInput" accept="image/*, .pdf">
+                            
+                            <button class="btn btn-light-blue" id="uploadBtn">Upload</button>
+                          </div>
                     </div>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div id="uploadModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h2>How to Upload Your Prescription</h2>
+                    <ol>
+                        <li>Click the 'Upload' button.</li>
+                        <li>Select your prescription file from your device.</li>
+                        <li>Make sure the image is clear and readable.</li>
+                        <li>Submit the file and wait for confirmation.</li>
+                        <li>Wait for approval from Admin and Confirm the order.</li>
+                    </ol>
                 </div>
             </div>
         </section>
@@ -246,7 +267,38 @@
                 <div class = "package-service-head text-white">
                     <h2>Package Service</h2>
                     <p class = "text text-lg">Become a +PLUS member<br>Save flat 5% discoount & enjoy free delivery with plus Membership</p>
-                    <a href = "#" class = "btn btn-light-blue">Subscribe</a>
+
+                    <button class="subscribe-btn" onclick="openModal()">Subscribe</button>
+
+                    <div id="subscribeModal" class="modal">
+                      <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <h2>Subscribe to Our Pharmacy</h2>
+                        <p>
+                          Get access to exclusive medical content, special offers, and the latest pharmacy updates, Also get your based Medicines monthly Automatically.<br><br>
+                          Subscription fee: <strong>100 EGP per month</strong>.
+                        </p>
+                        <button class="subscribe-btn" onclick="openPaymentModal()">Confirm Subscription</button>
+                      </div>
+                    </div>
+
+
+                    <!-- Payment Modal -->
+                    <div id="paymentModal" class="modal">
+                        <div class="modal-content">
+                        <span class="close" onclick="closeModal('paymentModal')">&times;</span>
+                        <h2>Payment Details</h2>
+                        <p>
+                            Please complete your payment to activate your subscription.
+                        </p>
+                        <input type="text" placeholder="Card Number" style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 10px;"><br>
+                        <input type="text" placeholder="Expiry Date (MM/YY)" style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 10px;"><br>
+                        <input type="text" placeholder="CVV" style="width: 90%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 10px;"><br>
+                        <button class="pay-btn" onclick="confirmPayment()">Pay 100 EGP</button>
+                        </div>
+                    </div>
+  
+                    
                 </div>
                 <div class = "package-service-inner grid">
                     <div class = "package-service-item bg-white">

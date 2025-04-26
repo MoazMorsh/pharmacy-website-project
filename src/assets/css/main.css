@@ -616,6 +616,97 @@ button[class ^= navbar]:hover{
     margin: 4rem 0;
 }
 
+/* Modal Style */
+.modal {
+display: none; /* Hidden by default */
+position: fixed;
+z-index: 999;
+padding-top: 100px;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+background-color: #fff;
+margin: auto;
+padding: 30px;
+border: 1px solid #888;
+width: 90%;
+max-width: 600px;
+border-radius: 15px;
+box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
+position: relative;
+text-align: center;
+}
+
+.close {
+color: #aaa;
+position: absolute;
+top: 15px;
+right: 20px;
+font-size: 28px;
+font-weight: bold;
+cursor: pointer;
+}
+
+.modal-title {
+font-size: 24px;
+font-weight: bold;
+margin-bottom: 20px;
+}
+
+.modal-body ol {
+text-align: left;
+margin-top: 10px;
+padding-left: 20px;
+}
+
+.modal-body ol li {
+margin-bottom: 10px;
+font-size: 16px;
+}
+
+
+.upload-container {
+background: #fff;
+padding: 30px 40px;
+border-radius: 15px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+display: flex;
+flex-direction: column;
+gap: 20px;
+align-items: center;
+}
+
+#fileInput {
+border: 2px solid #00bcd4;
+border-radius: 10px;
+font-size: 16px;
+padding: 8px;
+width: 250px;
+cursor: pointer;
+}
+
+#uploadBtn {
+padding: 12px 24px;
+border-radius: 25px;
+background-color: #00bcd4;
+color: #fff;
+border: none;
+font-size: 16px;
+cursor: pointer;
+transition: background 0.3s;
+width: 150px;
+}
+
+#uploadBtn:hover {
+background-color: #0097a7;
+}
+
 /* posts section */
 .posts{
     background-color: var(--light-gray);
@@ -651,6 +742,67 @@ button[class ^= navbar]:hover{
     padding-bottom: 0;
 }
 
+/* Modal Styles for subscribe button */
+ /* Modal Styles */
+ .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    width: 400px;
+    position: relative;
+  }
+
+  .close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+  }
+
+  .modal-content h2 {
+    margin-bottom: 15px;
+    color: #888;
+  }
+
+  .modal-content p {
+    margin-bottom: 25px;
+    color: #555;
+    line-height: 1.6;
+  }
+
+  .subscribe-btn, .pay-btn {
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+
+  .subscribe-btn:hover, .pay-btn:hover {
+    background-color: #0097a7;
+  }
+  
 /* contact section */
 .contact-left{
     margin-bottom: 6rem;

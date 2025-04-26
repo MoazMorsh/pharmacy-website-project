@@ -57,3 +57,110 @@ window.addEventListener("scroll", () => {
         }
     });
 });
+
+// learn more prescription
+
+function openModal() {
+    document.getElementById('uploadModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('uploadModal').style.display = 'none';
+}
+
+
+window.onclick = function(event) {
+    const modal = document.getElementById('uploadModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+// upload button
+const fileInput = document.getElementById('fileInput');
+const uploadBtn = document.getElementById('uploadBtn');
+
+uploadBtn.addEventListener('click', function() {
+  const file = fileInput.files[0];
+  if (!file) {
+    alert('Please choose a file first!');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  fetch('http://localhost:8081', {  
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Upload successful!', data);
+    alert('File uploaded successfully!');
+
+    
+    fileInput.value = "";
+  })
+  .catch(error => {
+    console.error('Error uploading file:', error);
+    alert('Failed to upload file.');
+  });
+});
+
+// subscribe learn more
+
+function openModal() {
+    document.getElementById('subscribeModal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('subscribeModal').style.display = 'none';
+  }
+
+  function confirmSubscription() {
+    alert('Thank you for subscribing!');
+    closeModal();
+  }
+
+  // Close modal when clicking outside the modal content
+  window.onclick = function(event) {
+    const modal = document.getElementById('subscribeModal');
+    if (event.target == modal) {
+      closeModal();
+    }
+  }
+
+
+
+//   pay popup for subscription
+
+function openModal() {
+    document.getElementById('subscribeModal').style.display = 'flex';
+  }
+
+  function openPaymentModal() {
+    document.getElementById('subscribeModal').style.display = 'none';
+    document.getElementById('paymentModal').style.display = 'flex';
+  }
+
+  function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+  }
+
+  function confirmPayment() {
+    alert('Payment Successful! Thank you for subscribing.');
+    closeModal('paymentModal');
+  }
+
+  window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+      event.target.style.display = 'none';
+    }
+  }
