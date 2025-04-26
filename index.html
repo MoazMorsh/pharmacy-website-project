@@ -27,6 +27,17 @@
                     <i class="fa fa-medkit"></i> Meditrack
                 </a>
                 
+                <div style="position: relative;">
+                    <div class="profile-icon" onclick="togglePopup()"><i class="fas fa-user"></i></div>
+                  
+                    <div class="popup" id="profilePopup">
+                      <a href="pharmacist-panel.html">Pharmacist Panel</a>
+                      <p><strong>Username:</strong> JohnDoe</p>
+                      <p><strong>Email:</strong> johndoe@example.com</p>
+                      <p><strong>Role:</strong> Pharmacist</p>
+                    </div>
+                  </div>
+                  
                 <button type = "button" class = "navbar-show-btn">
                     <img src = "src/assets/images/ham-menu-icon.png">
                 </button>
@@ -62,7 +73,7 @@
                         </li>
                     </ul>
                     <a href="src/pages/admin.html" class="admin-icon" id="adminIcon" >  <!--style="display: none;"-->
-                        <i class="fa-solid fa-user-shield"></i> 
+                        <i class="fa-solid fa-user"></i> 
                     </a>
                     
                     <div class="search-bar">

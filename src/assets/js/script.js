@@ -164,3 +164,17 @@ function openModal() {
       event.target.style.display = 'none';
     }
   }
+
+  function togglePopup() {
+    const popup = document.getElementById('profilePopup');
+    popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Optional: Close the popup if clicked outside
+  window.onclick = function(event) {
+    const popup = document.getElementById('profilePopup');
+    const profileIcon = document.querySelector('.profile-icon');
+    if (!popup.contains(event.target) && !profileIcon.contains(event.target)) {
+      popup.style.display = 'none';
+    }
+  }
