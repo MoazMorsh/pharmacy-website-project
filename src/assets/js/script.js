@@ -116,11 +116,11 @@ uploadBtn.addEventListener('click', function() {
 
 // subscribe learn more
 
-function openModal() {
+function subscribeopenModal() {
     document.getElementById('subscribeModal').style.display = 'flex';
   }
 
-  function closeModal() {
+  function subscribecloseModal() {
     document.getElementById('subscribeModal').style.display = 'none';
   }
 
@@ -141,7 +141,7 @@ function openModal() {
 
 //   pay popup for subscription
 
-function openModal() {
+function payopenModal() {
     document.getElementById('subscribeModal').style.display = 'flex';
   }
 
@@ -150,7 +150,7 @@ function openModal() {
     document.getElementById('paymentModal').style.display = 'flex';
   }
 
-  function closeModal(modalId) {
+  function paycloseModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
   }
 
@@ -164,6 +164,7 @@ function openModal() {
       event.target.style.display = 'none';
     }
   }
+  
 
   function togglePopup() {
     const popup = document.getElementById('profilePopup');
@@ -178,3 +179,13 @@ function openModal() {
       popup.style.display = 'none';
     }
   }
+
+
+  function logout() {
+    // Remove session data (adjust based on your storage method)
+    localStorage.removeItem('token');  // or sessionStorage.removeItem('token')
+    localStorage.removeItem('user');   // if you're storing user data
+    
+    // Redirect to login page
+    window.location.href = "src/pages/login.html";
+    }

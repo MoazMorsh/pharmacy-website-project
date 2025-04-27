@@ -106,12 +106,16 @@
 			<div id="profilePopup" class="profile-popup">
 				<div class="popup-header">
 					<div>
-						<h4 id="popupUsername">Moaz</h4> <!-- Username -->
-						<p id="popupRole">Admin</p> <!-- User Role -->
+						<h3>Profile</h3>
 					</div>
 				</div>
+				<h4 id="popupUsername">Moaz</h4> <!-- Username -->
+				<p id="popupRole">Admin</p> <!-- User Role -->
 				<p><strong>Email:</strong> <span id="popupEmail">moaz@example.com</span></p>
-				<button onclick="logout()">Logout</button>
+				<a href="#" class="logout" onclick="logout()" style="color: red;">
+					<i class='fas fa-sign-out-alt' style="color: red; margin-right: 5px; margin-top: 15px;"></i>
+					<span class="text">Logout</span>
+				  </a>
 			</div>
 
   </div>

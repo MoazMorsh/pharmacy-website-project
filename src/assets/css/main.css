@@ -305,6 +305,12 @@ button[class ^= navbar]:hover{
     width: 27px;
     margin-right: 10px;
 }
+
+
+#profilePopup .logout a.logout {
+	color: var(--red);
+}
+
 /* Admin icon positioned absolutely to the right */
 .admin-icon {
     position: absolute;

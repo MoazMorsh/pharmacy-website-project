@@ -31,10 +31,15 @@
                     <div class="profile-icon" onclick="togglePopup()"><i class="fas fa-user"></i></div>
                   
                     <div class="popup" id="profilePopup">
-                      <a href="pharmacist-panel.html">Pharmacist Panel</a>
+                      <a href="pharmacist-panel.html">Pharmacist Panel<i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></a>
                       <p><strong>Username:</strong> JohnDoe</p>
                       <p><strong>Email:</strong> johndoe@example.com</p>
                       <p><strong>Role:</strong> Pharmacist</p>
+                      <a href="#" class="logout" onclick="logout()" style="color: red;">
+                        <i class='fas fa-sign-out-alt' style="color: red; margin-right: 5px; margin-top: 15px;"></i>
+                        <span class="text">Logout</span>
+                      </a>
+                      
                     </div>
                   </div>
                   
@@ -123,7 +128,7 @@
                             <div class = "border-line"></div>
                         </div>
                         <p class = "text text-lg">MediTrack revolutionizes the way you access medicine in Cairo, EG. Our innovative search engine connects you with local pharmacies, allowing you to check the availability of your required medications effortlessly. If your medicine is out of stock, we provide substitute suggestions to ensure you never miss a dose. Experience the convenience of MediTrack and take control of your health today!</p>
-                        <a href = "#" class = "btn btn-white">Learn More</a>
+                        <a href = "#about" class = "btn btn-white">Learn More</a>
                     </div>
                     <div class = "about-right flex">
                         <div class = "img">
@@ -279,11 +284,11 @@
                     <h2>Package Service</h2>
                     <p class = "text text-lg">Become a +PLUS member<br>Save flat 5% discoount & enjoy free delivery with plus Membership</p>
 
-                    <button class="subscribe-btn" onclick="openModal()">Subscribe</button>
+                    <button class="subscribe-btn" onclick="subscribeopenModal()">Subscribe</button>
 
                     <div id="subscribeModal" class="modal">
                       <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
+                        <span class="close" onclick="subscribecloseModal()">&times;</span>
                         <h2>Subscribe to Our Pharmacy</h2>
                         <p>
                           Get access to exclusive medical content, special offers, and the latest pharmacy updates, Also get your based Medicines monthly Automatically.<br><br>
@@ -297,17 +302,23 @@
                     <!-- Payment Modal -->
                     <div id="paymentModal" class="modal">
                         <div class="modal-content">
-                        <span class="close" onclick="closeModal('paymentModal')">&times;</span>
-                        <h2>Payment Details</h2>
-                        <p>
-                            Please complete your payment to activate your subscription.
-                        </p>
-                        <input type="text" placeholder="Card Number" style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 10px;"><br>
-                        <input type="text" placeholder="Expiry Date (MM/YY)" style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 10px;"><br>
-                        <input type="text" placeholder="CVV" style="width: 90%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 10px;"><br>
-                        <button class="pay-btn" onclick="confirmPayment()">Pay 100 EGP</button>
+                            <!-- Close button to close the modal -->
+                            <span class="close" onclick="paycloseModal('paymentModal')">&times;</span>
+                            <h2>Payment Details</h2>
+                            <p>Please complete your payment to activate your subscription.</p>
+
+                            <!-- Masked Inputs for Card Number, Expiry Date, and CVV -->
+                            <input type="text" id="cardNumber" placeholder="Card Number" style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 10px;" data-mask="0000 0000 0000 0000"><br>
+                            <input type="text" id="expiryDate" placeholder="Expiry Date (MM/YY)" style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 10px;" data-mask="00/00"><br>
+                            <input type="text" id="cvv" placeholder="CVV" style="width: 90%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 10px;" data-mask="000"><br>
+                            <button class="pay-btn" onclick="confirmPayment()">Pay 100 EGP</button>
                         </div>
                     </div>
+
+
+
+
+                    
   
                     
                 </div>
@@ -504,5 +515,7 @@
     <!-- custom js -->
     <script src = "src/assets/js/script.js"></script>
     <script src="src/assets/js/Search.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
+
 </body>
 </html>
