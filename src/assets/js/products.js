@@ -141,3 +141,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     loadProducts(); // Load products when page is ready
 });
+
+
+    document.getElementById('clear-button').addEventListener('click', function() {
+    document.getElementById('searchBar').value = '';
+    });
+    
