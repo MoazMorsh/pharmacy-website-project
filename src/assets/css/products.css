@@ -756,8 +756,16 @@ button[class ^= navbar]:hover{
         opacity: 1;
         width: 100%;
     }
-    .search-bar{
-        margin-left: 5.5rem;
+    .search-bar {
+        position: relative;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    .search-bar form {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
     }
     .search-inner-right{
         width: 100%;
@@ -766,8 +774,42 @@ button[class ^= navbar]:hover{
         padding-left: 0;
         max-width: 647px;
     }
-    .search-control{
-        width: 150px;
+    .search-control {
+        height: 45px;
+        width: 100%;
+        border-radius: 25px;
+        border: 2px solid var(--light-gray);
+        padding: 0 50px 0 20px; /* Extra right padding for the button */
+        font-size: 1.6rem;
+        transition: var(--transition);
+    }
+    .search-control:focus {
+        border-color: var(--fros-blue-color);
+    }
+    #search-button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--fros-blue-color);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 600;
+        height: 35px;
+        transition: var(--transition);
+    }
+    
+    #search-button:hover {
+        background: var(--light-blue-color);
+        transform: translateY(-50%) scale(1.05);
+    }
+    
+    /* Remove old search icon styles (if they exist) */
+    .search-icon {
+        display: none;
     }
     .header-inner-right{
         width: 100%;
@@ -807,7 +849,7 @@ button[class ^= navbar]:hover{
            -moz-column-gap: 6rem;
                 column-gap: 6rem;
     }
-}
+
 
 @media(min-width: 1480px){
     /* general */
