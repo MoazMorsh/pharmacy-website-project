@@ -143,7 +143,23 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 
-    document.getElementById('clear-button').addEventListener('click', function() {
-    document.getElementById('searchBar').value = '';
+    // document.getElementById('clearSearch').addEventListener('click', function() {
+   //  document.getElementById('searchBar').value = '';
+    // Clear search functionality
+    const clearSearch = document.getElementById('clearSearch');
+    const searchBar = document.getElementById('searchBar');
+    
+    clearSearch.addEventListener('click', () => {
+        searchBar.value = '';
+        searchBar.focus();
+        clearSearch.style.opacity = '0';
+        clearSearch.style.pointerEvents = 'none';
     });
+    
+    searchBar.addEventListener('input', function() {
+        const hasText = this.value.length > 0;
+        clearSearch.style.opacity = hasText ? '1' : '0';
+        clearSearch.style.pointerEvents = hasText ? 'auto' : 'none';
+    });
+  
     

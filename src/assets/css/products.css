@@ -806,7 +806,35 @@ button[class ^= navbar]:hover{
         background: var(--light-blue-color);
         transform: translateY(-50%) scale(1.05);
     }
+    .search-input-container {
+        position: relative;
+        flex: 1; /* Takes remaining space */
+    }
     
+    .clear-btn {
+        position: absolute;
+        right: 70px; /* Positions X left of the Search button */
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--dark-gray);
+        font-size: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: var(--transition);
+    }
+    
+    /* Show X only when input has text */
+    .search-control:not(:placeholder-shown) + .clear-btn {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    /* Adjust input padding to prevent text under X */
+    .search-control {
+        padding-right: 90px; /* Space for both X and Search button */
+        width: 100%;
+    }
     /* Remove old search icon styles (if they exist) */
     .search-icon {
         display: none;
