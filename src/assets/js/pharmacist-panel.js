@@ -12,7 +12,17 @@ allSideMenu.forEach(item=> {
 	})
 });
 
-
+// Mobile sidebar toggle (won't conflict with existing JS)
+document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+	document.getElementById('sidebar').classList.toggle('show');
+  });
+  
+  // Close sidebar when clicking outside (optional)
+  document.addEventListener('click', function(e) {
+	if (!e.target.closest('#sidebar') && !e.target.closest('.toggle-sidebar')) {
+	  document.getElementById('sidebar').classList.remove('show');
+	}
+  });
 
 
 
