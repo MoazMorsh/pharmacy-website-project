@@ -203,6 +203,47 @@ h1, h2, h3{
     font-size: 32px; 
 }
 
+.profile-icon {
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    position: relative;
+  }
+  .popup {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    padding: 20px;
+    width: 250px;
+    z-index: 100;
+  }
+  .popup a {
+    text-decoration: none;
+    color: #888;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 15px;
+  }
+  .popup p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+  }
+
+
+
 .navbar-show-btn, .navbar-hide-btn{
     background-color: transparent;
     width: 30px;

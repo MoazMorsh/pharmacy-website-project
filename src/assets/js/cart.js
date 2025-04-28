@@ -133,3 +133,28 @@ function removeItem(event) {
         console.log("Invalid index:", index);
     }
 }
+
+
+function togglePopup() {
+    const popup = document.getElementById('profilePopup');
+    popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Optional: Close the popup if clicked outside
+  window.onclick = function(event) {
+    const popup = document.getElementById('profilePopup');
+    const profileIcon = document.querySelector('.profile-icon');
+    if (!popup.contains(event.target) && !profileIcon.contains(event.target)) {
+      popup.style.display = 'none';
+    }
+  }
+
+
+  function logout() {
+    // Remove session data (adjust based on your storage method)
+    localStorage.removeItem('token');  // or sessionStorage.removeItem('token')
+    localStorage.removeItem('user');   // if you're storing user data
+    
+    // Redirect to login page
+    window.location.href = "src/pages/login.html";
+    }
