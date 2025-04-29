@@ -275,74 +275,50 @@ body {
 	color: #111;
   }
   
-  .profile-popup {
-	display: none;
-	position: absolute;
-	top: 55px;
-	right: 0;
-	background: white;
-	border-radius: 16px;
-	width: 280px;
-	padding: 16px;
-	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-	z-index: 100;
-	animation: fadeIn 0.3s ease-in-out;
-  }
+
   
   @keyframes fadeIn {
 	from { opacity: 0; transform: translateY(-10px); }
 	to { opacity: 1; transform: translateY(0); }
   }
   
-  .popup-header {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	border-bottom: 1px solid #eee;
-	padding-bottom: 12px;
-	margin-bottom: 12px;
+  .profile-icon {
+    left: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    position: relative;
   }
-  
-  .popup-avatar {
-	width: 48px;
-	height: 48px;
-	border-radius: 50%;
-	object-fit: cover;
-	border: 2px solid #4CAF50;
+  .popup {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    padding: 20px;
+    width: 250px;
+    z-index: 100;
   }
-  
-  .popup-header h4 {
-	margin: 0;
-	font-size: 16px;
+  .popup a {
+    text-decoration: none;
+    color: #888;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 15px;
   }
-  
-  .popup-header p {
-	margin: 0;
-	font-size: 13px;
-	color: #777;
-  }
-  
-  .popup-body p {
-	font-size: 14px;
-	margin: 6px 0;
-	color: #444;
-  }
-  
-  .profile-popup button {
-	width: 100%;
-	padding: 10px;
-	border: none;
-	background: #3C91E6;
-	color: white;
-	font-weight: 600;
-	border-radius: 10px;
-	margin-top: 10px;
-	cursor: pointer;
-	transition: background 0.3s ease;
-  }
-  
-  .profile-popup button:hover {
-	background: #342E37;
+  .popup p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
   }
   
   

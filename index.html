@@ -11,7 +11,7 @@
     <!-- normalize css -->
     <link rel = "stylesheet" href = "/assets/css/normalize.css">
     <!-- custom css -->
-    <link rel = "stylesheet" href = "/assets/css/main.css">
+    <link rel = "stylesheet" href = "/src/assets/css/main.css">
 
     
 </head>
@@ -32,28 +32,33 @@
                   
                     <div class="popup" id="profilePopup">
                         <a id="profileLink" href="#">
-                          <span id="profileLinkText"></span> 
-                          <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
+                            <span id="profileLinkText"></span> 
+                            <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
                         </a>
                         <p><strong>Username:</strong></p>
                         <p><strong>Email:</strong></p>
                         <p><strong>Role:</strong></p>
-                        <a href="#" class="logout" onclick="logout()" style="color: red;">
-                          <i class='fas fa-sign-out-alt' style="color: red; margin-right: 5px; margin-top: 15px;"></i>
-                          <span class="text">Logout</span>
+                        
+                        <a href="/src/pages/edit-profile.html" class="edit-profile" style="color: #3498db; display: block; margin-top: 10px;">
+                            <i class='fas fa-user-edit' style="color: #3498db; margin-right: 5px;"></i>
+                            <span class="text">Edit Profile</span>
                         </a>
-                      </div>
-                      
+                        
+                        <a href="#" class="logout" onclick="logout()" style="color: red; display: block; margin-top: 10px;">
+                            <i class='fas fa-sign-out-alt' style="color: red; margin-right: 5px;"></i>
+                            <span class="text">Logout</span>
+                        </a>
+                    </div>
                       
                   </div>
                   
                 <button type = "button" class = "navbar-show-btn">
-                    <img src = "/assets/images/ham-menu-icon.png">
+                    <img src = "src/assets/images/ham-menu-icon.png">
                 </button>
 
                 <div class = "navbar-collapse bg-white">
                     <button type = "button" class = "navbar-hide-btn">
-                        <img src = "/assets/images/close-icon.png">
+                        <img src = "src/assets/images/close-icon.png">
                     </button>
                     <ul class = "navbar-nav">
                         <li class = "nav-item">
@@ -81,10 +86,10 @@
                             <a href = "#contact" class = "nav-link">Contact</a>
                         </li>
                     </ul>
-                    <a href="/pages/admin.html" class="admin-icon" id="adminIcon" >  <!--style="display: none;"-->
+                    <!-- <a href="/pages/admin.html" class="admin-icon" id="adminIcon" >  style="display: none;"
                         <i class="fa-solid fa-user"></i> 
                     </a>
-                    
+                     -->
                     <div class="search-bar">
     <!-- <form id="searchForm">
         <input type="search" id="searchBar" class="search-control" placeholder="Search products">
@@ -112,7 +117,7 @@
                     </div>
                 </div>
                 <div class = "header-inner-right">
-                    <img src = "/assets/images/header.jpg.png">
+                    <img src = "src/assets/images/header.jpg.png">
                 </div>
             </div>
         </div>
@@ -134,7 +139,7 @@
                     </div>
                     <div class = "about-right flex">
                         <div class = "img">
-                            <img src = "/assets/images/about2.png">
+                            <img src = "src/assets/images/about2.png">
                         </div>
                     </div>
                 </div>
@@ -159,14 +164,14 @@
                     <p class = "text text-lg">A perfect way to show your pharmacy services</p>
                     <div class = "line-art flex">
                         <div></div>
-                        <img src = "/assets/images/4-dots.png">
+                        <img src = "src/assets/images/4-dots.png">
                         <div></div>
                     </div>
                 </div>
                 <div class = "services-inner text-center grid">
                     <article class = "service-item">
                         <div class = "icon">
-                            <img src = "/assets/images/service-1.png">
+                            <img src = "src/assets/images/service-1.png">
                         </div>
                         <h3>Medicines</h3>
                         <p class = "text text-sm">Explore our wide range of medicines, including prescription and over-the-counter medications, to support your health and well-being. From pain relief and cold remedies to chronic condition treatments, we provide trusted pharmaceutical solutions to meet your needs. Shop safely and conveniently with us.</p>
@@ -174,7 +179,7 @@
 
                     <article class = "service-item">
                         <div class = "icon">
-                            <img src = "/assets/images/service-2.png">
+                            <img src = "src/assets/images/service-2.png">
                         </div>
                         <h3>HealthCare</h3>
                         <p class = "text text-sm">Discover a wide range of skincare, personal care, and wellness products designed to nourish, protect, and enhance your daily routine for a healthier, more radiant you.</p>
@@ -182,7 +187,7 @@
 
                     <article class = "service-item">
                         <div class = "icon">
-                            <img src = "/assets/images/service-3.png">
+                            <img src = "src/assets/images/service-3.png">
                         </div>
                         <h3>Health Blog</h3>
                         <p class = "text text-sm">Explore expert insights, wellness tips, and the latest health trends to help you make informed decisions about your well-being and live a healthier, more balanced life.</p>
@@ -190,7 +195,7 @@
 
                     <article class = "service-item">
                         <div class = "icon">
-                            <img src = "/assets/images/service-4.png">
+                            <img src = "src/assets/images/service-4.png">
                         </div>
                         <h3>Supplements</h3>
                         <p class = "text text-sm">Boost your health with our wide selection of high-quality supplements, including essential vitamins, minerals, and nutritional support tailored to enhance your energy, immunity, and overall wellness.</p>
@@ -204,7 +209,7 @@
         <section id = "banner-two" class = "banner-two text-center">
             <div class = "container grid">
                 <div class = "banner-two-left">
-                    <img src = "/assets/images/banner-2XX.png">
+                    <img src = "src/assets/images/banner-2XX.png">
                 </div>
                 <div class = "banner-two-right">
                     <p class = "lead text-white">Order with prescription, Upload prescription and we will deliver your medicine.</p>
@@ -246,7 +251,7 @@
                 <div class = "doc-panel-inner grid">
                     <div class = "doc-panel-item">
                         <div class = "img flex">
-                            <img src = "/assets/images/Hatem_Amerjpg.jpg" alt = "partner image">
+                            <img src = "src/assets/images/Hatem_Amerjpg.jpg" alt = "partner image">
                             <div class = "info text-center bg-blue text-white flex">
                                 <p class = "lead">Hatem Amer</p>
                                 <p class = "text-lg">Associate Minister of Health</p>
@@ -256,7 +261,7 @@
 
                     <div class = "doc-panel-item">
                         <div class = "img flex">
-                            <img src = "/assets/images/Riad-Armanious.jpg" alt = "partner image">
+                            <img src = "src/assets/images/Riad-Armanious.jpg" alt = "partner image">
                             <div class = "info text-center bg-blue text-white flex">
                                 <p class = "lead">Riad Armanious</p>
                                 <p class = "text-lg">chief executive officer, Eva Pharma</p>
@@ -266,7 +271,7 @@
 
                     <div class = "doc-panel-item">
                         <div class = "img flex">
-                            <img src = "/assets/images/Ahmed_elsobky.png
+                            <img src = "src/assets/images/Ahmed_elsobky.png
                             " alt = "partner image">
                             <div class = "info text-center bg-blue text-white flex">
                                 <p class = "lead"> Ahmed Elsobky</p>
@@ -597,7 +602,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
     
     <!-- custom js -->
-    <script src = "/assets/js/script.js"></script>
+    <script src = "/src/assets/js/script.js"></script>
     <script src="/assets/js/Search.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
 

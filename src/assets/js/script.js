@@ -179,13 +179,3 @@ function payopenModal() {
       popup.style.display = 'none';
     }
   }
-
-
-  // function logout() {
-  //   // Remove session data (adjust based on your storage method)
-  //   localStorage.removeItem('token');  // or sessionStorage.removeItem('token')
-  //   localStorage.removeItem('user');   // if you're storing user data
-    
-  //   // Redirect to login page
-  //   window.location.href = "src/pages/login.html";
-  //   }

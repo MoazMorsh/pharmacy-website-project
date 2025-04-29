@@ -162,4 +162,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         clearSearch.style.pointerEvents = hasText ? 'auto' : 'none';
     });
   
-    
+    function logout() {
+        if (confirm('Are you sure you want to logout?')) {
+            localStorage.clear();
+            sessionStorage.clear();
+            console.log("✅ User logged out successfully.");
+            window.location.href = '/pages/login.html';
+        }
+        }

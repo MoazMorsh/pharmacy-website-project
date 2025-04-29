@@ -78,10 +78,10 @@ function togglePopup() {
 
 
   function logout() {
-    // Remove session data (adjust based on your storage method)
-    localStorage.removeItem('token');  // or sessionStorage.removeItem('token')
-    localStorage.removeItem('user');   // if you're storing user data
-    
-    // Redirect to login page
-    window.location.href = "src/pages/login.html";
+    if (confirm('Are you sure you want to logout?')) {
+        localStorage.clear();
+        sessionStorage.clear();
+        console.log("✅ User logged out successfully.");
+        window.location.href = '/pages/login.html';
+    }
     }
