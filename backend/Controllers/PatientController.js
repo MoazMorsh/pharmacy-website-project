@@ -7,6 +7,7 @@ const PatientServices = require("../Services/PatientServices");
 // View Profile
 router.get("/view-profile/:id", async (req, res, next) => {
   try {
+    const { id } = req.params; // Get id from URL params
     const profile = await PatientServices.viewProfile(id);
     res.status(200).json(profile);
   } catch (err) {
