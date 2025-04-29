@@ -31,16 +31,20 @@
                     <div class="profile-icon" onclick="togglePopup()"><i class="fas fa-user"></i></div>
                   
                     <div class="popup" id="profilePopup">
-                      <a href="\pages\pharmacist-panel.html">Pharmacist Panel<i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></a>
-                      <p><strong>Username:</strong> JohnDoe</p>
-                      <p><strong>Email:</strong> johndoe@example.com</p>
-                      <p><strong>Role:</strong> Pharmacist</p>
-                      <a href="#" class="logout" onclick="logout()" style="color: red;">
-                        <i class='fas fa-sign-out-alt' style="color: red; margin-right: 5px; margin-top: 15px;"></i>
-                        <span class="text">Logout</span>
-                      </a>
+                        <a id="profileLink" href="#">
+                          <span id="profileLinkText"></span> 
+                          <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
+                        </a>
+                        <p><strong>Username:</strong></p>
+                        <p><strong>Email:</strong></p>
+                        <p><strong>Role:</strong></p>
+                        <a href="#" class="logout" onclick="logout()" style="color: red;">
+                          <i class='fas fa-sign-out-alt' style="color: red; margin-right: 5px; margin-top: 15px;"></i>
+                          <span class="text">Logout</span>
+                        </a>
+                      </div>
                       
-                    </div>
+                      
                   </div>
                   
                 <button type = "button" class = "navbar-show-btn">
@@ -528,7 +532,70 @@
         });
         </script>
         
+    <script>
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                console.log("✅ User logged out successfully.");
+                window.location.href = '/pages/login.html';
+            }
+            }
+    </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ✅ Try to get user data from localStorage
+        const username = localStorage.getItem('userName');
+        const email = localStorage.getItem('userEmail');
+        const role = localStorage.getItem('userRole');
+
+        // ✅ Now update profile popup if user is logged in
+        if (username && email && role) {
+            const usernameElement = document.querySelector('#profilePopup p:nth-of-type(1)');
+            const emailElement = document.querySelector('#profilePopup p:nth-of-type(2)');
+            const roleElement = document.querySelector('#profilePopup p:nth-of-type(3)');
+
+            if (usernameElement && emailElement && roleElement) {
+                usernameElement.innerHTML = `<strong>Username:</strong> ${username}`;
+                emailElement.innerHTML = `<strong>Email:</strong> ${email}`;
+                roleElement.innerHTML = `<strong>Role:</strong> ${capitalizeFirstLetter(role)}`;
+            }
+        }
+    });
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const role = localStorage.getItem('userRole');
+    const profileLink = document.getElementById('profileLink');
+    const profileLinkText = document.getElementById('profileLinkText');
+
+    if (role && profileLink && profileLinkText) {
+        if (role.toLowerCase() === 'pharmacist') {
+            profileLinkText.textContent = 'Pharmacist Panel';
+            profileLink.href = '/pages/pharmacist-panel.html';
+            profileLink.style.display = 'inline-flex';
+        } else if (role.toLowerCase() === 'admin') {
+            profileLinkText.textContent = 'Admin Panel';
+            profileLink.href = '/pages/admin.html';
+            profileLink.style.display = 'inline-flex';
+        } else {
+            profileLink.style.display = 'none'; // patient → hide
+        }
+    } else {
+        if (profileLink) {
+            profileLink.style.display = 'none';
+        }
+    }
+});
+
+    </script>
+    
     <!-- custom js -->
     <script src = "/assets/js/script.js"></script>
     <script src="/assets/js/Search.js"></script>

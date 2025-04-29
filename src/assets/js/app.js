@@ -145,9 +145,32 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
     if (xhr.status === 201) {
       const response = JSON.parse(xhr.responseText);
       console.log('✅ Login Success:', response);
+
       showMessage('Login successful! ✅', 'success');
-      // Optionally save token or redirect
-      localStorage.setItem('userToken', response.token);
+
+      // ✅ Save based on which object exists
+      if (response.patient) {
+        localStorage.setItem('userId', response.patient.id);
+        localStorage.setItem('userEmail', response.patient.email);
+        localStorage.setItem('userRole', response.patient.role);
+        localStorage.setItem('userName', response.patient.username);
+      } else if (response.pharmacist) {
+        localStorage.setItem('userId', response.pharmacist.id);
+        localStorage.setItem('userEmail', response.pharmacist.email);
+        localStorage.setItem('userRole', response.pharmacist.role);
+        localStorage.setItem('userName', response.pharmacist.username);
+      } else if (response.admin) {
+        localStorage.setItem('userId', response.admin.id);
+        localStorage.setItem('userEmail', response.admin.email);
+        localStorage.setItem('userRole', response.admin.role);
+        localStorage.setItem('userName', response.admin.username);
+      } else {
+        console.error('❌ No user object found in response.');
+        showMessage('Unexpected server response.');
+        return;
+      }
+
+      // ✅ Redirect to home page
       window.location.href = "/";
     } else {
       const response = JSON.parse(xhr.responseText);
@@ -162,9 +185,9 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
   };
 
   xhr.send(JSON.stringify({
-    email: username, // here your backend expects 'email', so we send username as email
+    email: username, // backend expects email
     password,
-    role: role.toLowerCase() // backend expects 'patient', 'pharmacist', 'admin'
+    role: role.toLowerCase() // send 'patient', 'pharmacist', 'admin'
   }));
 });
 
