@@ -95,6 +95,20 @@ router.delete("/medicines/:id", async (req, res, next) => {
       next(err);
   }
 });
+
+//-------------------------------------------------------------------------------------------------------------------------------
+
+// Prescription Controller
+
+router.get("PendingPrescription", async (req, res, next) => {
+  try {
+    const prescriptions = await AdminServices.getPendingPerciptions();
+    return prescriptions;
+  } catch (err) {
+    next (err);
+  }
+})
+
   
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 

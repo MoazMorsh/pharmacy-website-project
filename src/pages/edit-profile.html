@@ -132,6 +132,10 @@
         .back-link i {
             margin-right: 5px;
         }
+        
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -155,6 +159,7 @@
             <h2><i class="fas fa-user-edit"></i> Edit Your Profile</h2>
             
             <form id="profileForm">
+                <!-- Common fields for all roles -->
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" value="" placeholder="Your Username" required>
@@ -165,30 +170,71 @@
                     <input type="email" id="email" name="email" value="" placeholder="Your Email" required>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="role">Role</label>
-                        <select id="role" name="role" required>
-                            <option value="patient">Patient</option>
-                            <option value="pharmacist">Pharmacist</option>
-                            <option value="admin">Admin</option>
-                        </select>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required>
+                        <option value="patient">Patient</option>
+                        <option value="pharmacist">Pharmacist</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                
+                <!-- Patient specific fields -->
+                <div id="patientFields" class="hidden">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age" min="1" max="120" value="" placeholder="Enter Your Age">
+                        </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="age">Age</label>
-                        <input type="number" id="age" name="age" min="1" max="120" value="" placeholder="Enter Your Age">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" value="" placeholder="Enter your Phone Number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address" value="" placeholder="Enter Your Address">
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" value="" placeholder="Enter your Phone Number">
+                <!-- Pharmacist specific fields -->
+                <div id="pharmacistFields" class="hidden">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="pharmacistPhone" name="phone" value="" placeholder="Enter your Phone Number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="pharmacistAddress" name="address" value="" placeholder="Enter Your Address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="website">Website</label>
+                        <input type="url" id="website" name="website" value="" placeholder="https://example.com">
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" id="address" name="address" value="" placeholder="Enter Your Address">
+                <!-- Admin specific fields -->
+                <div id="adminFields" class="hidden">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="department">Department</label>
+                            <input type="text" id="department" name="department" value="" placeholder="Enter Your Department">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="level">Level</label>
+                            <select id="level" name="level">
+                                <option value="">Select Level</option>
+                                <option value="100">Team Leader</option>
+                                <option value="postgraduate">Middle Manager</option>
+                                <option value="staff">Senior Manager</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 
                 <button type="submit" id="submitButton" class="btn btn-block">Update Profile</button>
@@ -219,6 +265,9 @@
             document.getElementById('email').readOnly = true;
             document.getElementById('role').disabled = true;
             
+            // Show fields based on role
+            setupRoleBasedFields(userRole);
+            
             // Load profile data
             fetchProfileData(userId, userRole);
             
@@ -228,6 +277,22 @@
                 await updateProfile(userId, userRole);
             });
         });
+        
+        function setupRoleBasedFields(role) {
+            // Hide all role-specific fields first
+            document.getElementById('patientFields').classList.add('hidden');
+            document.getElementById('pharmacistFields').classList.add('hidden');
+            document.getElementById('adminFields').classList.add('hidden');
+            
+            // Show fields based on role
+            if (role === 'patient') {
+                document.getElementById('patientFields').classList.remove('hidden');
+            } else if (role === 'pharmacist') {
+                document.getElementById('pharmacistFields').classList.remove('hidden');
+            } else if (role === 'admin') {
+                document.getElementById('adminFields').classList.remove('hidden');
+            }
+        }
         
         async function fetchProfileData(userId, userRole) {
             const loadingIndicator = document.getElementById('loadingIndicator');
@@ -251,11 +316,21 @@
                 const data = await response.json();
                 console.log('Profile data loaded:', data);
         
-                // Update form fields
+                // Update form fields based on role
                 const profileData = data.data || data;
-                document.getElementById('age').value = profileData.age || '';
-                document.getElementById('phone').value = profileData.phone || '';
-                document.getElementById('address').value = profileData.address || '';
+                
+                if (userRole === 'patient') {
+                    document.getElementById('age').value = profileData.age || '';
+                    document.getElementById('phone').value = profileData.phone || '';
+                    document.getElementById('address').value = profileData.address || '';
+                } else if (userRole === 'pharmacist') {
+                    document.getElementById('pharmacistPhone').value = profileData.phone || '';
+                    document.getElementById('pharmacistAddress').value = profileData.address || '';
+                    document.getElementById('website').value = profileData.website || '';
+                } else if (userRole === 'admin') {
+                    document.getElementById('department').value = profileData.department || '';
+                    document.getElementById('level').value = profileData.level || '';
+                }
         
             } catch (error) {
                 console.error('Profile load error:', error);
@@ -270,12 +345,27 @@
             try {
                 submitButton.disabled = true;
                 
-                // Prepare update data
-                const payload = {
-                    age: document.getElementById('age').value ? parseInt(document.getElementById('age').value) : undefined,
-                    phone: document.getElementById('phone').value.trim() || undefined,
-                    address: document.getElementById('address').value.trim() || undefined
-                };
+                // Prepare update data based on role
+                let payload = {};
+                
+                if (userRole === 'patient') {
+                    payload = {
+                        age: document.getElementById('age').value ? parseInt(document.getElementById('age').value) : undefined,
+                        phone: document.getElementById('phone').value.trim() || undefined,
+                        address: document.getElementById('address').value.trim() || undefined
+                    };
+                } else if (userRole === 'pharmacist') {
+                    payload = {
+                        phone: document.getElementById('pharmacistPhone').value.trim() || undefined,
+                        address: document.getElementById('pharmacistAddress').value.trim() || undefined,
+                        website: document.getElementById('website').value.trim() || undefined
+                    };
+                } else if (userRole === 'admin') {
+                    payload = {
+                        department: document.getElementById('department').value.trim() || undefined,
+                        level: document.getElementById('level').value || undefined
+                    };
+                }
         
                 // Validate at least one field
                 if (Object.values(payload).every(val => val === undefined)) {
