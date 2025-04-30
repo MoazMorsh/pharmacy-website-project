@@ -189,7 +189,175 @@
         </div>
     </div>
     
-    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get user data from localStorage
+            const userId = localStorage.getItem('userId');
+            const userEmail = localStorage.getItem('userEmail');
+            const userName = localStorage.getItem('userName');
+            const userRole = localStorage.getItem('userRole');
+            
+            // Redirect if not logged in
+            if (!userId || !userRole) {
+                alert('Please login to access this page');
+                window.location.href = '/pages/login.html';
+                return;
+            }
+            
+            // Set read-only fields
+            document.getElementById('username').value = userName || '';
+            document.getElementById('email').value = userEmail || '';
+            document.getElementById('role').value = userRole || 'patient';
+            document.getElementById('username').readOnly = true;
+            document.getElementById('email').readOnly = true;
+            document.getElementById('role').disabled = true;
+            
+            // Load profile data
+            fetchProfileData(userId, userRole);
+            
+            // Form submission handler
+            document.getElementById('profileForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                await updateProfile(userId, userRole);
+            });
+        });
+        
+        async function fetchProfileData(userId, userRole) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            try {
+                loadingIndicator.style.display = 'block';
+                
+                const response = await fetch(`/patient/view-profile/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+        
+                // Handle non-success responses
+                if (!response.ok) {
+                    const error = await parseResponse(response);
+                    throw new Error(error.message || 'Failed to fetch profile');
+                }
+        
+                const data = await response.json();
+                console.log('Profile data loaded:', data);
+        
+                // Update form fields
+                const profileData = data.data || data;
+                document.getElementById('age').value = profileData.age || '';
+                document.getElementById('phone').value = profileData.phone || '';
+                document.getElementById('address').value = profileData.address || '';
+        
+            } catch (error) {
+                console.error('Profile load error:', error);
+                showError(`Failed to load profile: ${extractErrorMessage(error)}`);
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+        
+        async function updateProfile(userId, userRole) {
+            const submitButton = document.getElementById('submitButton');
+            try {
+                submitButton.disabled = true;
+                
+                // Prepare update data
+                const payload = {
+                    age: document.getElementById('age').value ? parseInt(document.getElementById('age').value) : undefined,
+                    phone: document.getElementById('phone').value.trim() || undefined,
+                    address: document.getElementById('address').value.trim() || undefined
+                };
+        
+                // Validate at least one field
+                if (Object.values(payload).every(val => val === undefined)) {
+                    showError('Please fill at least one field to update');
+                    return;
+                }
+        
+                console.log('Submitting update:', payload);
+        
+                const response = await fetch(`/patient/edit-profile/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+        
+                // Handle response
+                if (!response.ok) {
+                    const error = await parseResponse(response);
+                    throw new Error(error.message || 'Update failed');
+                }
+        
+                const result = await response.json();
+                console.log('Update successful:', result);
+                
+                // Show success and update UI
+                showSuccess(result.message || 'Profile updated successfully!');
+                
+                // Update localStorage and refresh data
+                if (result.data) {
+                    Object.entries(result.data).forEach(([key, value]) => {
+                        if (value !== undefined) {
+                            localStorage.setItem(`user${key.charAt(0).toUpperCase() + key.slice(1)}`, value);
+                        }
+                    });
+                    await fetchProfileData(userId, userRole);
+                }
+        
+            } catch (error) {
+                console.error('Update error:', error);
+                showError(`Update failed: ${extractErrorMessage(error)}`);
+            } finally {
+                submitButton.disabled = false;
+            }
+        }
+        
+        // Helper functions
+        async function parseResponse(response) {
+            try {
+                const contentType = response.headers.get('content-type') || '';
+                if (contentType.includes('application/json')) {
+                    return await response.json();
+                }
+                return { message: await response.text() };
+            } catch (e) {
+                return { message: response.statusText };
+            }
+        }
+        
+        function extractErrorMessage(error) {
+            if (error.message.includes('Failed to fetch')) {
+                return 'Network error. Please check your connection.';
+            }
+            if (error.message.includes('500') || error.message.includes('Internal Server Error')) {
+                return 'Server error. Please try again later.';
+            }
+            if (error.message.startsWith('<!DOCTYPE html>')) {
+                return 'Server error occurred';
+            }
+            return error.message;
+        }
+        
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            setTimeout(() => errorElement.style.display = 'none', 5000);
+        }
+        
+        function showSuccess(message) {
+            const successElement = document.getElementById('successMessage');
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+            setTimeout(() => successElement.style.display = 'none', 5000);
+        }
+        </script>
 
 </body>
 </html>
