@@ -135,86 +135,82 @@
 			<div class="head-title">
 				<div class="left">
 					<h1>My stores</h1>
-					<!-- <ul class="breadcrumb">
-						<li>
-							<a href="#">Dashboard</a>
-						</li>
-						<li><i class='bx bx-chevron-right' ></i></li>
-						<li>
-							<a class="active" href="#">Home</a>
-						</li>
-					</ul> -->
 				</div>
-				
+				<button class="add-product-btn" id="addProductBtn">
+					<i class='bx bx-plus'></i>
+					<span>Add Product</span>
+				</button>
+			</div>
+			
+			<div class="banner-container" id="productBanners">
+				<!-- Sample products will appear here -->
+			</div>
+			
+			<!-- Product Modal -->
+			<div class="modal" id="productModal">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title">Add New Product</h3>
+						<span class="close-modal">&times;</span>
+					</div>
+					<form id="productForm">
+						<input type="hidden" id="productId">
+						<div class="form-group">
+							<label for="productName">Product Name</label>
+							<input type="text" id="productName" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label for="productCategory">Category</label>
+							<select id="productCategory" class="form-control" required>
+								<option value="">Select Category</option>
+								<option value="Painkillers">Painkillers</option>
+								<option value="Vitamins">Vitamins</option>
+								<option value="Antibiotics">Antibiotics</option>
+								<option value="Supplements">Supplements</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="productType">Type</label>
+							<select id="productType" class="form-control" required>
+								<option value="">Select Type</option>
+								<option value="Tablets">Tablets</option>
+								<option value="Capsules">Capsules</option>
+								<option value="Syrup">Syrup</option>
+								<option value="Injection">Injection</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="activeIngredients">Active Ingredients</label>
+							<textarea id="activeIngredients" class="form-control" rows="3" required></textarea>
+						</div>
+						<div class="form-group">
+							<label for="productPrice">Price ($)</label>
+							<input type="number" id="productPrice" class="form-control" step="0.01" min="0" required>
+						</div>
+						<div class="form-group">
+							<label for="productQuantity">Quantity</label>
+							<input type="number" id="productQuantity" class="form-control" min="0" required>
+						</div>
+						<div class="form-group">
+							<label for="productImage">Image URL</label>
+							<input type="url" id="productImage" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<div class="checkbox-group">
+								<input type="checkbox" id="prescriptionRequired">
+								<label for="prescriptionRequired">Prescription Required</label>
+							</div>
+						</div>
+						<div class="form-actions">
+							<button type="button" class="cancel-btn">Cancel</button>
+							<button type="submit" class="submit-btn">Save Product</button>
+						</div>
+					</form>
+				</div>
 			</div>
 
 
-			<div class="table-data">
-				<div class="order">
-					<div class="head">
-						<h3> Products</h3>
-                        <h4> Lesa hanshof htet2sm ezay</h4>
-						<i class='bx bx-search' ></i>
-						<i class='bx bx-filter' ></i>
-					</div>
-					<table>
-						<thead>
-							<tr>
-								<th>User</th>
-								<th>Order ID</th>
-								<th>Date Order</th>
-								<th>Status</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<i class="fa-solid fa-user"></i>
-									<p>John Doe</p>
-								</td>
-								<td>Order 1</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<i class="fa-solid fa-user"></i>
-									<p>John Doe</p>
-								</td>
-								<td>Order 2</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<i class="fa-solid fa-user"></i>
-									<p>John Doe</p>
-								</td>
-								<td>Order 3</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<i class="fa-solid fa-user"></i>
-									<p>John Doe</p>
-								</td>
-								<td>Order 4</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<i class="fa-solid fa-user"></i>
-									<p>John Doe</p>
-								</td>
-								<td>Order 5</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+			
 				
 			</div>
 		</main>
