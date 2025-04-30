@@ -13,7 +13,7 @@ async function viewProfile(id) {
 
 // edit profile
 async function editProfile(id, updates) {
-  const updateProfile = await PatientRepository.updatePatient();
+  const updateProfile = await PatientRepository.updatePatient(id,updates);
   return updateProfile;
 }
 
@@ -24,16 +24,23 @@ async function deleteAccount(id) {
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 
-async function uploadPrescription(prescription) {
-  const data = {
-    ...prescription,
-    status: false,
-  };
-  const prescriptionUploaded = await PrescriptionRepository.createPrescription(
-    data
-  );
-  return prescriptionUploaded;
+// PatientServices.js
+async function uploadPrescription({ image, patientId }) {
+
+  const pid = parseInt(patientId, 10);
+  if (Number.isNaN(pid)) {
+    throw new Error("Invalid patientId");
+  }
+  const patient = await PatientRepository.getPatientById(pid);
+  if (!patient) {
+    throw new Error("No patient found with id " + pid);
+  }
+  return await PrescriptionRepository.createPrescription({
+    image,
+    patientId: pid
+  });
 }
+
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 

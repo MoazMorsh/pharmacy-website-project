@@ -144,6 +144,13 @@
     
     <div class="container">
         <div class="profile-container">
+            <!-- Loading indicator, error and success messages -->
+            <div id="loadingIndicator" style="display:none; text-align:center; margin-bottom:20px;">
+                <i class="fas fa-spinner fa-spin"></i> Loading...
+            </div>
+            <div id="errorMessage" style="display:none; color:#e74c3c; font-weight:600; margin-bottom:15px;"></div>
+            <div id="successMessage" style="display:none; color:#27ae60; font-weight:600; margin-bottom:15px;"></div>
+
             <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
             <h2><i class="fas fa-user-edit"></i> Edit Your Profile</h2>
             
@@ -184,7 +191,7 @@
                     <input type="text" id="address" name="address" value="" placeholder="Enter Your Address">
                 </div>
                 
-                <button type="submit" class="btn btn-block">Update Profile</button>
+                <button type="submit" id="submitButton" class="btn btn-block">Update Profile</button>
             </form>
         </div>
     </div>
@@ -357,7 +364,6 @@
             successElement.style.display = 'block';
             setTimeout(() => successElement.style.display = 'none', 5000);
         }
-        </script>
-
+    </script>
 </body>
 </html>

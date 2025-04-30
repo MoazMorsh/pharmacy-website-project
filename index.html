@@ -606,5 +606,71 @@ document.addEventListener('DOMContentLoaded', function() {
     <script src="/assets/js/Search.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
 
+        <!-- Prescription‐upload integration -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const fileInput = document.getElementById('fileInput');
+              const uploadBtn = document.getElementById('uploadBtn');
+        
+              uploadBtn.addEventListener('click', async () => {
+                const file = fileInput.files[0];
+                if (!file) {
+                  return alert('Please select a prescription file first.');
+                }
+        
+                // 1) Upload to Cloudinary
+                const data = new FormData();
+                data.append('file', file);
+                data.append('upload_preset', 'Meditrack');
+        
+                let cloudRes;
+                try {
+                  cloudRes = await fetch(
+                    'https://api.cloudinary.com/v1_1/dzj5xj6sq/image/upload',
+                    { method: 'POST', body: data }
+                  );
+                } catch (err) {
+                  return alert('Network error uploading to Cloudinary.');
+                }
+        
+                if (!cloudRes.ok) {
+                  const err = await cloudRes.json();
+                  console.error('Cloudinary Error:', err);
+                  return alert('Upload to Cloudinary failed.');
+                }
+        
+                const { secure_url: imageUrl } = await cloudRes.json();
+                // 2) Call our backend API
+                const patientId = localStorage.getItem('userId');
+                const token     = localStorage.getItem('token'); // if you’re using JWT auth
+                alert(patientId)
+
+                let apiRes;
+                try {
+                  apiRes = await fetch('/patient/upload-prescription', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${token}`, 
+                    },
+                    body: JSON.stringify({ image: imageUrl, patientId:patientId })
+                  });
+                } catch (err) {
+                  return alert('Network error sending to your API.');
+                }
+        
+                if (!apiRes.ok) {
+                  const errorBody = await apiRes.json().catch(() => ({}));
+                  console.error('API Error:', errorBody);
+                  return alert('Failed to save prescription.');
+                }
+        
+                const result = await apiRes.json();
+                alert(result.message || 'Prescription uploaded!');
+                // optionally clear input:
+                fileInput.value = '';
+              });
+            });
+            </script>
 </body>
 </html>

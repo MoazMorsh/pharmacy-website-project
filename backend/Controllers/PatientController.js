@@ -43,7 +43,6 @@ router.post("/upload-prescription", async (req, res, next) => {
   try {
     const { image, patientId } = req.body;
     const prescription = { image, patientId };
-
     const uploaded = await PatientServices.uploadPrescription(prescription);
 
     res.status(201).json({
