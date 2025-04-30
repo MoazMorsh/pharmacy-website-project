@@ -9,12 +9,62 @@
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- My CSS -->
 	<link rel="stylesheet" href="../assets/css/admin.css">
-
 	<title>AdminHub</title>
+	<style>
+		/* Add these styles for the new elements */
+		.delete-btn {
+			background-color: #ff4444;
+			color: white;
+			border: none;
+			padding: 6px 12px;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		
+		.delete-btn:hover {
+			background-color: #cc0000;
+		}
+		
+		.status-dropdown {
+			padding: 6px;
+			border-radius: 4px;
+			border: 1px solid #ddd;
+			cursor: pointer;
+		}
+		
+		.status-dropdown:focus {
+			outline: none;
+			border-color: #2a5bd7;
+		}
+		
+		.status.pending {
+			background-color: #ffc107;
+		}
+		
+		.status.approved {
+			background-color: #28a745;
+		}
+		
+		.status.rejected {
+			background-color: #dc3545;
+		}
+		
+		.status {
+			padding: 4px 8px;
+			border-radius: 4px;
+			color: white;
+			font-weight: 500;
+		}
+		
+		.prescription-link {
+			color: #2a5bd7;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+	</style>
 </head>
 <body>
-
-
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="admin.html" class="brand">
@@ -22,73 +72,65 @@
 			<span class="text">AdminHub</span>
 		</a>
 		<ul class="side-menu top">
-			<li >
+			<li>
 				<a href="admin.html">
-					<i class='bx bxs-dashboard' ></i>
+					<i class='bx bxs-dashboard'></i>
 					<span class="text">Dashboard</span>
 				</a>
 			</li>
 			<li>
-				<a href= "mystores.html">
-					<i class='bx bxs-shopping-bag-alt' ></i>
+				<a href="mystores.html">
+					<i class='bx bxs-shopping-bag-alt'></i>
 					<span class="text">My Store</span>
 				</a>
 			</li>
 			<li>
 				<a href="#">
-					<i class='bx bxs-doughnut-chart' ></i>
+					<i class='bx bxs-doughnut-chart'></i>
 					<span class="text">Analytics</span>
 				</a>
 			</li>
 			<li class="active">
 				<a href="messages-admin.html">
-					<i class='bx bxs-message-dots' ></i>
+					<i class='bx bxs-message-dots'></i>
 					<span class="text">Message</span>
 				</a>
 			</li>
-			<li >
+			<li>
 				<a href="pending-orders.html">
-					<i class='bx bxs-time-five' ></i>
+					<i class='bx bxs-time-five'></i>
 					<span class="text">Pending Orders</span>
 				</a>
 			</li>
             <li>
-                <!-- <a href="javascript:void(0);" onclick="goToHome();">
-                    <i class='bx bxs-home'></i>
-                    <span class="text">Home</span>
-                </a> -->
-				<a href="/">
+                <a href="/">
                     <i class='bx bxs-home'></i>
                     <span class="text">Home</span>
                 </a>
             </li>
-            
 		</ul>
 		<ul class="side-menu">
 			<li>
 				<a href="/pages/edit-profile.html">
-					<i class='bx bxs-cog' ></i>
+					<i class='bx bxs-cog'></i>
 					<span class="text">Settings</span>
 				</a>
 			</li>
 			<li>
 				<a href="#" class="logout" onclick="logout()">
-				  <i class='bx bxs-log-out-circle'></i>
-				  <span class="text">Logout</span>
+					<i class='bx bxs-log-out-circle'></i>
+					<span class="text">Logout</span>
 				</a>
-			  </li>
-			  
+			</li>
 		</ul>
 	</section>
 	<!-- SIDEBAR -->
-
-
 
 	<!-- CONTENT -->
 	<section id="content">
 		<!-- NAVBAR -->
 		<nav>
-			<i class='bx bx-menu' ></i>
+			<i class='bx bx-menu'></i>
 			<a href="#" class="nav-link">Categories</a>
 			<form action="#">
 				<div class="form-input">
@@ -97,133 +139,123 @@
 						<i class='bx bx-search'></i>
 					</button>
 				</div>
-				
 			</form>
 			<input type="checkbox" id="switch-mode" hidden>
 			<label for="switch-mode" class="switch-mode"></label>
 			
 			<div style="position: relative;">
 				<div class="profile-icon" onclick="togglePopup()"><i class="fas fa-user"></i></div>
-			  
 				<div class="popup" id="profilePopup">
 					<a id="profileLink" href="#">
-						<span id="profileLinkText"></span> 
-						<!-- <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i> -->
+						<span id="profileLinkText"></span>
 					</a>
 					<p><strong>Username:</strong></p>
 					<p><strong>Email:</strong></p>
 					<p><strong>Role:</strong></p>
-					
 					<a href="/pages/edit-profile.html" class="edit-profile" style="color: #3498db; display: block; margin-top: 10px;">
 						<i class='fas fa-user-edit' style="color: #3498db; margin-right: 5px;"></i>
 						<span class="text">Edit Profile</span>
 					</a>
-					
 					<a href="#" class="logout" onclick="logout()" style="color: red; display: block; margin-top: 10px;">
 						<i class='fas fa-sign-out-alt' style="color: red; margin-right: 5px;"></i>
 						<span class="text">Logout</span>
 					</a>
 				</div>
-
-  </div>
-  
+			</div>
 		</nav>
 		<!-- NAVBAR -->
 
 		<!-- MAIN -->
 		<main>
 			<div class="head-title">
-				<div class="left">
-					<h1>Messages</h1>
-					<!-- <ul class="breadcrumb">
-						<li>
-							<a href="#">Dashboard</a>
-						</li>
-						<li><i class='bx bx-chevron-right' ></i></li>
-						<li>
-							<a class="active" href="#">Home</a>
-						</li>
-					</ul> -->
-				</div>
-				
-			</div>
+                <div class="left">
+                    <h1>Messages</h1>
+                </div>
+            </div>
 
-
-			<div class="table-data">
-				<div class="order">
-					<div class="head">
-						<h3>Uploaded Prescriptions</h3>
-                        <h4>hena hyb2a CRUD operation style to accept or reject the order with prescription fe table </h4>
-						<i class='bx bx-search' ></i>
-						<i class='bx bx-filter' ></i>
-					</div>
-					<table>
-						<thead>
-							<tr>
-								<th>User</th>
-								<th>Order ID</th>
-								<th>Date Order</th>
-								<th>Status</th>
-                                <th>Img URL</th>
-                                <th>Accept/Reject</th>
+            <div class="table-data">
+                <div class="order">
+                    <div class="head">
+                        <h3>Uploaded Prescriptions</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Order ID</th>
+                                <th>Date Order</th>
+                                <th>Status</th>
+                                <th>Prescription</th>
+                                <th>Action</th>
                                 <th>Delete</th>
-							</tr>
-						</thead>
-						<!-- <tbody>
-							<tr>
-								<td>
-									<i class="fa-solid fa-user"></i>
-									<p>John Doe</p>
-								</td>
-								<td>Order 1</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<i class="fa-solid fa-user"></i>
-									<p>John Doe</p>
-								</td>
-								<td>Order 2</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<i class="fa-solid fa-user"></i>
-									<p>John Doe</p>
-								</td>
-								<td>Order 3</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<i class="fa-solid fa-user"></i>
-									<p>John Doe</p>
-								</td>
-								<td>Order 4</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-							<tr>
-								<td>
-									<i class="fa-solid fa-user"></i>
-									<p>John Doe</p>
-								</td>
-								<td>Order 5</td>
-								<td>01-10-2021</td>
-								<td><span class="status pending">Pending</span></td>
-							</tr>
-						</tbody> -->
-					</table>
-				</div>
-				
-			</div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <i class="fa-solid fa-user"></i>
+                                    <p>UserID 1</p>
+                                </td>
+                                <td>ORD-001</td>
+                                <td>01-10-2021</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td><a href="#" class="prescription-link" onclick="viewPrescription('prescription1.jpg')">View Prescription</a></td>
+                                <td>
+                                    <select class="status-dropdown" onchange="updateOrderStatus(this, 'ORD-001')">
+                                        <option value="" disabled selected>Change Status</option>
+                                        <option value="approved">Approve</option>
+                                        <option value="rejected">Reject</option>
+                                    </select>
+                                </td>
+                                <td><button class="delete-btn" onclick="deleteOrder('ORD-001')"><i class="fas fa-trash-alt"></i> Delete</button></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <i class="fa-solid fa-user"></i>
+                                    <p>UserID 2</p>
+                                </td>
+                                <td>ORD-002</td>
+                                <td>02-10-2021</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td><a href="#" class="prescription-link" onclick="viewPrescription('prescription2.jpg')">View Prescription</a></td>
+                                <td>
+                                    <select class="status-dropdown" onchange="updateOrderStatus(this, 'ORD-002')">
+                                        <option value="" disabled selected>Change Status</option>
+                                        <option value="approved">Approve</option>
+                                        <option value="rejected">Reject</option>
+                                    </select>
+                                </td>
+                                <td><button class="delete-btn" onclick="deleteOrder('ORD-002')"><i class="fas fa-trash-alt"></i> Delete</button></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <i class="fa-solid fa-user"></i>
+                                    <p>UserID 3</p>
+                                </td>
+                                <td>ORD-003</td>
+                                <td>03-10-2021</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td><a href="#" class="prescription-link" onclick="viewPrescription('prescription3.jpg')">View Prescription</a></td>
+                                <td>
+                                    <select class="status-dropdown" onchange="updateOrderStatus(this, 'ORD-003')">
+                                        <option value="" disabled selected>Change Status</option>
+                                        <option value="approved">Approve</option>
+                                        <option value="rejected">Reject</option>
+                                    </select>
+                                </td>
+                                <td><button class="delete-btn" onclick="deleteOrder('ORD-003')"><i class="fas fa-trash-alt"></i> Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 		</main>
 		<!-- MAIN -->
 	</section>
 	<!-- CONTENT -->
+
 	<script>
 		function togglePopup() {
 		const popup = document.getElementById('profilePopup');
@@ -265,6 +297,101 @@
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 </script>
+<script>
+
+        // Order management functions
+        function viewPrescription(imageUrl) {
+            // In a real implementation, this would open a modal with the image
+            window.open(imageUrl, '_blank');
+        }
+
+        // Improved status update function with visual feedback
+        function updateOrderStatus(selectElement, orderId) {
+            const newStatus = selectElement.value;
+            if (!newStatus) {
+                // If no status is selected, default to "Pending"
+                newStatus = "pending";
+            }
+            
+            const row = selectElement.closest('tr');
+            const statusCell = row.querySelector('.status');
+            
+            // Update the status display with animation
+            statusCell.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+            statusCell.className = 'status ' + newStatus;
+            statusCell.classList.add('status-updated');
+            
+            // Reset the dropdown to show the new status
+            selectElement.innerHTML = `
+                <option value="" disabled>Change Status</option>
+                <option value="approved" ${newStatus === 'approved' ? 'selected' : ''}>Approve</option>
+                <option value="rejected" ${newStatus === 'rejected' ? 'selected' : ''}>Reject</option>
+            `;
+            
+            // Remove animation class after it completes
+            setTimeout(() => {
+                statusCell.classList.remove('status-updated');
+            }, 300);
+            
+            // Show confirmation
+            showToast(`Order ${orderId} status updated to: ${newStatus}`, 'success');
+            
+            // In a real implementation, send to backend here
+            console.log(`Order ${orderId} status updated to ${newStatus}`);
+        }
+
+        // Toast notification function
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        function deleteOrder(orderId) {
+            if (confirm(`Are you sure you want to permanently delete order ${orderId}? This action cannot be undone.`)) {
+                const row = document.querySelector(`button[onclick="deleteOrder('${orderId}')"]`).closest('tr');
+                row.classList.add('fade-out');
+                setTimeout(() => {
+                    row.remove();
+                    showToast(`Order ${orderId} deleted`, 'error');
+                }, 300);
+            }
+        }
+
+        // Initialize dropdowns to show current status (all pending by default)
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdowns = document.querySelectorAll('.status-dropdown');
+            dropdowns.forEach(dropdown => {
+                dropdown.innerHTML = `
+                    <option value="" disabled selected>Change Status</option>
+                    <option value="approved">Approve</option>
+                    <option value="rejected">Reject</option>
+                `;
+            });
+        });
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userRole');
+            window.location.href = '/pages/login.html';
+        }
+    </script>
 	
 	<script src="../assets/js/admin.js"></script>
 	<script src="../assets/js/Search.js"></script>
