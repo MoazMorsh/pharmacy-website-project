@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="https://assets.pharmeasy.in/apothecary/images/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<!-- My CSS -->
+	<link rel="stylesheet" href="/assets/css/admin.css">
+
+	<title>AdminHub</title>
+</head>
+<body>
+
+
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="../admin.html" class="brand">
+			<i class="fa-solid fa-user-shield"></i>
+			<span class="text">AdminHub</span>
+		</a>
+		<ul class="side-menu top">
+			<li >
+				<a href="../admin.html">
+					<i class='bx bxs-dashboard' ></i>
+					<span class="text">Dashboard</span>
+				</a>
+			</li>
+			<li>
+				<a href="mystores.html">
+					<i class='bx bxs-shopping-bag-alt' ></i>
+					<span class="text">My Store</span>
+				</a>
+			</li>
+			<li class="active">
+				<a href="analytics-admin.html">
+					<i class='bx bxs-doughnut-chart' ></i>
+					<span class="text">Analytics</span>
+				</a>
+			</li>
+			<li>
+				<a href="messages-admin.html">
+					<i class='bx bxs-message-dots' ></i>
+					<span class="text">Message</span>
+				</a>
+			</li>
+			<li>
+				<a href="pending-orders.html">
+					<i class='bx bxs-time-five' ></i>
+					<span class="text">Pending Orders</span>
+				</a>
+			</li>
+            <li>
+                <!-- <a href="javascript:void(0);" onclick="goToHome();">
+                    <i class='bx bxs-home'></i>
+                    <span class="text">Home</span>
+                </a> -->
+				<a href="/">
+                    <i class='bx bxs-home'></i>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            
+		</ul>
+		<ul class="side-menu">
+			<li>
+				<a href="/pages/edit-profile.html">
+					<i class='bx bxs-cog' ></i>
+					<span class="text">Settings</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="logout" onclick="logout()">
+				  <i class='bx bxs-log-out-circle'></i>
+				  <span class="text">Logout</span>
+				</a>
+			  </li>
+			  
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu' ></i>
+			<a href="#" class="nav-link">Categories</a>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" id="searchBar" placeholder="Search products">
+					<button type="submit" class="search-btn" onclick="searchProductsAdmin()">
+						<i class='bx bx-search'></i>
+					</button>
+				</div>
+				
+			</form>
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+			
+			<div style="position: relative;">
+				<div class="profile-icon" onclick="togglePopup()"><i class="fas fa-user"></i></div>
+			  
+				<div class="popup" id="profilePopup">
+					<!-- <a id="profileLink" href="#">
+						<span id="profileLinkText"></span> 
+						<i class="fas fa-external-link-alt" style="margin-left: 5px;"></i>
+					</a> -->
+					<p><strong>Username:</strong></p>
+					<p><strong>Email:</strong></p>
+					<p><strong>Role:</strong></p>
+					
+					<a href="/pages/edit-profile.html" class="edit-profile" style="color: #3498db; display: block; margin-top: 10px;">
+						<i class='fas fa-user-edit' style="color: #3498db; margin-right: 5px;"></i>
+						<span class="text">Edit Profile</span>
+					</a>
+					
+					<a href="#" class="logout" onclick="logout()" style="color: red; display: block; margin-top: 10px;">
+						<i class='fas fa-sign-out-alt' style="color: red; margin-right: 5px;"></i>
+						<span class="text">Logout</span>
+					</a>
+				</div>
+				  
+			  </div>
+
+  </div>
+  
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN CONTENT -->
+<main>
+    <div class="head-title">
+        <div class="left">
+            <h1>Analytics</h1>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <ul class="box-info">
+        <li>
+            <i class='bx bxs-calendar-check'></i>
+            <span class="text">
+                <h3 id="total-orders">1,245</h3>
+                <p>Total Orders</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bxs-package'></i>
+            <span class="text">
+                <h3 id="products-sold">3,892</h3>
+                <p>Products Sold</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bxs-dollar-circle'></i>
+            <span class="text">
+                <h3 id="total-revenue">$12,543</h3>
+                <p>Total Revenue</p>
+            </span>
+        </li>
+    </ul>
+
+    <!-- Charts Section -->
+    <div class="chart-grid">
+        <!-- Column 1 -->
+        <div class="chart-column">
+            <div class="chart-container">
+                <div class="head">
+                    <h3>Sales Performance</h3>
+                    <div class="chart-filter">
+                        <select id="time-period">
+                            <option value="week">This Week</option>
+                            <option value="month" selected>This Month</option>
+                            <option value="quarter">This Quarter</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="head">
+                    <h3>Top Selling Products</h3>
+                    <div class="chart-filter">
+                        <select id="product-category">
+                            <option value="all">All Categories</option>
+                            <option value="prescription">Prescription</option>
+                            <option value="otc">OTC</option>
+                            <option value="wellness">Wellness</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="productsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Column 2 -->
+        <div class="chart-column">
+            <div class="chart-container">
+                <div class="head">
+                    <h3>Customer Demographics</h3>
+                    <div class="chart-filter">
+                        <select id="demographic-filter">
+                            <option value="age">By Age</option>
+                            <option value="gender">By Gender</option>
+                            <option value="location">By Location</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="demographicsChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="head">
+                    <h3>Prescription vs OTC Sales</h3>
+                    <div class="chart-filter">
+                        <select id="sales-type-period">
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="salesTypeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory Alerts -->
+    
+    <div class="table-data">
+        
+
+        <div class="todo">
+            <div class="head">
+                <h3>Inventory Alerts</h3>
+                <i class='bx bx-plus' id="refresh-inventory"></i>
+            </div>
+            <ul class="todo-list" id="inventory-alerts">
+                <li class="not-completed">
+                    <div class="alert-item">
+                        <p><strong>Low Stock:</strong> Paracetamol 500mg</p>
+                        <span>Only 12 units left</span>
+                    </div>
+                    <i class='bx bxs-bell-ring'></i>
+                </li>
+                <li class="not-completed">
+                    <div class="alert-item">
+                        <p><strong>Expiring Soon:</strong> Amoxicillin Capsules</p>
+                        <span>Expires in 15 days</span>
+                    </div>
+                    <i class='bx bxs-bell-ring'></i>
+                </li>
+                <li class="completed">
+                    <div class="alert-item">
+                        <p><strong>Restocked:</strong> Ibuprofen Tablets</p>
+                        <span>200 units added</span>
+                    </div>
+                    <i class='bx bxs-check-circle'></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+    
+		
+	</section>
+	<!-- CONTENT -->
+	<script>
+		function togglePopup() {
+		const popup = document.getElementById('profilePopup');
+		popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+	  }
+	
+	  // Optional: Close the popup if clicked outside
+	  window.onclick = function(event) {
+		const popup = document.getElementById('profilePopup');
+		const profileIcon = document.querySelector('.profile-icon');
+		if (!popup.contains(event.target) && !profileIcon.contains(event.target)) {
+		  popup.style.display = 'none';
+		}
+	  }
+	</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // ✅ Try to get user data from localStorage
+        const username = localStorage.getItem('userName');
+        const email = localStorage.getItem('userEmail');
+        const role = localStorage.getItem('userRole');
+
+        // ✅ Now update profile popup if user is logged in
+        if (username && email && role) {
+            const usernameElement = document.querySelector('#profilePopup p:nth-of-type(1)');
+            const emailElement = document.querySelector('#profilePopup p:nth-of-type(2)');
+            const roleElement = document.querySelector('#profilePopup p:nth-of-type(3)');
+
+            if (usernameElement && emailElement && roleElement) {
+                usernameElement.innerHTML = `<strong>Username:</strong> ${username}`;
+                emailElement.innerHTML = `<strong>Email:</strong> ${email}`;
+                roleElement.innerHTML = `<strong>Role:</strong> ${capitalizeFirstLetter(role)}`;
+            }
+        }
+    });
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+</script>
+	
+    <!-- Add Chart.js for the analytics charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="/assets/js/analytics.js"></script>
+	<script src="/assets/js/admin.js"></script>
+	<script src="/assets/js/Search.js"></script>
+
+    
+</body>
+</html>
