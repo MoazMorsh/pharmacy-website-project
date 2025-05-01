@@ -1,265 +1,594 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" href="https://assets.pharmeasy.in/apothecary/images/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://assets.pharmeasy.in/apothecary/images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<!-- Boxicons -->
-	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-	<!-- My CSS -->
-	<link rel="stylesheet" href="../assets/css/admin.css">
-
-	<title>AdminHub</title>
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <!-- My CSS -->
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <title>AdminHub</title>
+    <style>
+        /* Additional styles for medicine cards */
+        .product-banner {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .product-banner:hover {
+            transform: translateY(-5px);
+        }
+        .product-banner img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 15px;
+        }
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .product-actions button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .edit-btn {
+            background: #3498db;
+            color: white;
+        }
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+        }
+        .no-products {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-
-
-	<!-- SIDEBAR -->
-	<section id="sidebar">
-		<a href="admin.html" class="brand">
-			<i class="fa-solid fa-user-shield"></i>
-			<span class="text">AdminHub</span>
-		</a>
-		<ul class="side-menu top">
-			<li >
-				<a href="admin.html">
-					<i class='bx bxs-dashboard' ></i>
-					<span class="text">Dashboard</span>
-				</a>
-			</li>
-			<li class="active">
-				<a href="mystores.html">
-					<i class='bx bxs-shopping-bag-alt' ></i>
-					<span class="text">My Store</span>
-				</a>
-			</li>
-			<li>
-				<a href="#">
-					<i class='bx bxs-doughnut-chart' ></i>
-					<span class="text">Analytics</span>
-				</a>
-			</li>
-			<li>
-				<a href="messages-admin.html">
-					<i class='bx bxs-message-dots' ></i>
-					<span class="text">Message</span>
-				</a>
-			</li>
-			<li >
-				<a href="pending-orders.html">
-					<i class='bx bxs-time-five' ></i>
-					<span class="text">Pending Orders</span>
-				</a>
-			</li>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="admin.html" class="brand">
+            <i class="fa-solid fa-user-shield"></i>
+            <span class="text">AdminHub</span>
+        </a>
+        <ul class="side-menu top">
             <li>
-                <!-- <a href="javascript:void(0);" onclick="goToHome();">
-                    <i class='bx bxs-home'></i>
-                    <span class="text">Home</span>
-                </a> -->
-				<a href="/">
+                <a href="admin.html">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="mystores.html">
+                    <i class='bx bxs-shopping-bag-alt'></i>
+                    <span class="text">My Store</span>
+                </a>
+            </li>
+            <li>
+                <a href="analytics-admin.html">
+                    <i class='bx bxs-doughnut-chart'></i>
+                    <span class="text">Analytics</span>
+                </a>
+            </li>
+            <li>
+                <a href="messages-admin.html">
+                    <i class='bx bxs-message-dots'></i>
+                    <span class="text">Message</span>
+                </a>
+            </li>
+            <li>
+                <a href="pending-orders.html">
+                    <i class='bx bxs-time-five'></i>
+                    <span class="text">Pending Orders</span>
+                </a>
+            </li>
+            <li>
+                <a href="/">
                     <i class='bx bxs-home'></i>
                     <span class="text">Home</span>
                 </a>
             </li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="/pages/edit-profile.html">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="logout" onclick="logout()">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <i class='bx bx-menu'></i>
+            <a href="#" class="nav-link">Categories</a>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" id="searchBar" placeholder="Search products">
+                    <button type="submit" class="search-btn">
+                        <i class='bx bx-search'></i>
+                    </button>
+                </div>
+            </form>
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode"></label>
             
-		</ul>
-		<ul class="side-menu">
-			<li>
-				<a href="/pages/edit-profile.html">
-					<i class='bx bxs-cog' ></i>
-					<span class="text">Settings</span>
-				</a>
-			</li>
-			<li>
-				<a href="#" class="logout" onclick="logout()">
-				  <i class='bx bxs-log-out-circle'></i>
-				  <span class="text">Logout</span>
-				</a>
-			  </li>
-			  
-		</ul>
-	</section>
-	<!-- SIDEBAR -->
+            <div style="position: relative;">
+                <div class="profile-icon" onclick="togglePopup()"><i class="fas fa-user"></i></div>
+                <div class="popup" id="profilePopup">
+                    <a id="profileLink" href="#">
+                        <span id="profileLinkText"></span>
+                    </a>
+                    <p><strong>Username:</strong></p>
+                    <p><strong>Email:</strong></p>
+                    <p><strong>Role:</strong></p>
+                    <a href="/pages/edit-profile.html" class="edit-profile" style="color: #3498db; display: block; margin-top: 10px;">
+                        <i class='fas fa-user-edit' style="color: #3498db; margin-right: 5px;"></i>
+                        <span class="text">Edit Profile</span>
+                    </a>
+                    <a href="#" class="logout" onclick="logout()" style="color: red; display: block; margin-top: 10px;">
+                        <i class='fas fa-sign-out-alt' style="color: red; margin-right: 5px;"></i>
+                        <span class="text">Logout</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <!-- NAVBAR -->
 
+        <!-- MAIN -->
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>My stores</h1>
+                </div>
+                <button class="add-product-btn" id="addProductBtn">
+                    <i class='bx bx-plus'></i>
+                    <span>Add Product</span>
+                </button>
+            </div>
+            
+            <div class="banner-container" id="productBanners">
+                <!-- Products will be loaded here dynamically -->
+            </div>
+            
+            <!-- Product Modal -->
+            <div class="modal" id="productModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Add New Product</h3>
+                        <span class="close-modal">&times;</span>
+                    </div>
+                    <form id="productForm">
+                        <input type="hidden" id="productId">
+                        
+                        <div class="form-group">
+                            <label for="productName">Product Name*</label>
+                            <input type="text" id="productName" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="genericName">Generic Name</label>
+                            <input type="text" id="genericName" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="productCategory">Category*</label>
+                            <select id="productCategory" class="form-control" required>
+                                <option value="">Select Category</option>
+                                <option value="Painkillers">Painkillers</option>
+                                <option value="Vitamins">Vitamins</option>
+                                <option value="Antibiotics">Antibiotics</option>
+                                <option value="Supplements">Supplements</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="productType">Type*</label>
+                            <select id="productType" class="form-control" required>
+                                <option value="">Select Type</option>
+                                <option value="Tablets">Tablets</option>
+                                <option value="Capsules">Capsules</option>
+                                <option value="Syrup">Syrup</option>
+                                <option value="Injection">Injection</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="activeIngredients">Active Ingredients*</label>
+                            <textarea id="activeIngredients" class="form-control" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="storageConditions">Storage Conditions</label>
+                            <input type="text" id="storageConditions" class="form-control" value="Room temperature">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="productPrice">Price ($)*</label>
+                            <input type="number" id="productPrice" class="form-control" step="0.01" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="productQuantity">Quantity*</label>
+                            <input type="number" id="productQuantity" class="form-control" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="productImage">Image URL*</label>
+                            <input type="url" id="productImage" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="prescriptionRequired">
+                                <label for="prescriptionRequired">Prescription Required</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="cancel-btn">Cancel</button>
+                            <button type="submit" class="submit-btn">Save Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- CONTENT -->
 
-
-	<!-- CONTENT -->
-	<section id="content">
-		<!-- NAVBAR -->
-		<nav>
-			<i class='bx bx-menu' ></i>
-			<a href="#" class="nav-link">Categories</a>
-			<form action="#">
-				<div class="form-input">
-					<input type="search" id="searchBar" placeholder="Search products">
-					<button type="submit" class="search-btn" onclick="searchProductsAdmin()">
-						<i class='bx bx-search'></i>
-					</button>
-				</div>
-				
-			</form>
-			<input type="checkbox" id="switch-mode" hidden>
-			<label for="switch-mode" class="switch-mode"></label>
-			
-			<div style="position: relative;">
-				<div class="profile-icon" onclick="togglePopup()"><i class="fas fa-user"></i></div>
-			  
-				<div class="popup" id="profilePopup">
-					<a id="profileLink" href="#">
-						<span id="profileLinkText"></span> 
-						<!-- <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i> -->
-					</a>
-					<p><strong>Username:</strong></p>
-					<p><strong>Email:</strong></p>
-					<p><strong>Role:</strong></p>
-					
-					<a href="/pages/edit-profile.html" class="edit-profile" style="color: #3498db; display: block; margin-top: 10px;">
-						<i class='fas fa-user-edit' style="color: #3498db; margin-right: 5px;"></i>
-						<span class="text">Edit Profile</span>
-					</a>
-					
-					<a href="#" class="logout" onclick="logout()" style="color: red; display: block; margin-top: 10px;">
-						<i class='fas fa-sign-out-alt' style="color: red; margin-right: 5px;"></i>
-						<span class="text">Logout</span>
-					</a>
-				</div>
-
-  </div>
-  
-		</nav>
-		<!-- NAVBAR -->
-
-		<!-- MAIN -->
-		<main>
-			<div class="head-title">
-				<div class="left">
-					<h1>My stores</h1>
-				</div>
-				<button class="add-product-btn" id="addProductBtn">
-					<i class='bx bx-plus'></i>
-					<span>Add Product</span>
-				</button>
-			</div>
-			
-			<div class="banner-container" id="productBanners">
-				<!-- Sample products will appear here -->
-			</div>
-			
-			<!-- Product Modal -->
-			<div class="modal" id="productModal">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h3 class="modal-title">Add New Product</h3>
-						<span class="close-modal">&times;</span>
-					</div>
-					<form id="productForm">
-						<input type="hidden" id="productId">
-						<div class="form-group">
-							<label for="productName">Product Name</label>
-							<input type="text" id="productName" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label for="productCategory">Category</label>
-							<select id="productCategory" class="form-control" required>
-								<option value="">Select Category</option>
-								<option value="Painkillers">Painkillers</option>
-								<option value="Vitamins">Vitamins</option>
-								<option value="Antibiotics">Antibiotics</option>
-								<option value="Supplements">Supplements</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="productType">Type</label>
-							<select id="productType" class="form-control" required>
-								<option value="">Select Type</option>
-								<option value="Tablets">Tablets</option>
-								<option value="Capsules">Capsules</option>
-								<option value="Syrup">Syrup</option>
-								<option value="Injection">Injection</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="activeIngredients">Active Ingredients</label>
-							<textarea id="activeIngredients" class="form-control" rows="3" required></textarea>
-						</div>
-						<div class="form-group">
-							<label for="productPrice">Price ($)</label>
-							<input type="number" id="productPrice" class="form-control" step="0.01" min="0" required>
-						</div>
-						<div class="form-group">
-							<label for="productQuantity">Quantity</label>
-							<input type="number" id="productQuantity" class="form-control" min="0" required>
-						</div>
-						<div class="form-group">
-							<label for="productImage">Image URL</label>
-							<input type="url" id="productImage" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<div class="checkbox-group">
-								<input type="checkbox" id="prescriptionRequired">
-								<label for="prescriptionRequired">Prescription Required</label>
-							</div>
-						</div>
-						<div class="form-actions">
-							<button type="button" class="cancel-btn">Cancel</button>
-							<button type="submit" class="submit-btn">Save Product</button>
-						</div>
-					</form>
-				</div>
-			</div>
-
-
-			
-				
-			</div>
-		</main>
-		<!-- MAIN -->
-	</section>
-	<!-- CONTENT -->
-	<script>
-		function togglePopup() {
-		const popup = document.getElementById('profilePopup');
-		popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-	  }
-	
-	  // Optional: Close the popup if clicked outside
-	  window.onclick = function(event) {
-		const popup = document.getElementById('profilePopup');
-		const profileIcon = document.querySelector('.profile-icon');
-		if (!popup.contains(event.target) && !profileIcon.contains(event.target)) {
-		  popup.style.display = 'none';
-		}
-	  }
-	</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // ✅ Try to get user data from localStorage
-        const username = localStorage.getItem('userName');
-        const email = localStorage.getItem('userEmail');
-        const role = localStorage.getItem('userRole');
-
-        // ✅ Now update profile popup if user is logged in
-        if (username && email && role) {
-            const usernameElement = document.querySelector('#profilePopup p:nth-of-type(1)');
-            const emailElement = document.querySelector('#profilePopup p:nth-of-type(2)');
-            const roleElement = document.querySelector('#profilePopup p:nth-of-type(3)');
-
-            if (usernameElement && emailElement && roleElement) {
-                usernameElement.innerHTML = `<strong>Username:</strong> ${username}`;
-                emailElement.innerHTML = `<strong>Email:</strong> ${email}`;
-                roleElement.innerHTML = `<strong>Role:</strong> ${capitalizeFirstLetter(role)}`;
+    <script>
+        /**
+         * PROFILE POPUP FUNCTIONS
+         */
+        function togglePopup() {
+            const popup = document.getElementById('profilePopup');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        }
+        
+        // Close popup when clicking outside
+        window.onclick = function(event) {
+            const popup = document.getElementById('profilePopup');
+            const profileIcon = document.querySelector('.profile-icon');
+            if (!popup.contains(event.target) && !profileIcon.contains(event.target)) {
+                popup.style.display = 'none';
             }
         }
-    });
 
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-</script>
-	
-	<script src="../assets/js/admin.js"></script>
-	<script src="../assets/js/Search.js"></script>
+        /**
+         * LOAD USER PROFILE DATA
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get user data from localStorage
+            const username = localStorage.getItem('userName');
+            const email = localStorage.getItem('userEmail');
+            const role = localStorage.getItem('userRole');
+
+            // Update profile popup if user is logged in
+            if (username && email && role) {
+                const usernameElement = document.querySelector('#profilePopup p:nth-of-type(1)');
+                const emailElement = document.querySelector('#profilePopup p:nth-of-type(2)');
+                const roleElement = document.querySelector('#profilePopup p:nth-of-type(3)');
+
+                if (usernameElement && emailElement && roleElement) {
+                    usernameElement.innerHTML = `<strong>Username:</strong> ${username}`;
+                    emailElement.innerHTML = `<strong>Email:</strong> ${email}`;
+                    roleElement.innerHTML = `<strong>Role:</strong> ${capitalizeFirstLetter(role)}`;
+                }
+            }
+            
+            // Initialize medicine management functionality
+            initializeMedicineManagement();
+        });
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        /**
+         * MEDICINE MANAGEMENT SYSTEM
+         */
+        function initializeMedicineManagement() {
+            // Configuration
+            const API_BASE_URL = 'http://localhost:8081'; // Update with your backend URL
+            
+            // DOM Elements
+            const bannerContainer = document.getElementById('productBanners');
+            const modal = document.getElementById('productModal');
+            const addBtn = document.getElementById('addProductBtn');
+            const productForm = document.getElementById('productForm');
+            const searchBar = document.getElementById('searchBar');
+            const closeModalBtn = document.querySelector('.close-modal');
+            const cancelBtn = document.querySelector('.cancel-btn');
+
+            // Initial load of medicines
+            loadProducts();
+
+            /**
+             * Load products from API
+             * @param {string} searchTerm - Optional search term
+             */
+            async function loadProducts(searchTerm = '') {
+                try {
+                    console.log('Loading products...');
+                    let url = `${API_BASE_URL}/medicines`;
+                    if (searchTerm) {
+                        url += `?search=${encodeURIComponent(searchTerm)}`;
+                    }
+                    
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Failed to fetch products');
+                    
+                    const products = await response.json();
+                    console.log('Products loaded:', products);
+                    displayProducts(products);
+                } catch (error) {
+                    console.error('Error loading products:', error);
+                    showError('Failed to load products. Please try again.');
+                }
+            }
+
+            /**
+             * Display products in the UI
+             * @param {Array} products - Array of product objects
+             */
+            function displayProducts(products) {
+                bannerContainer.innerHTML = '';
+                
+                if (products.length === 0) {
+                    bannerContainer.innerHTML = '<p class="no-products">No products found</p>';
+                    return;
+                }
+
+                products.forEach(product => {
+                    const productCard = createProductCard(product);
+                    bannerContainer.appendChild(productCard);
+                });
+            }
+
+            /**
+             * Create a product card element
+             * @param {Object} product - Product data
+             * @returns {HTMLElement} The created product card
+             */
+            function createProductCard(product) {
+                const card = document.createElement('div');
+                card.className = 'product-banner';
+                card.innerHTML = `
+                    <img src="${product.img_URL || 'https://via.placeholder.com/150'}" alt="${product.name}">
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p><strong>Generic:</strong> ${product.generic_name || 'N/A'}</p>
+                        <p><strong>Category:</strong> ${product.category}</p>
+                        <p><strong>Type:</strong> ${product.type}</p>
+                        <p><strong>Price:</strong> $${product.price.toFixed(2)}</p>
+                        <p><strong>Quantity:</strong> ${product.quantity}</p>
+                        <p><strong>Prescription:</strong> ${product.prescription_required ? 'Required' : 'Not required'}</p>
+                        <div class="product-actions">
+                            <button class="edit-btn" data-id="${product.id}">
+                                <i class='bx bx-edit'></i> Edit
+                            </button>
+                            <button class="delete-btn" data-id="${product.id}">
+                                <i class='bx bx-trash'></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Add event listeners to action buttons
+                card.querySelector('.edit-btn').addEventListener('click', () => editProduct(product.id));
+                card.querySelector('.delete-btn').addEventListener('click', () => deleteProduct(product.id));
+                
+                return card;
+            }
+
+            /**
+             * Open modal to edit a product
+             * @param {string} id - Product ID
+             */
+            async function editProduct(id) {
+                try {
+                    console.log('Editing product ID:', id);
+                    const response = await fetch(`${API_BASE_URL}/medicine/${id}`);
+                    if (!response.ok) throw new Error('Failed to fetch product');
+                    
+                    const product = await response.json();
+                    console.log('Product data:', product);
+                    
+                    // Fill the form with product data
+                    document.getElementById('productId').value = product.id;
+                    document.getElementById('productName').value = product.name;
+                    document.getElementById('genericName').value = product.generic_name;
+                    document.getElementById('productCategory').value = product.category;
+                    document.getElementById('productType').value = product.type;
+                    document.getElementById('activeIngredients').value = product.active_ingredients;
+                    document.getElementById('productPrice').value = product.price;
+                    document.getElementById('productQuantity').value = product.quantity;
+                    document.getElementById('productImage').value = product.img_URL;
+                    document.getElementById('storageConditions').value = product.storage_conditions;
+                    document.getElementById('prescriptionRequired').checked = product.prescription_required;
+                    
+                    // Update modal title and show
+                    document.querySelector('.modal-title').textContent = 'Edit Product';
+                    modal.style.display = 'block';
+                } catch (error) {
+                    console.error('Error editing product:', error);
+                    showError('Failed to load product for editing. Please try again.');
+                }
+            }
+
+            /**
+             * Delete a product
+             * @param {string} id - Product ID
+             */
+            async function deleteProduct(id) {
+                if (!confirm('Are you sure you want to delete this product?')) return;
+                
+                try {
+                    console.log('Deleting product ID:', id);
+                    const response = await fetch(`${API_BASE_URL}/medicines/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
+                        }
+                    });
+                    
+                    if (!response.ok) throw new Error('Failed to delete product');
+                    
+                    const result = await response.json();
+                    console.log('Delete result:', result);
+                    showSuccess('Product deleted successfully');
+                    loadProducts();
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                    showError('Failed to delete product. Please try again.');
+                }
+            }
+
+            /**
+             * Handle form submission (create/update)
+             * @param {Event} e - Form submit event
+             */
+            async function handleFormSubmit(e) {
+                e.preventDefault();
+                console.log('Handling form submission...');
+                
+                const productId = document.getElementById('productId').value;
+                const isEdit = !!productId;
+                
+                // Prepare product data from form
+                const productData = {
+                    name: document.getElementById('productName').value,
+                    generic_name: document.getElementById('genericName').value || document.getElementById('productName').value,
+                    category: document.getElementById('productCategory').value,
+                    type: document.getElementById('productType').value,
+                    active_ingredients: document.getElementById('activeIngredients').value,
+                    prescription_required: document.getElementById('prescriptionRequired').checked,
+                    storage_conditions: document.getElementById('storageConditions').value || "Room temperature",
+                    img_URL: document.getElementById('productImage').value,
+                    quantity: parseInt(document.getElementById('productQuantity').value),
+                    price: parseFloat(document.getElementById('productPrice').value)
+                };
+
+                try {
+                    // Determine endpoint and method
+                    const url = isEdit 
+                        ? `${API_BASE_URL}/medicines/${productId}`
+                        : `${API_BASE_URL}/medicines`;
+                    const method = isEdit ? 'PUT' : 'POST';
+                    
+                    console.log(`Submitting to ${url} with method ${method}`);
+                    
+                    // Send request to API
+                    const response = await fetch(url, {
+                        method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
+                        },
+                        body: JSON.stringify(productData)
+                    });
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Request failed');
+                    }
+                    
+                    const result = await response.json();
+                    console.log('Submission result:', result);
+                    showSuccess(`Medicine ${isEdit ? 'updated' : 'created'} successfully!`);
+                    modal.style.display = 'none';
+                    loadProducts();
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    showError(`Error: ${error.message}`);
+                }
+            }
+
+            /**
+             * Show success message
+             * @param {string} message - Success message
+             */
+            function showSuccess(message) {
+                alert(message); // Replace with a nicer notification system if desired
+            }
+
+            /**
+             * Show error message
+             * @param {string} message - Error message
+             */
+            function showError(message) {
+                alert(message); // Replace with a nicer notification system if desired
+            }
+
+            // Event Listeners
+            addBtn.addEventListener('click', () => {
+                productForm.reset();
+                document.getElementById('productId').value = '';
+                document.querySelector('.modal-title').textContent = 'Add New Product';
+                modal.style.display = 'block';
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            cancelBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            searchBar.addEventListener('input', (e) => {
+                loadProducts(e.target.value);
+            });
+
+            productForm.addEventListener('submit', handleFormSubmit);
+        }
+
+        /**
+         * LOGOUT FUNCTION
+         */
+        function logout() {
+            // Clear user data from localStorage
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('token');
+            
+            // Redirect to login page
+            window.location.href = '/login.html';
+        }
+    </script>
 </body>
 </html>
