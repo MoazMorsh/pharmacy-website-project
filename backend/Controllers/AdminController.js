@@ -11,7 +11,7 @@ router.get("/view-profile/:id", async (req, res, next) => {
   try {
     const profile = await AdminServices.viewProfile(id);
     res.status(200).json(profile);
-  } catch (err) {
+  } catch (err) { 
     next(err);
   }
 });
