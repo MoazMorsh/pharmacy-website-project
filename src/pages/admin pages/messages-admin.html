@@ -239,10 +239,11 @@
                     <span class="close-modal" onclick="closeModal()">&times;</span>
                     <h3>Prescription Details</h3>
                     <div id="prescription-details">
+                        <p><strong>Patient Name:</strong> <span id="patient-name"></span></p>
+                        <p><strong>Patient Email:</strong> <span id="patient-email"></span></p>
                         <img id="prescription-image" src="" alt="Prescription" style="max-width: 100%;">
                         <div id="patient-info">
-                            <p><strong>Patient Name:</strong> <span id="patient-name"></span></p>
-                            <p><strong>Patient Email:</strong> <span id="patient-email"></span></p>
+                            
                         </div>
                     </div>
                 </div>
@@ -253,266 +254,138 @@
 	<!-- CONTENT -->
 
 	<script>
-        // DOM elements
-        const prescriptionsTableBody = document.getElementById('prescriptions-table-body');
-        const prescriptionModal = document.getElementById('prescriptionModal');
-        let currentPrescription = null;
-    
-        // Fetch prescriptions when page loads
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Check admin role first
-            const role = localStorage.getItem('userRole');
-            if (role !== 'admin') {
-                showToast('Unauthorized access', 'error');
-                setTimeout(() => window.location.href = '/', 2000);
-                return;
-            }
-    
-            await loadPrescriptions();
-            loadProfileData();
-        });
-    
-        // Load prescriptions from API
-        async function loadPrescriptions() {
+        //   js of the content for the page to connect with the backend Api
+        // Function to fetch and display pending prescriptions
+        async function loadPendingPrescriptions() {
             try {
-                showToast('Loading prescriptions...', 'pending');
-                const response = await fetch('/admin/PendingPrescription', {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                
+                const response = await fetch('/admin/PendingPrescription');
                 if (!response.ok) {
-                    if (response.status === 404) {
-                        renderPrescriptions([]);
-                        throw new Error('No prescriptions found');
-                    }
-                    throw new Error(`Server error: ${response.status}`);
+                    throw new Error('Failed to fetch prescriptions');
                 }
                 
                 const prescriptions = await response.json();
-                renderPrescriptions(prescriptions);
+                const tableBody = document.getElementById('prescriptions-table-body');
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                prescriptions.forEach(prescription => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${prescription.patientId || 'N/A'}</td>
+                        <td>${prescription.id || 'N/A'}</td>
+                        <td>${new Date(prescription.created_at).toLocaleDateString() || 'N/A'}</td>
+                        <td>${prescription.status || 'Pending'}</td>
+                        <td><button class="view-btn" onclick="viewPrescription('${prescription.image}')">View</button></td>
+                        <td>
+                            <select class="action-select" disabled>
+                                <option>Actions disabled</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="delete-btn" disabled>Delete</button>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
             } catch (error) {
                 console.error('Error loading prescriptions:', error);
-                showToast(error.message, 'error');
-            }
-        }
-    
-        // Render prescriptions in the table
-        function renderPrescriptions(prescriptions) {
-            prescriptionsTableBody.innerHTML = '';
-            
-            if (prescriptions.length === 0) {
-                const emptyRow = document.createElement('tr');
-                emptyRow.innerHTML = `<td colspan="7" style="text-align: center;">No prescriptions found</td>`;
-                prescriptionsTableBody.appendChild(emptyRow);
-                return;
-            }
-    
-            prescriptions.forEach(prescription => {
-                const row = document.createElement('tr');
-                const date = new Date(prescription.createdAt);
-                const formattedDate = date.toLocaleDateString('en-GB');
-                
-                // // Inline status text capitalization
-                // const statusText = prescription.status.charAt(0).toUpperCase() + prescription.status.slice(1);
-                
-                row.innerHTML = `
-                    <td>
-                        <i class="fa-solid fa-user"></i>
-                        <p>${prescription.Patient?.patienId || 'Unknown'}</p>
-                    </td>
-                    <td>PR-${prescription.id.toString().padStart(3, '0')}</td>
-                    <td>${formattedDate}</td>
-                    <td><span class="status ${prescription.status}"></span></td>
-                    <td>
-                        <a href="#" class="prescription-link" onclick="viewPrescription('${prescription.id}')">
-                            View Prescription
-                        </a>
-                    </td>
-                    <td>
-                        <select class="status-dropdown" onchange="updatePrescriptionStatus(this, '${prescription.id}')">
-                            <option value="" disabled selected>Change Status</option>
-                            <option value="approved" ${prescription.status === 'approved' ? 'selected' : ''}>Approve</option>
-                            <option value="rejected" ${prescription.status === 'rejected' ? 'selected' : ''}>Reject</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button class="delete-btn" onclick="deletePrescription('${prescription.id}')">
-                            <i class="fas fa-trash-alt"></i> Delete
-                        </button>
-                    </td>
-                `;
-                
-                prescriptionsTableBody.appendChild(row);
-            });
-        }
-    
-        // View prescription details
-        async function viewPrescription(prescriptionId) {
-            try {
-                showToast('Loading prescription details...', 'pending');
-                const response = await fetch(`/admin/prescriptions/${prescriptionId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                currentPrescription = await response.json();
-                
-                document.getElementById('prescription-image').src = currentPrescription.img_URL;
-                document.getElementById('patient-name').textContent = currentPrescription.Patient?.patientId || 'Unknown';
-                document.getElementById('patient-email').textContent = currentPrescription.Patient?.email || 'Unknown';
-                
-                prescriptionModal.style.display = 'block';
-            } catch (error) {
-                console.error('Error viewing prescription:', error);
-                showToast('Failed to load prescription details', 'error');
-            }
-        }
-    
-        // Close prescription modal
-        function closeModal() {
-            prescriptionModal.style.display = 'none';
-            currentPrescription = null;
-        }
-    
-        // Update prescription status
-        async function updatePrescriptionStatus(selectElement, prescriptionId) {
-            const newStatus = selectElement.value;
-            if (!newStatus) return;
-            
-            try {
-                showToast('Updating status...', 'pending');
-                const response = await fetch(`/admin/prescriptions/${prescriptionId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const row = selectElement.closest('tr');
-                const statusCell = row.querySelector('.status');
-                // Inline capitalization for status update
-                statusCell.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
-                statusCell.className = 'status ' + newStatus;
-                
-                showToast(`Status updated to ${newStatus}`, 'success');
-            } catch (error) {
-                console.error('Error updating status:', error);
-                showToast('Failed to update status', 'error');
-                selectElement.value = '';
-            }
-        }
-    
-        // Delete prescription
-        async function deletePrescription(prescriptionId) {
-            if (!confirm('Are you sure you want to delete this prescription?\nThis action cannot be undone.')) {
-                return;
-            }
-            
-            try {
-                showToast('Deleting prescription...', 'pending');
-                const response = await fetch(`/admin/prescriptions/${prescriptionId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const row = document.querySelector(`button[onclick="deletePrescription('${prescriptionId}')"]`).closest('tr');
-                row.classList.add('fade-out');
-                
-                setTimeout(() => {
-                    row.remove();
-                    showToast('Prescription deleted', 'success');
-                }, 300);
-            } catch (error) {
-                console.error('Error deleting prescription:', error);
-                showToast('Failed to delete prescription', 'error');
-            }
-        }
-    
-        // Show toast notification
-        function showToast(message, type) {
-            const existingToasts = document.querySelectorAll('.toast');
-            existingToasts.forEach(toast => toast.remove());
-    
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.add('show');
-            }, 10);
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 3000);
-        }
-    </script>
-
-    <script>
-        // Load profile data from localStorage
-        function loadProfileData() {
-            const username = localStorage.getItem('userName');
-            const email = localStorage.getItem('userEmail');
-            const role = localStorage.getItem('userRole');
-            
-            if (username && email && role) {
-                const usernameElement = document.querySelector('#profilePopup p:nth-of-type(1)');
-                const emailElement = document.querySelector('#profilePopup p:nth-of-type(2)');
-                const roleElement = document.querySelector('#profilePopup p:nth-of-type(3)');
-                
-                if (usernameElement && emailElement && roleElement) {
-                    usernameElement.innerHTML = `<strong>Username:</strong> ${username}`;
-                    emailElement.innerHTML = `<strong>Email:</strong> ${email}`;
-                    roleElement.innerHTML = `<strong>Role:</strong> ${role}`;
-                }
+                alert('Failed to load prescriptions. Please try again.');
             }
         }
 
-         // Toggle profile popup
-         function togglePopup() {
-            const popup = document.getElementById('profilePopup');
-            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-        }
-    
-        // Close popup when clicking outside
-        window.onclick = function(event) {
-            const popup = document.getElementById('profilePopup');
-            const profileIcon = document.querySelector('.profile-icon');
+        // Simplified view function (only shows image since we don't have user details)
+        function viewPrescription(image) {
+            document.getElementById('patient-name').textContent = 'User details not available';
+            document.getElementById('patient-email').textContent = '';
+            document.getElementById('prescription-image').src = image || '';
+            
             const modal = document.getElementById('prescriptionModal');
-            
-            if (popup && !popup.contains(event.target) && !profileIcon.contains(event.target)) {
-                popup.style.display = 'none';
-            }
-            
-            if (modal && event.target === modal) {
-                closeModal();
-            }
-        };
-         
-        
+            modal.style.display = 'block';
+        }
 
+        // Close modal functions
+        function closeModal() {
+            document.getElementById('prescriptionModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('prescriptionModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Load prescriptions when page loads
+        document.addEventListener('DOMContentLoaded', loadPendingPrescriptions);
+            </script>
+
+            <script>
+                // Data of the logged in user in the popup profile icon
+                document.addEventListener('DOMContentLoaded', function() {
+                // ✅ Try to get user data from localStorage
+                const username = localStorage.getItem('userName');
+                const email = localStorage.getItem('userEmail');
+                const role = localStorage.getItem('userRole');
+
+                // ✅ Now update profile popup if user is logged in
+                if (username && email && role) {
+                    const usernameElement = document.querySelector('#profilePopup p:nth-of-type(1)');
+                    const emailElement = document.querySelector('#profilePopup p:nth-of-type(2)');
+                    const roleElement = document.querySelector('#profilePopup p:nth-of-type(3)');
+
+                    if (usernameElement && emailElement && roleElement) {
+                        usernameElement.innerHTML = `<strong>Username:</strong> ${username}`;
+                        emailElement.innerHTML = `<strong>Email:</strong> ${email}`;
+                        roleElement.innerHTML = `<strong>Role:</strong> ${capitalizeFirstLetter(role)}`;
+                    }
+                }
+            });
+
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+                // Load profile data from localStorage
+                function loadProfileData() {
+                    const username = localStorage.getItem('userName');
+                    const email = localStorage.getItem('userEmail');
+                    const role = localStorage.getItem('userRole');
+                    
+                    if (username && email && role) {
+                        const usernameElement = document.querySelector('#profilePopup p:nth-of-type(1)');
+                        const emailElement = document.querySelector('#profilePopup p:nth-of-type(2)');
+                        const roleElement = document.querySelector('#profilePopup p:nth-of-type(3)');
+                        
+                        if (usernameElement && emailElement && roleElement) {
+                            usernameElement.innerHTML = `<strong>Username:</strong> ${username}`;
+                            emailElement.innerHTML = `<strong>Email:</strong> ${email}`;
+                            roleElement.innerHTML = `<strong>Role:</strong> ${role}`;
+                        }
+                    }
+                }
+
+                // Toggle profile popup
+                function togglePopup() {
+                    const popup = document.getElementById('profilePopup');
+                    popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+                }
+            
+                // Close popup when clicking outside
+                window.onclick = function(event) {
+                    const popup = document.getElementById('profilePopup');
+                    const profileIcon = document.querySelector('.profile-icon');
+                    const modal = document.getElementById('prescriptionModal');
+                    
+                    if (popup && !popup.contains(event.target) && !profileIcon.contains(event.target)) {
+                        popup.style.display = 'none';
+                    }
+                    
+                    if (modal && event.target === modal) {
+                        closeModal();
+                    }
+                };
+        
     </script>
 
 	
