@@ -9,6 +9,7 @@ const AdminServices = require("../Services/AdminServices");
 // View Profile
 router.get("/view-profile/:id", async (req, res, next) => {
   try {
+    const id = req.params.id;
     const profile = await AdminServices.viewProfile(id);
     res.status(200).json(profile);
   } catch (err) { 
@@ -100,7 +101,7 @@ router.delete("/medicines/:id", async (req, res, next) => {
 
 // Prescription Controller
 
-router.get("PendingPrescription", async (req, res, next) => {
+router.get("/PendingPrescription", async (req, res, next) => {
   try {
     const prescriptions = await AdminServices.getPendingPerciptions();
     return res.status(200).json(prescriptions);

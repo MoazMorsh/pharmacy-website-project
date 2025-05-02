@@ -229,9 +229,9 @@
                             <label for="level">Level</label>
                             <select id="level" name="level">
                                 <option value="">Select Level</option>
-                                <option value="100">Team Leader</option>
-                                <option value="postgraduate">Middle Manager</option>
-                                <option value="staff">Senior Manager</option>
+                                <option value="Team Leader">Team Leader</option>
+                                <option value="Middle Manager">Middle Manager</option>
+                                <option value="Senior Manager">Senior Manager</option>
                             </select>
                         </div>
                     </div>
@@ -299,7 +299,7 @@
             try {
                 loadingIndicator.style.display = 'block';
                 
-                const response = await fetch(`/patient/view-profile/${userId}`, {
+                const response = await fetch(`/${userRole.toLowerCase()}/view-profile/${userId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -375,7 +375,7 @@
         
                 console.log('Submitting update:', payload);
         
-                const response = await fetch(`/patient/edit-profile/${userId}`, {
+                const response = await fetch(`/${userRole.toLowerCase()}/edit-profile/${userId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',

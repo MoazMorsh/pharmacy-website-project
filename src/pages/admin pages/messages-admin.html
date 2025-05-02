@@ -272,35 +272,31 @@
             loadProfileData();
         });
     
-        
-    
         // Load prescriptions from API
         async function loadPrescriptions() {
-    try {
-        showToast('Loading prescriptions...', 'pending');
-        
-        // Correct endpoint with /admin prefix
-        const response = await fetch('/admin/PendingPrescription', {  // Pluralized endpoint
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            try {
+                showToast('Loading prescriptions...', 'pending');
+                const response = await fetch('/admin/PendingPrescription', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        renderPrescriptions([]);
+                        throw new Error('No prescriptions found');
+                    }
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                const prescriptions = await response.json();
+                renderPrescriptions(prescriptions);
+            } catch (error) {
+                console.error('Error loading prescriptions:', error);
+                showToast(error.message, 'error');
             }
-        });
-        
-        if (!response.ok) {
-            if (response.status === 404) {
-                renderPrescriptions([]);
-                throw new Error('No prescriptions found');
-            }
-            throw new Error(`Server error: ${response.status}`);
         }
-        
-        const prescriptions = await response.json();
-        renderPrescriptions(prescriptions);
-    } catch (error) {
-        console.error('Error loading prescriptions:', error);
-        showToast(error.message, 'error');
-    }
-}
     
         // Render prescriptions in the table
         function renderPrescriptions(prescriptions) {
@@ -316,16 +312,19 @@
             prescriptions.forEach(prescription => {
                 const row = document.createElement('tr');
                 const date = new Date(prescription.createdAt);
-                const formattedDate = date.toLocaleDateString('en-GB'); // DD/MM/YYYY format
+                const formattedDate = date.toLocaleDateString('en-GB');
+                
+                // // Inline status text capitalization
+                // const statusText = prescription.status.charAt(0).toUpperCase() + prescription.status.slice(1);
                 
                 row.innerHTML = `
                     <td>
                         <i class="fa-solid fa-user"></i>
-                        <p>${prescription.Patient?.name || 'Unknown'}</p>
+                        <p>${prescription.Patient?.patienId || 'Unknown'}</p>
                     </td>
                     <td>PR-${prescription.id.toString().padStart(3, '0')}</td>
                     <td>${formattedDate}</td>
-                    <td><span class="status ${prescription.status}">${capitalizeFirstLetter(prescription.status)}</span></td>
+                    <td><span class="status ${prescription.status}"></span></td>
                     <td>
                         <a href="#" class="prescription-link" onclick="viewPrescription('${prescription.id}')">
                             View Prescription
@@ -365,12 +364,10 @@
                 
                 currentPrescription = await response.json();
                 
-                // Update modal content
                 document.getElementById('prescription-image').src = currentPrescription.img_URL;
-                document.getElementById('patient-name').textContent = currentPrescription.Patient?.name || 'Unknown';
+                document.getElementById('patient-name').textContent = currentPrescription.Patient?.patientId || 'Unknown';
                 document.getElementById('patient-email').textContent = currentPrescription.Patient?.email || 'Unknown';
                 
-                // Show modal
                 prescriptionModal.style.display = 'block';
             } catch (error) {
                 console.error('Error viewing prescription:', error);
@@ -404,10 +401,10 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                // Update UI
                 const row = selectElement.closest('tr');
                 const statusCell = row.querySelector('.status');
-                statusCell.textContent = capitalizeFirstLetter(newStatus);
+                // Inline capitalization for status update
+                statusCell.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
                 statusCell.className = 'status ' + newStatus;
                 
                 showToast(`Status updated to ${newStatus}`, 'success');
@@ -437,7 +434,6 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                // Remove from UI
                 const row = document.querySelector(`button[onclick="deletePrescription('${prescriptionId}')"]`).closest('tr');
                 row.classList.add('fade-out');
                 
@@ -451,14 +447,8 @@
             }
         }
     
-        // Helper function to capitalize first letter
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-    
         // Show toast notification
         function showToast(message, type) {
-            // Remove any existing toasts
             const existingToasts = document.querySelectorAll('.toast');
             existingToasts.forEach(toast => toast.remove());
     
@@ -478,7 +468,6 @@
                 }, 300);
             }, 3000);
         }
-    
     </script>
 
     <script>
@@ -496,7 +485,7 @@
                 if (usernameElement && emailElement && roleElement) {
                     usernameElement.innerHTML = `<strong>Username:</strong> ${username}`;
                     emailElement.innerHTML = `<strong>Email:</strong> ${email}`;
-                    roleElement.innerHTML = `<strong>Role:</strong> ${capitalizeFirstLetter(role)}`;
+                    roleElement.innerHTML = `<strong>Role:</strong> ${role}`;
                 }
             }
         }
