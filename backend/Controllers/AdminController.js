@@ -103,7 +103,7 @@ router.delete("/medicines/:id", async (req, res, next) => {
 router.get("PendingPrescription", async (req, res, next) => {
   try {
     const prescriptions = await AdminServices.getPendingPerciptions();
-    return prescriptions;
+    return res.status(200).json(prescriptions);
   } catch (err) {
     next (err);
   }

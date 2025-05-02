@@ -272,46 +272,35 @@
             loadProfileData();
         });
     
-        // Load profile data from localStorage
-        function loadProfileData() {
-            const username = localStorage.getItem('userName');
-            const email = localStorage.getItem('userEmail');
-            const role = localStorage.getItem('userRole');
-            
-            if (username && email && role) {
-                const usernameElement = document.querySelector('#profilePopup p:nth-of-type(1)');
-                const emailElement = document.querySelector('#profilePopup p:nth-of-type(2)');
-                const roleElement = document.querySelector('#profilePopup p:nth-of-type(3)');
-                
-                if (usernameElement && emailElement && roleElement) {
-                    usernameElement.innerHTML = `<strong>Username:</strong> ${username}`;
-                    emailElement.innerHTML = `<strong>Email:</strong> ${email}`;
-                    roleElement.innerHTML = `<strong>Role:</strong> ${capitalizeFirstLetter(role)}`;
-                }
-            }
-        }
+        
     
         // Load prescriptions from API
         async function loadPrescriptions() {
-            try {
-                showToast('Loading prescriptions...', 'pending');
-                const response = await fetch('/api/admin/pending-prescriptions', {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const prescriptions = await response.json();
-                renderPrescriptions(prescriptions);
-            } catch (error) {
-                console.error('Error loading prescriptions:', error);
-                showToast('Failed to load prescriptions', 'error');
+    try {
+        showToast('Loading prescriptions...', 'pending');
+        
+        // Correct endpoint with /admin prefix
+        const response = await fetch('/admin/PendingPrescription', {  // Pluralized endpoint
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
+        });
+        
+        if (!response.ok) {
+            if (response.status === 404) {
+                renderPrescriptions([]);
+                throw new Error('No prescriptions found');
+            }
+            throw new Error(`Server error: ${response.status}`);
         }
+        
+        const prescriptions = await response.json();
+        renderPrescriptions(prescriptions);
+    } catch (error) {
+        console.error('Error loading prescriptions:', error);
+        showToast(error.message, 'error');
+    }
+}
     
         // Render prescriptions in the table
         function renderPrescriptions(prescriptions) {
@@ -364,7 +353,7 @@
         async function viewPrescription(prescriptionId) {
             try {
                 showToast('Loading prescription details...', 'pending');
-                const response = await fetch(`/api/admin/prescription/${prescriptionId}`, {
+                const response = await fetch(`/admin/prescriptions/${prescriptionId}`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
@@ -402,7 +391,7 @@
             
             try {
                 showToast('Updating status...', 'pending');
-                const response = await fetch(`/api/admin/prescription/${prescriptionId}`, {
+                const response = await fetch(`/admin/prescriptions/${prescriptionId}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -437,7 +426,7 @@
             
             try {
                 showToast('Deleting prescription...', 'pending');
-                const response = await fetch(`/api/admin/prescription/${prescriptionId}`, {
+                const response = await fetch(`/admin/prescriptions/${prescriptionId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -490,8 +479,30 @@
             }, 3000);
         }
     
-        // Toggle profile popup
-        function togglePopup() {
+    </script>
+
+    <script>
+        // Load profile data from localStorage
+        function loadProfileData() {
+            const username = localStorage.getItem('userName');
+            const email = localStorage.getItem('userEmail');
+            const role = localStorage.getItem('userRole');
+            
+            if (username && email && role) {
+                const usernameElement = document.querySelector('#profilePopup p:nth-of-type(1)');
+                const emailElement = document.querySelector('#profilePopup p:nth-of-type(2)');
+                const roleElement = document.querySelector('#profilePopup p:nth-of-type(3)');
+                
+                if (usernameElement && emailElement && roleElement) {
+                    usernameElement.innerHTML = `<strong>Username:</strong> ${username}`;
+                    emailElement.innerHTML = `<strong>Email:</strong> ${email}`;
+                    roleElement.innerHTML = `<strong>Role:</strong> ${capitalizeFirstLetter(role)}`;
+                }
+            }
+        }
+
+         // Toggle profile popup
+         function togglePopup() {
             const popup = document.getElementById('profilePopup');
             popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
         }
@@ -510,22 +521,13 @@
                 closeModal();
             }
         };
-    
-        // Logout function
-        function logout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userId');
-            localStorage.removeItem('userName');
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('userRole');
-            window.location.href = '/pages/login.html';
-        }
+         
+        
+
     </script>
-
-
 
 	
 	<script src="/assets/js/admin.js"></script>
-	<script src="/assets/js/Search.js"></script>
+	<!-- <script src="/assets/js/Search.js"></script> -->
 </body>
 </html>
