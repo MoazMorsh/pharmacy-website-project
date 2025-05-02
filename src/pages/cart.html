@@ -8,7 +8,27 @@
   <!-- font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="../assets/css/cart.css">
-    
+    <style>
+    .quantity-btn {
+    padding: 2px 8px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.remove-btn {
+    background: #ff4444;
+
+}
+
+.remove-btn:hover {
+    background: #cc0000;
+}
+
+#cart-items img {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+    </style>
 </head>
 <body>
 
@@ -184,6 +204,81 @@
   </footer>
   <!-- end of footer  -->
 
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Load cart from localStorage or initialize empty cart
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalElement = document.getElementById('cart-total');
+
+    // Function to render cart items
+    function renderCart() {
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<tr><td colspan="5">Your cart is empty</td></tr>';
+            cartTotalElement.textContent = '0.00';
+            return;
+        }
+
+        cart.forEach((item, index) => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    
+                    ${item.name}
+                </td>
+                <td>
+                    <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                    <span class="quantity">${item.quantity}</span>
+                    <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                </td>
+                <td>£${item.price.toFixed(2)}</td>
+                <td>£${itemTotal.toFixed(2)}</td>
+                <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
+            `;
+            cartItemsContainer.appendChild(row);
+        });
+
+        cartTotalElement.textContent = total.toFixed(2);
+    }
+
+    // Function to update quantity
+    window.updateQuantity = function(index, change) {
+        const newQuantity = cart[index].quantity + change;
+        
+        if (newQuantity < 1) {
+            removeItem(index);
+            return;
+        }
+        
+        cart[index].quantity = newQuantity;
+        saveCart();
+        renderCart();
+    }
+
+    // Function to remove item
+    window.removeItem = function(index) {
+        cart.splice(index, 1);
+        saveCart();
+        renderCart();
+    }
+
+    // Function to save cart to localStorage
+    function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Initial render
+    renderCart();
+});
+  </script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
         const xhr = new XMLHttpRequest();
