@@ -207,13 +207,35 @@
 
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    // Load cart from localStorage or initialize empty cart
+    // script for the cart counter and updated after any edits in the page for the quantity or removed items
+
+    /// cart.js - This should be loaded on all pages
+
+    // Global cart functions
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function updateCartCounter() {
+        const counter = document.getElementById('cart-counter');
+        if (counter) {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            counter.textContent = totalItems;
+        }
+    }
+
+    function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCounter(); // Update counter whenever cart changes
+    }
+
+    // Initialize counter when page loads
+    document.addEventListener('DOMContentLoaded', updateCartCounter);
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // No need to load cart here - use the global cart variable
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalElement = document.getElementById('cart-total');
 
-    // Function to render cart items
     function renderCart() {
         cartItemsContainer.innerHTML = '';
         let total = 0;
@@ -221,6 +243,7 @@
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = '<tr><td colspan="5">Your cart is empty</td></tr>';
             cartTotalElement.textContent = '0.00';
+            updateCartCounter(); // Update counter here too
             return;
         }
 
@@ -230,10 +253,7 @@
 
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>
-                    
-                    ${item.name}
-                </td>
+                <td>${item.name}</td>
                 <td>
                     <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
                     <span class="quantity">${item.quantity}</span>
@@ -249,7 +269,7 @@
         cartTotalElement.textContent = total.toFixed(2);
     }
 
-    // Function to update quantity
+    // Make these functions global
     window.updateQuantity = function(index, change) {
         const newQuantity = cart[index].quantity + change;
         
@@ -259,26 +279,22 @@
         }
         
         cart[index].quantity = newQuantity;
-        saveCart();
+        saveCart(); // Use the shared save function
         renderCart();
     }
 
-    // Function to remove item
     window.removeItem = function(index) {
         cart.splice(index, 1);
-        saveCart();
+        saveCart(); // Use the shared save function
         renderCart();
-    }
-
-    // Function to save cart to localStorage
-    function saveCart() {
-        localStorage.setItem('cart', JSON.stringify(cart));
     }
 
     // Initial render
     renderCart();
 });
   </script>
+
+  
   <script>
     document.addEventListener('DOMContentLoaded', function() {
         const xhr = new XMLHttpRequest();

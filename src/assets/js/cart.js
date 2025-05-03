@@ -59,82 +59,6 @@ window.addEventListener("scroll", () => {
     });
 });
 
-
-// cart page js
-
-document.addEventListener("DOMContentLoaded", loadCart);
-
-function loadCart() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let cartItemsContainer = document.getElementById("cart-items");
-    let cartTotal = document.getElementById("cart-total");
-    let cartCount = document.getElementById("cart-count");
-
-    cartItemsContainer.innerHTML = "";
-    let totalPrice = 0;
-    let totalItems = 0;
-
-    cart.forEach((item, index) => {
-        let total = item.price * item.quantity;
-        totalPrice += total;
-        totalItems += item.quantity;
-
-        let row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${item.name}</td>
-            <td><input type="number" value="${item.quantity}" min="1" data-index="${index}" class="quantity-input"></td>
-            <td>£${item.price.toFixed(2)}</td>
-            <td>£${total.toFixed(2)}</td>
-            <td><button class="remove-btn" data-index="${index}">Remove</button></td>
-        `;
-        cartItemsContainer.appendChild(row);
-    });
-
-    cartTotal.textContent = totalPrice.toFixed(2);
-    if (cartCount) {
-        cartCount.textContent = totalItems;
-    }
-    function updateCartCounter() {
-        const counter = document.getElementById("cart-counter");
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        counter.textContent = totalItems;
-    }
-
-    updateCartCounter(); // ✅ Call it right after restoring cart
-
-    document.querySelectorAll(".quantity-input").forEach(input => {
-        input.addEventListener("change", updateQuantity);
-    });
-
-    document.querySelectorAll(".remove-btn").forEach(btn => {
-        btn.addEventListener("click", removeItem);
-    });
-}
-
-function updateQuantity(event) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let index = parseInt(event.target.getAttribute("data-index")); // Convert to integer
-    cart[index].quantity = parseInt(event.target.value);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCart();
-}
-
-function removeItem(event) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let index = parseInt(event.target.getAttribute("data-index")); // Convert to integer
-
-    console.log("Removing item at index:", index); // Debugging
-
-    if (index >= 0 && index < cart.length) {
-        cart.splice(index, 1); // Remove item
-        localStorage.setItem("cart", JSON.stringify(cart));
-        loadCart(); // Reload cart
-    } else {
-        console.log("Invalid index:", index);
-    }
-}
-
-
 function togglePopup() {
     const popup = document.getElementById('profilePopup');
     popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
@@ -158,3 +82,9 @@ function togglePopup() {
         window.location.href = '/pages/login.html';
     }
     }
+
+
+// ---------------------------cart page js----------------------------------------------------------------
+
+
+
