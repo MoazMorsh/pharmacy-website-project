@@ -60,8 +60,6 @@ window.addEventListener("scroll", () => {
 });
 
 
-// checkout js
-
 function togglePopup() {
     const popup = document.getElementById('profilePopup');
     popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
@@ -85,3 +83,6 @@ function togglePopup() {
         window.location.href = '/pages/login.html';
     }
     }
+
+
+//-------------------------- checkout js--------------------
