@@ -270,14 +270,14 @@
 		<!-- NAVBAR -->
 		<nav>
 			<i class='bx bx-menu'></i>
-			<a href="#" class="nav-link">Categories</a>
+			<!-- <a href="#" class="nav-link">Categories</a> -->
 			<form action="#">
-				<div class="form-input">
+				<!-- <div class="form-input">
 					<input type="search" id="searchBar" placeholder="Search products">
 					<button type="submit" class="search-btn" onclick="searchProductsAdmin()">
 						<i class='bx bx-search'></i>
 					</button>
-				</div>
+				</div> -->
 			</form>
 			<input type="checkbox" id="switch-mode" hidden>
 			<label for="switch-mode" class="switch-mode"></label>
@@ -344,6 +344,7 @@
                     <div id="prescription-details">
                         <p><strong>Patient Name:</strong> <span id="patient-name"></span></p>
                         <p><strong>Patient Email:</strong> <span id="patient-email"></span></p>
+                        <p><strong>Image URL:</strong> <span id="image-url"></span></p>
                         <img id="prescription-image" src="" alt="Prescription" style="max-width: 100%;">
                         <div id="patient-info">
                             
@@ -357,73 +358,169 @@
 	<!-- CONTENT -->
 
 	<script>
-        //   js of the content for the page to connect with the backend Api
         // Function to fetch and display pending prescriptions
         async function loadPendingPrescriptions() {
             try {
+                console.log("Loading prescriptions...");
                 const response = await fetch('/admin/PendingPrescription');
+                
                 if (!response.ok) {
-                    throw new Error('Failed to fetch prescriptions');
+                    const errorData = await response.json().catch(() => null);
+                    console.error("Server response error:", errorData || response.statusText);
+                    throw new Error(errorData?.message || 'Failed to fetch prescriptions');
                 }
                 
                 const prescriptions = await response.json();
+                console.log("Received prescriptions:", prescriptions);
+                
                 const tableBody = document.getElementById('prescriptions-table-body');
                 tableBody.innerHTML = ''; // Clear existing rows
-
+    
                 prescriptions.forEach(prescription => {
                     const row = document.createElement('tr');
+                    const currentStatus = prescription.status || 'Pending';
                     
                     row.innerHTML = `
                         <td>${prescription.patientId || 'N/A'}</td>
-                        <td>${prescription.id || 'N/A'}</td>
+                        <td class="prescription-id">${prescription.id || 'N/A'}</td>
                         <td>${new Date(prescription.created_at).toLocaleDateString() || 'N/A'}</td>
-                        <td>${prescription.status || 'Pending'}</td>
+                        <td class="status-cell ${currentStatus.toLowerCase()}">${currentStatus}</td>
                         <td><button class="view-btn" onclick="viewPrescription('${prescription.image}')">View</button></td>
                         <td>
-                            <select class="action-select" >
-                                <option> Pending </option>
-                                <option> Approved </option>
-                                <option> Rejected </option>
-                            </select
+                            <select class="action-select" data-prescription-id="${prescription.id}">
+                                <option value="Pending" ${currentStatus === 'Pending' ? 'selected' : ''}>Pending</option>
+                                <option value="Approved" ${currentStatus === 'Approved' ? 'selected' : ''}>Approved</option>
+                                <option value="Rejected" ${currentStatus === 'Rejected' ? 'selected' : ''}>Rejected</option>
+                            </select>
                         </td>
                         <td>
-                            <button class="delete-btn" disabled>Delete</button>
+                            <button class="delete-btn" data-prescription-id="${prescription.id}">Delete</button>
                         </td>
                     `;
+                    
+                    // Add event listeners
+                    row.querySelector('.action-select').addEventListener('change', updatePrescriptionStatus);
+                    row.querySelector('.delete-btn').addEventListener('click', deletePrescription);
                     
                     tableBody.appendChild(row);
                 });
             } catch (error) {
                 console.error('Error loading prescriptions:', error);
-                alert('Failed to load prescriptions. Please try again.');
+                showError('Failed to load prescriptions. Please try again.');
             }
         }
-
-        // Simplified view function (only shows image since we don't have user details)
+    
+        // Function to update prescription status
+        async function updatePrescriptionStatus(event) {
+            const selectElement = event.target;
+            const prescriptionId = selectElement.dataset.prescriptionId;
+            const newStatus = selectElement.value;
+            const originalStatus = selectElement.closest('tr').querySelector('.status-cell').textContent;
+            
+            console.log(`Attempting to update prescription ${prescriptionId} to status ${newStatus}`);
+            
+            try {
+                const response = await fetch(`/admin/PendingPrescription/${prescriptionId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => null);
+                    console.error("Update failed:", errorData || response.statusText);
+                    throw new Error(errorData?.message || 'Failed to update status');
+                }
+                
+                // Update the UI
+                const statusCell = selectElement.closest('tr').querySelector('.status-cell');
+                statusCell.textContent = newStatus;
+                statusCell.className = `status-cell ${newStatus.toLowerCase()}`;
+                
+                console.log("Update successful");
+                showSuccess('Status updated successfully');
+            } catch (error) {
+                console.error('Error updating status:', error);
+                showError(error.message || 'Failed to update status');
+                // Revert the selection
+                selectElement.value = originalStatus;
+            }
+        }
+    
+        // Function to delete prescription
+        async function deletePrescription(event) {
+            const buttonElement = event.target;
+            const prescriptionId = buttonElement.dataset.prescriptionId;
+            const row = buttonElement.closest('tr');
+            
+            console.log(`Attempting to delete prescription ${prescriptionId}`);
+            
+            if (!confirm('Are you sure you want to delete this prescription?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/admin/PendingPrescription/${prescriptionId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => null);
+                    console.error("Delete failed:", errorData || response.statusText);
+                    throw new Error(errorData?.message || 'Failed to delete prescription');
+                }
+                
+                // Remove the row from the table
+                row.remove();
+                console.log("Delete successful");
+                showSuccess('Prescription deleted successfully');
+            } catch (error) {
+                console.error('Error deleting prescription:', error);
+                showError(error.message || 'Failed to delete prescription');
+            }
+        }
+    
+        // Helper functions for user feedback
+        function showError(message) {
+            // Replace with your preferred error display method
+            alert(`Error: ${message}`);
+            // Or use a toast notification: toastr.error(message);
+        }
+    
+        function showSuccess(message) {
+            // Replace with your preferred success display method
+            alert(`Success: ${message}`);
+            // Or use a toast notification: toastr.success(message);
+        }
+    
+        // View prescription function (unchanged)
         function viewPrescription(image) {
             document.getElementById('patient-name').textContent = 'User details not available';
             document.getElementById('patient-email').textContent = '';
+            document.getElementById('image-url').innerHTML = `<a href="${image}" target="_blank">View Image</a>`;
             document.getElementById('prescription-image').src = image || '';
             
             const modal = document.getElementById('prescriptionModal');
             modal.style.display = 'block';
         }
-
-        // Close modal functions
+    
+        // Close modal functions (unchanged)
         function closeModal() {
             document.getElementById('prescriptionModal').style.display = 'none';
         }
-
+    
         window.onclick = function(event) {
             const modal = document.getElementById('prescriptionModal');
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
-        }
-
+        };
+    
         // Load prescriptions when page loads
         document.addEventListener('DOMContentLoaded', loadPendingPrescriptions);
-            </script>
+    </script>
 
             <script>
                 // Data of the logged in user in the popup profile icon
