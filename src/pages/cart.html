@@ -127,9 +127,33 @@
           <div class="cart-summary">
               <h2>Cart Summary</h2>
               <p>Total: £<span id="cart-total">0.00</span></p>
-              <button id="checkout-btn" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
-
+              <!-- <button id="checkout-btn" onclick="window.location.href='checkout.html'" >Proceed to Checkout</button>  -->
+              <!-- Your checkout button in the cart summary -->
+              <button id="checkout-btn" class="checkout-button">Proceed to Checkout</button>
           </div>
+
+          
+
+        <!-- The GPS modal (place this right before </body>) -->
+        <div id="gps-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3><i class="fas fa-map-marker-alt"></i> Confirm Your Location</h3>
+            <div class="form-group">
+            <label>GPS Coordinates:</label>
+            <div class="gps-fields">
+                <input type="number" id="latitude" placeholder="Latitude" step="0.000001" required>
+                <input type="number" id="longitude" placeholder="Longitude" step="0.000001" required>
+            </div>
+            <button id="get-location" class="gps-button">
+                <i class="fas fa-location-arrow"></i> Use Current Location
+            </button>
+            </div>
+            <div class="modal-actions">
+            <button id="cancel-gps" class="cancel-button">Cancel</button>
+            <button id="confirm-gps" class="confirm-button">Confirm & Checkout</button>
+            </div>
+        </div>
+        </div>
         </section>
 
     </main>
@@ -204,7 +228,103 @@
   </footer>
   <!-- end of footer  -->
 
+  <script>
+    // script of the modal of location handeler popup and gps
 
+    document.addEventListener('DOMContentLoaded', function() {
+    // Get the checkout button
+    const checkoutBtn = document.getElementById('checkout-btn');
+    
+    // Debugging: Check if button exists
+    if (!checkoutBtn) {
+      console.error('Checkout button not found!');
+      return;
+    }
+  
+    // Add click event listener
+    checkoutBtn.addEventListener('click', function(e) {
+      e.preventDefault(); // Prevent default form submission or link behavior
+      
+      // Debugging log
+      console.log('Checkout button clicked');
+      
+      // Get the modal
+      const gpsModal = document.getElementById('gps-modal');
+      
+      if (!gpsModal) {
+        console.error('GPS modal not found!');
+        return;
+      }
+      
+      // Show the modal
+      gpsModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      
+      // Add event listeners for modal buttons (only once)
+      const getLocationBtn = document.getElementById('get-location');
+      const confirmBtn = document.getElementById('confirm-gps');
+      const cancelBtn = document.getElementById('cancel-gps');
+      
+      if (getLocationBtn) {
+        getLocationBtn.addEventListener('click', getCurrentLocation);
+      }
+      
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', confirmLocation);
+      }
+      
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', closeModal);
+      }
+    });
+  
+    // Function to get current location
+    function getCurrentLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
+            document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
+          },
+          (error) => {
+            alert('Error getting location: ' + error.message);
+          }
+        );
+      } else {
+        alert('Geolocation is not supported by your browser');
+      }
+    }
+  
+    // Function to confirm location
+    function confirmLocation() {
+      const lat = document.getElementById('latitude').value;
+      const lng = document.getElementById('longitude').value;
+      
+      if (!lat || !lng) {
+        alert('Please enter or detect your GPS coordinates');
+        return;
+      }
+      
+      // Save to localStorage
+      localStorage.setItem('deliveryLocation', JSON.stringify({
+        latitude: parseFloat(lat),
+        longitude: parseFloat(lng)
+      }));
+      
+      // Redirect to checkout
+      window.location.href = 'checkout.html';
+    }
+  
+    // Function to close modal
+    function closeModal() {
+      const gpsModal = document.getElementById('gps-modal');
+      if (gpsModal) {
+        gpsModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+  });
+  </script>
 
   <script>
     // script for the cart counter and updated after any edits in the page for the quantity or removed items
@@ -294,7 +414,7 @@
 });
   </script>
 
-  
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
         const xhr = new XMLHttpRequest();

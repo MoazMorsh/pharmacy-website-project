@@ -464,6 +464,156 @@ th, td {
     color: var(--fros-blue-color);
 }
 
+
+
+/* user GPS link popup */
+/* Modal styles */
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    animation: fadeIn 0.3s;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Container for the GPS fields */
+.gps-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  
+  /* Individual input fields */
+  .gps-fields input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Input focus state */
+  .gps-fields input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  }
+  
+  /* Labels for the inputs */
+  .gps-fields label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  /* Style for the latitude/longitude inputs specifically */
+  #latitude, #longitude {
+    background-color: #f9f9f9;
+  }
+  
+  /* Placeholder text */
+  .gps-fields input::placeholder {
+    color: #aaa;
+    font-style: italic;
+  }
+  
+  /* Current location button */
+  #get-location {
+    width: 100%;
+    padding: 12px;
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  #get-location:hover {
+    background-color: #3367D6;
+  }
+  
+  /* Font Awesome icon in button */
+  #get-location i {
+    font-size: 18px;
+  }
+  
+  /* Buttons */
+  .checkout-button {
+    padding: 12px 24px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+  }
+  
+  .gps-button {
+    width: 100%;
+    padding: 10px;
+    background: #4285F4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin: 10px 0;
+    cursor: pointer;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .confirm-button {
+    padding: 10px 20px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .cancel-button {
+    padding: 10px 20px;
+    background: #f1f1f1;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 @media (max-width: 600px) {
     nav ul li {
         display: block;
@@ -471,7 +621,7 @@ th, td {
     }
 }
 
-
+/* ------------------------------------------------------------------------------------------------------- */
 
 /* Make cart table scrollable on small screens */
 @media screen and (max-width: 768px) {

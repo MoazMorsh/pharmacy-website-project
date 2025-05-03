@@ -86,3 +86,8 @@ function togglePopup() {
 
 
 //-------------------------- checkout js--------------------
+
+const deliveryLocation = JSON.parse(localStorage.getItem('deliveryLocation'));
+if (deliveryLocation) {
+  console.log('Delivery coordinates:', deliveryLocation);
+}

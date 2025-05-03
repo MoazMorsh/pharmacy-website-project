@@ -183,6 +183,156 @@
 <!-- end of footer  -->
 
     <script>
+        // ----------------js for message after click pay button-----------
+        document.addEventListener('DOMContentLoaded', function() {
+    // Get cart items from localStorage
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const payBtn = document.querySelector('.pay-btn');
+    
+    // Payment form validation and submission
+    payBtn.addEventListener('click', function() {
+        // Get all input fields
+        const cardHolder = document.querySelector('input[placeholder="Coding Market"]');
+        const cardNumber = document.querySelector('input[placeholder="Card Number"]');
+        const expiryDate = document.querySelector('input[name="expiry-data"]');
+        const cvc = document.querySelector('input[placeholder="000"]');
+        
+        // Validate all fields
+        if (!cardHolder.value.trim()) {
+            showError(cardHolder, 'Card holder name is required');
+            return;
+        }
+        
+        if (!cardNumber.value.trim() || cardNumber.value.replace(/\s/g, '').length !== 16) {
+            showError(cardNumber, 'Valid card number is required (16 digits)');
+            return;
+        }
+        
+        if (!expiryDate.value.trim() || !/^\d{2}\s\/\s\d{2}$/.test(expiryDate.value)) {
+            showError(expiryDate, 'Valid expiry date required (MM / YY)');
+            return;
+        }
+        
+        if (!cvc.value.trim() || cvc.value.length !== 3) {
+            showError(cvc, 'Valid CVC required (3 digits)');
+            return;
+        }
+        
+        // If all validations pass
+        processPayment(cardHolder.value, cardNumber.value, expiryDate.value, cvc.value);
+    });
+    
+    function showError(inputElement, message) {
+        // Remove any existing error messages
+        const existingError = inputElement.parentElement.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Add red border
+        inputElement.style.borderColor = '#ff4444';
+        
+        // Create and display error message
+        const errorElement = document.createElement('div');
+        errorElement.className = 'error-message';
+        errorElement.style.color = '#ff4444';
+        errorElement.style.fontSize = '12px';
+        errorElement.style.marginTop = '5px';
+        errorElement.textContent = message;
+        
+        inputElement.parentElement.appendChild(errorElement);
+        
+        // Focus on the problematic field
+        inputElement.focus();
+    }
+    
+    function processPayment(cardHolder, cardNumber, expiryDate, cvc) {
+        // In a real app, you would send this to your payment processor
+        // For demo purposes, we'll simulate a successful payment
+        
+        // Create order summary
+        const orderSummary = createOrderSummary(cardNumber.slice(-4));
+        
+        // Show success message
+        showSuccessMessage(orderSummary);
+        
+        // Clear cart
+        localStorage.removeItem('cart');
+    }
+    
+    function createOrderSummary(last4Digits) {
+        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        let total = 0;
+        
+        // Calculate total and create items list
+        const itemsList = cartItems.map(item => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            return `
+                <div class="order-item">
+                    <span>${item.name} (${item.quantity}x)</span>
+                    <span>£${itemTotal.toFixed(2)}</span>
+                </div>
+            `;
+        }).join('');
+        
+        return `
+            <div class="order-success">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Payment Successful!</h3>
+                <div class="order-details">
+                    <p><strong>Card:</strong> **** **** **** ${last4Digits}</p>
+                    <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+                    <div class="order-items">
+                        ${itemsList}
+                    </div>
+                    <div class="order-total">
+                        <span>Total:</span>
+                        <span>£${total.toFixed(2)}</span>
+                    </div>
+                </div>
+                <button class="continue-shopping" onclick="window.location.href='products.html'">
+                    Continue Shopping
+                </button>
+            </div>
+        `;
+    }
+    
+    function showSuccessMessage(content) {
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'payment-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0.7)';
+        overlay.style.display = 'flex';
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
+        overlay.style.zIndex = '1000';
+        
+        // Create success box
+        const successBox = document.createElement('div');
+        successBox.className = 'success-box';
+        successBox.style.backgroundColor = 'white';
+        successBox.style.padding = '30px';
+        successBox.style.borderRadius = '10px';
+        successBox.style.maxWidth = '500px';
+        successBox.style.width = '90%';
+        successBox.innerHTML = content;
+        
+        // Add to DOM
+        overlay.appendChild(successBox);
+        document.body.appendChild(overlay);
+    }
+});
+    </script>
+
+    <script>
         // script for the cart counter and updated after any edits in the page for the quantity or removed items
 
     /// cart.js - This should be loaded on all pages

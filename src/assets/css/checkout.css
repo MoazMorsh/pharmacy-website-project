@@ -864,3 +864,97 @@ button[class ^= navbar]:hover{
     margin-top: 20px;
   }
 }
+
+
+
+/* message css after clicking pay button */
+
+/* Success Message Styles */
+.payment-overlay {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.success-box {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.success-icon {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.success-icon i {
+    color: #4CAF50;
+    font-size: 50px;
+}
+
+.order-success h3 {
+    text-align: center;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.order-details {
+    margin-bottom: 25px;
+}
+
+.order-details p {
+    margin: 10px 0;
+}
+
+.order-items {
+    margin: 15px 0;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 18px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.continue-shopping {
+    width: 100%;
+    padding: 12px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.continue-shopping:hover {
+    background: #45a049;
+}
+
+/* Error message styling */
+.error-message {
+    color: #ff4444;
+    font-size: 12px;
+    margin-top: 5px;
+}
