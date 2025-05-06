@@ -79,52 +79,67 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     updateCartCounter(); // ✅ Call it right after restoring cart
 
-    async function loadProducts() {
+    async function loadProducts(category = "") {
         try {
-            const { data, error } = await supabase
-                .from("medicine")
-                .select("name, price, active_ingredients, img_URL");
-
+            let query = supabase.from("medicine").select("name, price, active_ingredients, img_URL, category, type");
+    
+            if (category) {
+                query = query.eq("category", category);
+            }
+    
+            const { data, error } = await query;
+    
             if (error) {
                 console.error("❌ Error fetching products:", error.message);
                 return;
             }
-
+    
+            const container = document.getElementById("product-container");
+            container.innerHTML = "";
+    
             if (data.length === 0) {
-                console.warn("⚠️ No products found in the database.");
+                container.innerHTML = "<p>No products found for this category.</p>";
                 return;
             }
-
-            const container = document.getElementById("product-container");
-            container.innerHTML = ""; 
-
+    
             data.forEach(medicine => {
                 let card = document.createElement("div");
                 card.classList.add("product-card");
-
+                // Inside your product card creation code, add these data attributes:
+                card.dataset.category = medicine.category;
+                card.dataset.type = medicine.type;
+                card.dataset.ingredients = medicine.active_ingredients;
+                card.dataset.price = medicine.price;
+    
                 card.innerHTML = `
                     <img src="${medicine.img_URL}" alt="${medicine.name}" class="product-img">
                     <h3 class="product-name">${medicine.name}</h3>
                     <p class="product-price">£${medicine.price}</p>
                     <p class="product-ingredients">${medicine.active_ingredients}</p>
+                    <p class="category">${medicine.category}</p>
                     <input type="number" min="1" value="1" class="product-quantity">
                     <button class="add-to-cart">Add to Cart</button>
                 `;
-
-                container.appendChild(card); // Append card first
-
-                // Attach event listener AFTER adding the element to DOM
+    
+                container.appendChild(card);
+    
                 const button = card.querySelector(".add-to-cart");
                 button.addEventListener("click", () => {
                     const quantity = parseInt(card.querySelector(".product-quantity").value);
                     addToCart(medicine.name, medicine.price, quantity);
                 });
             });
-
+    
         } catch (err) {
             console.error("❌ Unexpected error:", err);
         }
     }
+
+    document.getElementById("categoryFilter").addEventListener("change", function () {
+        const selectedCategory = this.value;
+        loadProducts(selectedCategory);
+    });
+    
 
     function addToCart(name, price, quantity) {
         const existingItem = cart.find(item => item.name === name);
@@ -141,8 +156,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     loadProducts(); // Load products when page is ready
 });
-
-
     // document.getElementById('clearSearch').addEventListener('click', function() {
    //  document.getElementById('searchBar').value = '';
     // Clear search functionality

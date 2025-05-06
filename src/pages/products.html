@@ -4,20 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-   
+    <style>
+        .filter-container {
+        position: relative;
+        display: inline-block;
+        margin-left: 12px;
+        }
+
+        .filter-button {
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        }
+
+        .filter-button:hover {
+        background-color: #0069d9;
+        }
+
+        .filter-dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 15px;
+        width: 200px;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .filter-dropdown.show {
+        display: block;
+        }
+
+        .filter-group {
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        }
+
+        .filter-group:last-child {
+        border-bottom: none;
+        }
+
+        .filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        padding: 5px 0;
+        left: 10px;
+        }
+        
+
+        .filter-header h4 {
+        margin: 0;
+        font-size: 14px;
+        color: #333;
+        right: 10px;
+        }
+        
+
+        .filter-options {
+        display: none;
+        padding-top: 10px;
+        flex-direction: column;
+        gap: 8px;
+        }
+
+        .filter-options.show {
+        display: flex;
+        }
+
+        .filter-options label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        cursor: pointer;
+        }
+
+        .filter-options input[type="checkbox"] {
+        margin: 0;
+        }
+
+        .filter-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 15px;
+        }
+
+        .filter-actions button {
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        }
+
+        .apply-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        }
+
+        .reset-btn {
+        background-color: #f8f9fa;
+        color: #333;
+        border: 1px solid #ddd;
+        }
+      </style>
         
     <title>Our Products</title>
     <link rel="icon" href="https://assets.pharmeasy.in/apothecary/images/favicon.png">
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../assets/css/products.css">
-    <style>
-         .quantity-btn {
-    padding: 2px 8px;
-    margin: 0 5px;
-    cursor: pointer;
-}
-    </style>
+   
 </head>
 <body>
 
@@ -59,33 +170,96 @@
                             <button type="button" id="search-button">Search</button>
                         </form>
                     </div>
+
                     
                     
-                        </form>
-                    </div
+                    <div class="filter-container">
+                        <button class="filter-button" onclick="toggleFilter()">
+                          <i class="fas fa-filter"></i> Filter
+                        </button>
+                        <div class="filter-dropdown" id="filterDropdown">
+                          <!-- Category Filter -->
+                          <div class="filter-group">
+                            <div class="filter-header" onclick="toggleFilterSection('category')">
+                              <h4>Category</h4>
+                              <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="filter-options" id="categoryOptions">
+                              <label><input type="checkbox" name="category" value="antibiotics"> Antibiotics drugs</label>
+                              <label><input type="checkbox" name="category" value="anti-inflammatory"> Anti-inflammations drugs</label>
+                              <label><input type="checkbox" name="category" value="analgesic"> Analgesic drugs</label>
+                              <label><input type="checkbox" name="category" value="diabetes"> Diabetes drugs</label>
+                              <label><input type="checkbox" name="category" value="diuretic"> Diuretic drugs</label>
+                              <label><input type="checkbox" name="category" value="anti-allergy"> Anti-allergy drugs</label>
+                            </div>
+                          </div>
+                      
+                          <!-- Type Filter -->
+                          <div class="filter-group">
+                            <div class="filter-header" onclick="toggleFilterSection('type')">
+                              <h4>Type</h4>
+                              <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="filter-options" id="typeOptions">
+                              <label><input type="checkbox" name="type" value="sachet"> Sachet</label>
+                              <label><input type="checkbox" name="type" value="tablets"> Tablets</label>
+                              <label><input type="checkbox" name="type" value="syrup"> Syrup</label>
+                            </div>
+                          </div>
+                      
+                          <!-- Active Ingredients Filter -->
+                          <div class="filter-group">
+                            <div class="filter-header" onclick="toggleFilterSection('ingredients')">
+                              <h4>Active Ingredients</h4>
+                              <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="filter-options" id="ingredientsOptions">
+                              <label><input type="checkbox" name="ingredient" value="paracetamol"> Paracetamol</label>
+                              <label><input type="checkbox" name="ingredient" value="ibuprofen"> Ibuprofen</label>
+                              <label><input type="checkbox" name="ingredient" value="vildagliptin"> Vildagliptin</label>
+                              <label><input type="checkbox" name="ingredient" value="fexofenadine"> Fexofenadine</label>
+                              <label><input type="checkbox" name="ingredient" value="hydrochlorothiazide"> Hydrochlorothiazide</label>
+                              <label><input type="checkbox" name="ingredient" value="losartan"> Losartan</label>
+                            </div>
+                          </div>
+                      
+                          <!-- Price Filter -->
+                          <div class="filter-group">
+                            <div class="filter-header" onclick="toggleFilterSection('price')">
+                              <h4>Price</h4>
+                              <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="filter-options" id="priceOptions">
+                              <label><input type="checkbox" name="price" value="0-50"> $0 - $50</label>
+                              <label><input type="checkbox" name="price" value="51-100"> $51 - $100</label>
+                              <label><input type="checkbox" name="price" value="101-200"> $101 - $200</label>
+                            </div>
+                          </div>
+                      
+                          <div class="filter-actions">
+                            <button class="reset-btn" onclick="resetFilters()">Reset</button>
+                            <button class="apply-btn" onclick="applyFilters()">Apply</button>
+                          </div>
+                        </div>
+                      </div>
+                    
+                        
+                    </div>
                 </div> 
             </div>
         </nav>
     </header>
     <!-- end of header -->
 
+    
+    
+    
+    
     <main>
-    
-        
-        <!-- <h2>Medicine List</h2> -->
+
         <div id="product-container" class="product-grid"></div>
-       
-    
-       
-        <script>
-          
-        </script>
         
-
-           
-            
-
-
+        <!-- products are here -->
     </main>
 
     <!-- footer  -->
@@ -157,6 +331,95 @@
     </div>
 </footer>
 <!-- end of footer  -->
+
+    <script>
+        
+    // Toggle filter dropdown
+function toggleFilter() {
+  const dropdown = document.getElementById('filterDropdown');
+  dropdown.classList.toggle('show');
+}
+
+// Toggle filter sections
+function toggleFilterSection(section) {
+  const options = document.getElementById(`${section}Options`);
+  options.classList.toggle('show');
+  
+  const icon = document.querySelector(`#${section}Options`).previousElementSibling.querySelector('i');
+  icon.classList.toggle('fa-chevron-down');
+  icon.classList.toggle('fa-chevron-up');
+}
+
+// Close filter dropdown when clicking outside
+document.addEventListener('click', function(event) {
+  const dropdown = document.getElementById('filterDropdown');
+  const filterButton = document.querySelector('.filter-button');
+  
+  if (!dropdown.contains(event.target) && event.target !== filterButton) {
+    dropdown.classList.remove('show');
+  }
+});
+
+// Apply filters
+function applyFilters() {
+  // Get selected values
+  const selectedCategories = getSelectedValues('category');
+  const selectedTypes = getSelectedValues('type');
+  const selectedIngredients = getSelectedValues('ingredient');
+  const selectedPrices = getSelectedValues('price');
+  
+  // Get all product cards
+  const productCards = document.querySelectorAll('.product-card');
+  
+  // Filter products
+  productCards.forEach(card => {
+    const category = card.dataset.category;
+    const type = card.dataset.type;
+    const ingredients = card.dataset.ingredients;
+    const price = parseFloat(card.dataset.price);
+    
+    // Check matches
+    const categoryMatch = selectedCategories.length === 0 || selectedCategories.some(cat => category.includes(cat));
+    const typeMatch = selectedTypes.length === 0 || selectedTypes.includes(type);
+    const ingredientMatch = selectedIngredients.length === 0 || 
+      selectedIngredients.some(ing => ingredients.toLowerCase().includes(ing.toLowerCase()));
+    const priceMatch = selectedPrices.length === 0 || 
+      selectedPrices.some(range => {
+        const [min, max] = range.split('-').map(Number);
+        return price >= min && price <= max;
+      });
+    
+    // Show/hide based on matches
+    card.style.display = (categoryMatch && typeMatch && ingredientMatch && priceMatch) ? 'block' : 'none';
+  });
+  
+  // Close dropdown
+  document.getElementById('filterDropdown').classList.remove('show');
+}
+
+// Reset all filters
+function resetFilters() {
+  // Uncheck all checkboxes
+  document.querySelectorAll('.filter-options input[type="checkbox"]').forEach(checkbox => {
+    checkbox.checked = false;
+  });
+  
+  // Show all products
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.style.display = 'block';
+  });
+  
+  // Close dropdown
+  document.getElementById('filterDropdown').classList.remove('show');
+}
+
+// Helper function to get selected values
+function getSelectedValues(name) {
+  return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+    .map(checkbox => checkbox.value);
+}
+    </script>
+  
 
     <script src="../assets/js/products.js"></script>
     <script src="../assets/js/Search.js"></script>
