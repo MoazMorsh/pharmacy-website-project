@@ -653,6 +653,7 @@
             
                 // Trigger file selection when button is clicked
                 document.querySelector('.upload-label').addEventListener('click', () => {
+                    e.preventDefault(); // Prevent default label behavior
                     profilePhoto.click();
                 });
             
