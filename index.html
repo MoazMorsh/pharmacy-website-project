@@ -594,8 +594,12 @@ document.addEventListener('DOMContentLoaded', function() {
             profileLinkText.textContent = 'Admin Panel';
             profileLink.href = '/pages/admin.html';
             profileLink.style.display = 'inline-flex';
+        } else if (role.toLowerCase() === 'patient') {
+            profileLinkText.textContent = 'Order Status';
+            profileLink.href = '/pages/order-status.html';
+            profileLink.style.display = 'inline-flex';
         } else {
-            profileLink.style.display = 'none'; // patient → hide
+            profileLink.style.display = 'none'; 
         }
     } else {
         if (profileLink) {

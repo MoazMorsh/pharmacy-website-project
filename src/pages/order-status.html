@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meditrack - Order Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #0056b3;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 0 0 15px 15px;
+        }
+        .container {
+            padding: 20px;
+        }
+        .collapsible {
+            background-color: #0056b3;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        .content {
+            display: none;
+            background-color: white;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #0056b3;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Meditrack</h1>
+        <p>Your Most Trusted Health Partner</p>
+    </div>
+    <div class="container">
+        <div>
+            <div class="collapsible" onclick="toggleCollapse('orders')">Orders</div>
+            <div id="ordersContent" class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Patient ID</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="5">Loading orders...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <div class="collapsible" onclick="toggleCollapse('orderItems')">Order Items</div>
+            <div id="orderItemsContent" class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item ID</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Subtotal</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="6">Loading order items...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <div class="collapsible" onclick="toggleCollapse('prescriptions')">Prescriptions</div>
+            <div id="prescriptionsContent" class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Prescription ID</th>
+                            <th>Patient ID</th>
+                            <th>Status</th>
+                            <th>Image</th>
+                            <th>Uploaded At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="5">Loading prescriptions...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCollapse(section) {
+            const content = document.getElementById(`${section}Content`);
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        }
+
+        // Placeholder for fetching data (replace with actual API call)
+        function fetchData() {
+            // fetch('/api/orders').then(response => response.json()).then(data => {
+            //     const ordersTable = document.querySelector('#ordersContent tbody');
+            //     ordersTable.innerHTML = data.map(order => `
+            //         <tr>
+            //             <td>${order.order_id}</td>
+            //             <td>${order.patient_id}</td>
+            //             <td>${order.total_amount}</td>
+            //             <td>${order.status}</td>
+            //             <td>${order.created_at}</td>
+            //         </tr>
+            //     `).join('');
+            // });
+            // Similar fetches for orderItems and prescriptions
+        }
+        fetchData();
+    </script>
+</body>
+</html>
