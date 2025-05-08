@@ -681,5 +681,79 @@ document.addEventListener('DOMContentLoaded', function() {
               });
             });
             </script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get user data from localStorage
+        const userId = localStorage.getItem('userId');
+        const userRole = localStorage.getItem('userRole');
+        const profilePic = localStorage.getItem('userProfilePic');
+
+        // Redirect if not logged in
+        if (!userId || !userRole) {
+            window.location.href = '/pages/login.html';
+            return;
+        }
+
+        // Set initial profile picture from localStorage
+        const profileIconImg = document.getElementById('profileIconImg');
+        if (profilePic) {
+            profileIconImg.src = profilePic;
+        }
+
+        // Load profile data from backend
+        fetchProfileData(userId, userRole);
+    });
+
+    async function fetchProfileData(userId, userRole) {
+        try {
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            const token = localStorage.getItem('token');
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
+            const response = await fetch(`/${userRole.toLowerCase()}/view-profile/${userId}`, {
+                method: 'GET',
+                headers: headers
+            });
+
+            if (!response.ok) {
+                const error = await parseResponse(response);
+                throw new Error(error.message || 'Failed to fetch profile');
+            }
+
+            const data = await response.json();
+            console.log('Profile data loaded:', data);
+
+            // Update profile picture if available
+            const profileData = data.data || data;
+            if (profileData.profile_pic) {
+                document.getElementById('profileIconImg').src = profileData.profile_pic;
+                localStorage.setItem('userProfilePic', profileData.profile_pic);
+            }
+
+        } catch (error) {
+            console.error('Profile load error:', error);
+            // Rely on onerror fallback in HTML
+        }
+    }
+
+    // Helper function
+    async function parseResponse(response) {
+        try {
+            const contentType = response.headers.get('content-type') || '';
+            if (contentType.includes('application/json')) {
+                return await response.json();
+            }
+            return { message: await response.text() };
+        } catch (e) {
+            return { message: response.statusText };
+        }
+    }
+</script>
 </body>
 </html>
