@@ -12,16 +12,16 @@ navbarHideBtn.addEventListener('click', function(){
 });
 
 // changing search icon image on window resize
-window.addEventListener('resize', changeSearchIcon);
-function changeSearchIcon(){
-    let winSize = window.matchMedia("(min-width: 1200px)");
-    if(winSize.matches){
-        document.querySelector('.search-icon img').src = "../assets/images/search-icon.png";
-    } else {
-        document.querySelector('.search-icon img').src = "../assets//images/search-icon-dark.png";
-    }
-}
-changeSearchIcon();
+// window.addEventListener('resize', changeSearchIcon);
+// function changeSearchIcon(){
+//     let winSize = window.matchMedia("(min-width: 1200px)");
+//     if(winSize.matches){
+//         document.querySelector('.search-icon img').src = "../assets/images/search-icon.png";
+//     } else {
+//         document.querySelector('.search-icon img').src = "../assets//images/search-icon-dark.png";
+//     }
+// }
+// changeSearchIcon();
 
 // stopping all animation and transition
 let resizeTimer;
@@ -66,13 +66,13 @@ function togglePopup() {
   }
 
   // Optional: Close the popup if clicked outside
-  window.onclick = function(event) {
-    const popup = document.getElementById('profilePopup');
-    const profileIcon = document.querySelector('.profile-icon');
-    if (!popup.contains(event.target) && !profileIcon.contains(event.target)) {
-      popup.style.display = 'none';
-    }
-  }
+//   window.onclick = function(event) {
+//     const popup = document.getElementById('profilePopup');
+//     const profileIcon = document.querySelector('.profile-icon');
+//     if (!popup.contains(event.target) && !profileIcon.contains(event.target)) {
+//       popup.style.display = 'none';
+//     }
+//   }
 
 
   function logout() {
